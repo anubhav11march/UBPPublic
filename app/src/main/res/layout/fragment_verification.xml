@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VerificationFragment"
+    android:background="@drawable/bg_blur"
+    android:orientation="vertical"
+    android:weightSum="121">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="24"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/roboto"
+            android:text="Verification"
+            android:textAlignment="center"
+            android:textColor="@color/titles_dark_blue"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Enter your One Time Password (OTP) that has been sent to your phone number"
+            android:textColor="@color/white"
+            android:layout_marginRight="31dp"
+            android:layout_marginLeft="31dp"
+            android:fontFamily="@font/roboto"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/send_again"
+            android:textColor="@color/titles_dark_blue"
+            android:layout_marginRight="31dp"
+            android:layout_marginLeft="31dp"
+            android:fontFamily="@font/roboto"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="16"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/white_round"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:alpha="0.75"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/white_round"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:alpha="0.75"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/white_round"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:alpha="0.75"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/white_round"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:alpha="0.75"
+            android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:onClick="verifyClicked"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_weight="7"
+        android:gravity="center"
+        android:background="@drawable/button_blue_bg"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Verify"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="56">
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
