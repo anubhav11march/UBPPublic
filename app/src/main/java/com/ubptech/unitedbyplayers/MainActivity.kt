@@ -1,5 +1,6 @@
 package com.ubptech.unitedbyplayers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -30,14 +31,16 @@ abstract class MainActivity : AppCompatActivity() {
     }
 
     fun login(email:String, password:String){
-        auth!!.createUserWithEmailAndPassword(email, password)
+        auth!!.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this){task ->
-                if(task.isSuccessful)
-                    Toast.makeText(applicationContext, "Logged in Successfully", Toast.LENGTH_LONG).show()
+                if(task.isSuccessful) {
+                    Toast.makeText(applicationContext, "Logged in Successfully",
+                        Toast.LENGTH_LONG).show()
+                    startActivity(Intent(applicationContext, HomeActivity::class.java))
+                }
                 else
                     Toast.makeText(applicationContext, "Couldn't login", Toast.LENGTH_LONG).show()
             }
     }
-
 
 }
