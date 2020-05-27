@@ -42,13 +42,14 @@
             android:textColor="@color/titles_dark_blue"
             android:fontFamily="@font/roboto"/>
         <EditText
+            android:id="@+id/email"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
             android:hint="name.lastname@gmail.com"
-            android:textColorHint="@color/white"
+            android:textColorHint="#D8D8D8"
             android:inputType="textEmailAddress"
             android:fontFamily="@font/roboto"/>
     </LinearLayout>
@@ -69,18 +70,20 @@
             android:textColor="@color/titles_dark_blue"
             android:fontFamily="@font/roboto"/>
         <EditText
+            android:id="@+id/pass"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
             android:hint="*******"
-            android:textColorHint="@color/white"
+            android:textColorHint="#D8D8D8"
             android:inputType="textPassword"
             android:fontFamily="@font/roboto"/>
     </LinearLayout>
     
     <LinearLayout
+        android:onClick="loginClicked"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="70dp"
@@ -105,6 +108,7 @@
         android:layout_height="0dp"
         android:layout_weight="23">
         <TextView
+            android:onClick="forgotPassClicked"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="16dp"
@@ -165,6 +169,7 @@
                 android:layout_weight="4"
                 android:gravity="center">
                 <ImageView
+                    android:onClick="googleLoginClicked"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/google_icon"/>
@@ -185,6 +190,7 @@
                 android:layout_weight="4"
                 android:gravity="center">
                 <ImageView
+                    android:onClick="fbLoginClicked"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/fb_icon"/>
@@ -194,6 +200,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:onClick="signUpClicked"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
@@ -210,19 +217,5 @@
             android:fontFamily="@font/roboto"/>
 
     </LinearLayout>
-
-<!--    <EditText-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/email"/>-->
-<!--    <EditText-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/pass"/>-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="login"-->
-<!--        android:onClick="loginClicked"/>-->
 
 </LinearLayout>
