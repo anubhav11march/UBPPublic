@@ -7,6 +7,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * Created by Kylodroid on 26-05-2020.
+ */
 abstract class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth

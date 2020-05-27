@@ -136,7 +136,8 @@
             android:hint="*******"
             android:textColorHint="#D8D8D8"
             android:inputType="textPassword"
-            android:fontFamily="@font/roboto"/>
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="2"/>
     </LinearLayout>
 
     <LinearLayout
@@ -164,7 +165,8 @@
             android:hint="*******"
             android:textColorHint="#D8D8D8"
             android:inputType="textEmailAddress"
-            android:fontFamily="@font/roboto"/>
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="2"/>
     </LinearLayout>
 
     <LinearLayout

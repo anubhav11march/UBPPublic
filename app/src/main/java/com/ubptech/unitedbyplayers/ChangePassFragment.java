@@ -1,7 +1,6 @@
 package com.ubptech.unitedbyplayers;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,22 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Kylodroid on 27-05-2020.
- */
-public class VerificationFragment extends Fragment {
+public class ChangePassFragment extends Fragment {
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public ChangePassFragment() {
+        // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_verification, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_change_pass, container, false);
     }
 
 }
