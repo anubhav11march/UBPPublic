@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class MainActivity : AppCompatActivity() {
 
-    private var auth: FirebaseAuth?=null
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

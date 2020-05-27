@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">United By Players</string>
+    <string name="dont_have_account">Don\'t have an account? <u>Sign up</u></string>
 </resources>
