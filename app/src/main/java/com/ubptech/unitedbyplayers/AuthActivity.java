@@ -12,6 +12,8 @@ import android.os.Bundle;
  */
 public class AuthActivity extends AppCompatActivity implements FragmentChange{
 
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,8 @@ public class AuthActivity extends AppCompatActivity implements FragmentChange{
                 fragment = new ChangePassFragment();
                 break;
             case "verify":
-                fragment = new VerificationFragment();
+                user = (User) getIntent().getParcelableExtra("userData");
+                fragment = new VerificationFragment(user);
                 break;
         }
         if(fragment!=null){

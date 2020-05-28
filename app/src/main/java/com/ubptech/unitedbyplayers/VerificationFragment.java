@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
  * Created by Kylodroid on 27-05-2020.
  */
@@ -20,6 +22,12 @@ public class VerificationFragment extends Fragment {
 
     Context context;
     LinearLayout verifyButton;
+    User user;
+    FirebaseAuth mAuth;
+
+    VerificationFragment(User user){
+        this.user = user;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -30,7 +38,7 @@ public class VerificationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
