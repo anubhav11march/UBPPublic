@@ -132,7 +132,7 @@ public class MainActivity : AppCompatActivity() {
 
     fun forgotPassClicked(view: View){
         val intent = Intent(applicationContext, AuthActivity::class.java)
-        intent.putExtra("requestPass", "true")
+        intent.putExtra("type", "requestPass")
         startActivity(intent)
     }
 

@@ -2,6 +2,7 @@ package com.ubptech.unitedbyplayers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,5 +30,11 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     public void googleLoginClicked() {
 
+    }
+
+    public void signupClicked(View view){
+        Intent intent = new Intent(this, AuthActivity.class);
+        intent.putExtra("type", "verify");
+        startActivity(intent);
     }
 }
