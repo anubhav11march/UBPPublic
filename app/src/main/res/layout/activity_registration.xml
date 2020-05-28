@@ -243,6 +243,7 @@
                 android:layout_weight="4"
                 android:gravity="center">
                 <ImageView
+                    android:id="@+id/googlesignin"
                     android:onClick="googleLoginClicked"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
