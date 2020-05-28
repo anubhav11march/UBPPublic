@@ -17,6 +17,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        getSupportActionBar().hide();
 
         ImageView imageView = findViewById(R.id.googlesignin);
         imageView.setOnClickListener(new View.OnClickListener() {

@@ -31,5 +31,8 @@ public class HomeActivity extends AppCompatActivity {
     public void click(View view){
         FirebaseAuth.getInstance().signOut();
         mAuth.signOut();
+        startActivity(new Intent(this, SignUpActivity.class));
+        finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

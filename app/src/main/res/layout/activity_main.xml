@@ -48,11 +48,9 @@
             android:layout_height="50dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
-            android:hint="name.lastname@gmail.com"
             android:textColorHint="#D8D8D8"
             android:inputType="textEmailAddress"
-            android:fontFamily="@font/roboto"
-            android:letterSpacing="2"/>
+            android:fontFamily="@font/roboto" />
     </LinearLayout>
 
     <LinearLayout
@@ -77,12 +75,12 @@
             android:layout_height="50dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
-            android:hint="*******"
             android:textColorHint="#D8D8D8"
             android:inputType="textPassword"
-            android:fontFamily="@font/roboto"/>
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="1"/>
     </LinearLayout>
-    
+
     <LinearLayout
         android:onClick="loginClicked"
         android:layout_width="match_parent"
@@ -102,7 +100,7 @@
             android:fontFamily="@font/roboto"/>
     </LinearLayout>
 
-    
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -171,7 +169,6 @@
                 android:gravity="center">
                 <ImageView
                     android:id="@+id/googlesignin"
-                    android:onClick="googleLoginClicked"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/google_icon"/>

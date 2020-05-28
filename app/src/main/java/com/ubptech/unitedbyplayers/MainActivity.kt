@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by Kylodroid on 26-05-2020.
  */
-abstract class MainActivity : AppCompatActivity() {
+public class MainActivity : AppCompatActivity() {
 
     companion object {
         val RC_SIGN_IN = 0
@@ -32,6 +32,7 @@ abstract class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar!!.hide()
 
         auth = FirebaseAuth.getInstance()
 
@@ -93,7 +94,7 @@ abstract class MainActivity : AppCompatActivity() {
 
                     // start new activity after this
 
-                    Toast.makeText(this, "Auh success nut no activity setup after this yet !!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Successfully Logged in", Toast.LENGTH_LONG).show()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG ", "signInWithCredential:failure", task.exception)
@@ -122,8 +123,17 @@ abstract class MainActivity : AppCompatActivity() {
                 else
                     Toast.makeText(applicationContext, "Couldn't login", Toast.LENGTH_LONG).show()
             }
+    }
+
+    fun signUpClicked(view: View){
+        startActivity(Intent(applicationContext, RegistrationActivity::class.java))
+    }
 
 
+    fun forgotPassClicked(view: View){
+        val intent = Intent(applicationContext, AuthActivity::class.java)
+        intent.putExtra("requestPass", "true")
+        startActivity(intent)
     }
 
 }

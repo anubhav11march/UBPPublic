@@ -52,7 +52,7 @@
             android:textColorHint="#D8D8D8"
             android:inputType="textPassword"
             android:fontFamily="@font/roboto"
-            android:letterSpacing="2"/>
+            android:letterSpacing="1"/>
     </LinearLayout>
 
     <LinearLayout
@@ -81,7 +81,7 @@
             android:textColorHint="#D8D8D8"
             android:inputType="textPassword"
             android:fontFamily="@font/roboto"
-            android:letterSpacing="2"/>
+            android:letterSpacing="1"/>
     </LinearLayout>
 
     <LinearLayout
