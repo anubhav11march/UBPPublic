@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -23,6 +24,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     EditText fullName, phoneNumber, email, password, confirmPassword;
     User user;
+    ArrayList<User> users = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +149,8 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         Intent intent = new Intent(this, AuthActivity.class);
         intent.putExtra("type", "verify");
-        intent.putExtra("userData", (Parcelable) user);
+        intent.putExtra("userData",  user);
+        intent.putExtra("pass", password.getText().toString().trim());
         startActivity(intent);
     }
 

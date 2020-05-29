@@ -6,11 +6,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Kylodroid on 27-05-2020.
  */
-public class AuthActivity extends AppCompatActivity implements FragmentChange{
+public class AuthActivity extends AppCompatActivity implements FragmentChange {
 
     User user;
 
@@ -42,7 +44,8 @@ public class AuthActivity extends AppCompatActivity implements FragmentChange{
                 break;
             case "verify":
                 user = (User) getIntent().getParcelableExtra("userData");
-                fragment = new VerificationFragment(user);
+                String pass = getIntent().getExtras().getString("pass");
+                fragment = new VerificationFragment(user, pass);
                 break;
         }
         if(fragment!=null){
@@ -59,7 +62,7 @@ public class AuthActivity extends AppCompatActivity implements FragmentChange{
         else if(source.equals("verificationSuccessful"))
             displayFragment("verificationSuccessful");
         else if(source.equals("passwordChanged") || source.equals("verifiedAccount")){
-            startActivity(new Intent(AuthActivity.this, MainActivity.class));
+            startActivity(new Intent(AuthActivity.this, HomeActivity.class));
             finish();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }

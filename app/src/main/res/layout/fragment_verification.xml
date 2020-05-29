@@ -49,6 +49,7 @@
         android:layout_weight="7">
 
         <TextView
+            android:id="@+id/send_again"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -67,8 +68,9 @@
         android:gravity="center_horizontal">
 
         <EditText
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:id="@+id/a1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/white_round"
             android:maxLength="1"
             android:textAlignment="center"
@@ -79,8 +81,9 @@
             android:alpha="0.75"
             android:layout_marginRight="10dp"/>
         <EditText
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:id="@+id/a2"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/white_round"
             android:maxLength="1"
             android:textAlignment="center"
@@ -91,8 +94,9 @@
             android:alpha="0.75"
             android:layout_marginRight="10dp"/>
         <EditText
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:id="@+id/a3"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/white_round"
             android:maxLength="1"
             android:textAlignment="center"
@@ -103,8 +107,35 @@
             android:alpha="0.75"
             android:layout_marginRight="10dp"/>
         <EditText
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:id="@+id/a4"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/white_round"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:alpha="0.75"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:id="@+id/a5"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/white_round"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:shadowColor="#000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:alpha="0.75"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:id="@+id/a6"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/white_round"
             android:maxLength="1"
             android:textAlignment="center"
