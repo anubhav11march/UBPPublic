@@ -16,6 +16,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.view_loading.*
 
 /**
  * Created by Kylodroid on 26-05-2020.
@@ -91,14 +92,13 @@ public class MainActivity : AppCompatActivity() {
                     val user = auth.currentUser
                     val email = auth.currentUser?.email
                     val uid = auth.uid
-
-                    // start new activity after this
-
                     Toast.makeText(this, "Successfully Logged in", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(applicationContext, HomeActivity::class.java))
+                    finish()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG ", "signInWithCredential:failure", task.exception)
-                    Toast.makeText(this, "Authentication Failed.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
                    // progressbar.visibility = View.GONE
                 }
             }
@@ -106,6 +106,7 @@ public class MainActivity : AppCompatActivity() {
     // [END auth_with_google]
 
     fun loginClicked(view: View){
+        loading_view.visibility = View.VISIBLE
         val email = email.text.toString()
         val password = pass.text.toString()
         if(!email.isEmpty() && !password.isEmpty())
@@ -119,9 +120,11 @@ public class MainActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Logged in Successfully",
                         Toast.LENGTH_LONG).show()
                     startActivity(Intent(applicationContext, HomeActivity::class.java))
+                    finish()
                 }
                 else
-                    Toast.makeText(applicationContext, "Couldn't login", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Email and password don't match", Toast.LENGTH_LONG).show()
+                loading_view.visibility = View.GONE
             }
     }
 

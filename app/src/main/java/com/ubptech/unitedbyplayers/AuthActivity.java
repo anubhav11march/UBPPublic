@@ -57,8 +57,12 @@ public class AuthActivity extends AppCompatActivity implements FragmentChange {
 
     @Override
     public void requestOTP(String source) {
-        if(source.equals("forgotPassword"))
-            displayFragment("forgotPassVerify");
+        if(source.equals("forgotPassword")) {
+//            displayFragment("forgotPassVerify");
+            startActivity(new Intent(AuthActivity.this, MainActivity.class));
+            finish();
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
         else if(source.equals("verificationSuccessful"))
             displayFragment("verificationSuccessful");
         else if(source.equals("passwordChanged") || source.equals("verifiedAccount")){

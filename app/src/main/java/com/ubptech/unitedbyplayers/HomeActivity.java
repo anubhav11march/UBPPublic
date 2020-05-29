@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser() == null){
             startActivity(new Intent(HomeActivity.this, SignUpActivity.class));
             finish();
+            return;
         }
 
         Toast.makeText(this, mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();

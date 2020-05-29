@@ -216,4 +216,6 @@
 
     </LinearLayout>
 
+    <include layout="@layout/view_loading"/>
+
 </LinearLayout>
