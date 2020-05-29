@@ -2,21 +2,31 @@ package com.ubptech.unitedbyplayers
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_loading.*
+import java.security.MessageDigest
 
 /**
  * Created by Kylodroid on 26-05-2020.
@@ -28,6 +38,7 @@ public class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var callbackManager: CallbackManager
     var googleSignInClient: GoogleSignInClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +46,7 @@ public class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar!!.hide()
 
+        FacebookSdk.sdkInitialize(applicationContext);
         auth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -48,6 +60,38 @@ public class MainActivity : AppCompatActivity() {
         googlesignin.setOnClickListener {
             googleLoginClicked()
         }
+
+        fbsignin.setOnClickListener {
+            fbLoginClicked()
+        }
+
+
+        callbackManager = CallbackManager.Factory.create()
+        LoginManager.getInstance().registerCallback(
+            callbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    Log.v("AAA", "FB Logged in $loginResult")
+                    handleFacebookAccessToken(loginResult.accessToken)
+                }
+
+                override fun onCancel() {
+                    Log.v("AAA", "Sign in cancelled FB")
+                }
+
+                override fun onError(error: FacebookException) {
+                    Log.v("AAA", "FB Login Error")
+                    error.printStackTrace()
+                }
+            }
+        )
+
+        val packageinfo : PackageInfo = packageManager.getPackageInfo("com.ubptech.unitedbyplayers", PackageManager.GET_SIGNATURES)
+        val messaagedigest : MessageDigest = MessageDigest.getInstance("SHA")
+        for(sig in packageinfo.signatures){
+            messaagedigest.update(sig.toByteArray())
+            Log.d("Keyhash", Base64.encodeToString(messaagedigest.digest(), Base64.DEFAULT))
+        }
     }
 
     private fun googleLoginClicked(){
@@ -56,8 +100,18 @@ public class MainActivity : AppCompatActivity() {
         //progressbar.visibility = View.VISIBLE
     }
 
+    private fun fbLoginClicked() {
+        LoginManager.getInstance().logInWithReadPermissions(
+            this,
+            listOf("email", "public_profile")
+        )
+    }
+
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        //fb
+        callbackManager.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -104,6 +158,25 @@ public class MainActivity : AppCompatActivity() {
             }
     }
     // [END auth_with_google]
+
+    //fb
+    fun handleFacebookAccessToken(token: AccessToken) {
+        Log.v("AAA", "FB Access Token")
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(
+                this,
+                OnCompleteListener<AuthResult?> { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(applicationContext, "Logged in Successfully",
+                            Toast.LENGTH_LONG).show()
+                        startActivity(Intent(applicationContext, HomeActivity::class.java))
+                        finish()
+                    } else {
+                        Log.v("AAA", "Log in through FB failed")
+                    }
+                })
+    }
 
     fun loginClicked(view: View){
         loading_view.visibility = View.VISIBLE

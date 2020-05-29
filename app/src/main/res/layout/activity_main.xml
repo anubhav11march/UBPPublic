@@ -188,7 +188,7 @@
                 android:layout_weight="4"
                 android:gravity="center">
                 <ImageView
-                    android:onClick="fbLoginClicked"
+                    android:id="@+id/fbsignin"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/fb_icon"/>
