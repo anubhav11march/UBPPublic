@@ -73,7 +73,7 @@ public class VerificationFragment extends Fragment {
             @Override
             public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
-                Log.v("AAA", "Code sent");
+                Toast.makeText(context, "Code sent", Toast.LENGTH_SHORT).show();
                 verificationId = s;
             }
         };
@@ -229,6 +229,10 @@ public class VerificationFragment extends Fragment {
             a6.setText("");
             return;
         }
+        if(otp.length()!=6) {
+            Toast.makeText(context, "Please enter the otp sent to you", Toast.LENGTH_SHORT).show();
+            return;
+        }
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -258,7 +262,7 @@ public class VerificationFragment extends Fragment {
                         if(task.isSuccessful()){
                             try{
                                 ((FragmentChange) context).requestOTP("verifiedAccount");
-                                Toast.makeText(context, "Successfully created account, please login", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Successfully created account", Toast.LENGTH_SHORT).show();
                             }catch (Exception e){
                                 Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show();
                             }

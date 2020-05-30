@@ -57,6 +57,7 @@ public class RegistrationActivity extends AppCompatActivity {
     GoogleSignInClient googleSignInClient;
     FirebaseAuth mAuth;
     ImageView fbButton, googleButton;
+    View loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class RegistrationActivity extends AppCompatActivity {
         confirmPassword = (EditText) findViewById(R.id.confirm_password);
         fbButton = (ImageView) findViewById(R.id.fb_button);
         googleButton = (ImageView) findViewById(R.id.google_button);
+        loadingView = (View) findViewById(R.id.loading_view);
 
 
         FacebookSdk.sdkInitialize(this);
@@ -214,6 +216,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     void googleLogin(){
+        loadingView.setVisibility(View.VISIBLE);
         Intent intent = googleSignInClient.getSignInIntent();
         startActivityForResult(intent, 9001);
     }
@@ -246,11 +249,14 @@ public class RegistrationActivity extends AppCompatActivity {
                         }
                         else
                             Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
+                        loadingView.setVisibility(View.GONE);
                     }
+
                 });
     }
 
     void fbLogin(){
+        loadingView.setVisibility(View.VISIBLE);
         LoginManager.getInstance().logInWithReadPermissions(
                 this,
                 Arrays.asList("email", "public_profile")
@@ -271,6 +277,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         else {
                             Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
                         }
+                        loadingView.setVisibility(View.GONE);
                     }
                 });
     }

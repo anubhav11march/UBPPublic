@@ -87,12 +87,14 @@ public class MainActivity : AppCompatActivity() {
     }
 
     private fun googleLoginClicked(){
+        loading_view.visibility = View.VISIBLE
         val signInIntent = googleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
 
     }
 
     private fun fbLoginClicked() {
+        loading_view.visibility = View.VISIBLE
         LoginManager.getInstance().logInWithReadPermissions(
             this,
             listOf("email", "public_profile")
@@ -139,6 +141,7 @@ public class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
                 }
+                loading_view.visibility = View.GONE
             }
     }
     // [END auth_with_google]
@@ -159,6 +162,7 @@ public class MainActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
                     }
+                    loading_view.visibility = View.GONE
                 })
     }
 
