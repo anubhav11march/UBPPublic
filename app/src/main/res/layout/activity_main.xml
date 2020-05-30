@@ -22,7 +22,7 @@
             android:fontFamily="@font/roboto"
             android:text="Log in"
             android:textAlignment="center"
-            android:textColor="@color/titles_dark_blue"
+            android:textColor="@color/titles_dark_blue2"
             android:textSize="40sp" />
     </LinearLayout>
 
@@ -140,7 +140,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="2"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textAlignment="center"
                 android:text="or Login with"

@@ -22,8 +22,12 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
@@ -255,6 +259,7 @@ public class VerificationFragment extends Fragment {
                 });
         mAuth.signOut();
         FirebaseAuth.getInstance().signOut();
+//        AuthCredential credential1 = EmailAuthProvider.getCredential();
         mAuth.createUserWithEmailAndPassword(user.getEmail(), pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -268,6 +273,11 @@ public class VerificationFragment extends Fragment {
                             }
                         }
                         else{
+                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                                Toast.makeText(context, "This email id already exists with another login method," +
+                                        "Please sign in using that", Toast.LENGTH_SHORT).show();
+                            }
+                            else
                             Toast.makeText(context, "Problem " + task.getException(), Toast.LENGTH_SHORT).show();
                         }
                     }

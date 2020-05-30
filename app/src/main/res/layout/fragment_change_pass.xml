@@ -22,7 +22,7 @@
             android:fontFamily="@font/roboto"
             android:text="Change Password"
             android:textAlignment="center"
-            android:textColor="@color/titles_dark_blue"
+            android:textColor="@color/titles_dark_blue2"
             android:textSize="40sp" />
     </LinearLayout>
 
