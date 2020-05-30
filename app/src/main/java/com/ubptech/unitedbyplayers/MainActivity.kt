@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import com.facebook.*
 import com.facebook.login.LoginManager
@@ -85,19 +84,12 @@ public class MainActivity : AppCompatActivity() {
                 }
             }
         )
-
-        val packageinfo : PackageInfo = packageManager.getPackageInfo("com.ubptech.unitedbyplayers", PackageManager.GET_SIGNATURES)
-        val messaagedigest : MessageDigest = MessageDigest.getInstance("SHA")
-        for(sig in packageinfo.signatures){
-            messaagedigest.update(sig.toByteArray())
-            Log.d("Keyhash", Base64.encodeToString(messaagedigest.digest(), Base64.DEFAULT))
-        }
     }
 
     private fun googleLoginClicked(){
         val signInIntent = googleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
-        //progressbar.visibility = View.VISIBLE
+
     }
 
     private fun fbLoginClicked() {
@@ -141,19 +133,11 @@ public class MainActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "signInWithCredential:success")
-                    val user = auth.currentUser
-                    val email = auth.currentUser?.email
-                    val uid = auth.uid
                     Toast.makeText(this, "Successfully Logged in", Toast.LENGTH_LONG).show()
                     startActivity(Intent(applicationContext, HomeActivity::class.java))
                     finish()
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG ", "signInWithCredential:failure", task.exception)
                     Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
-                   // progressbar.visibility = View.GONE
                 }
             }
     }
@@ -168,12 +152,12 @@ public class MainActivity : AppCompatActivity() {
                 this,
                 OnCompleteListener<AuthResult?> { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(applicationContext, "Logged in Successfully",
+                        Toast.makeText(applicationContext, "Successfully Logged in",
                             Toast.LENGTH_LONG).show()
                         startActivity(Intent(applicationContext, HomeActivity::class.java))
                         finish()
                     } else {
-                        Log.v("AAA", "Log in through FB failed")
+                        Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
                     }
                 })
     }

@@ -237,8 +237,7 @@
                 android:layout_weight="4"
                 android:gravity="center">
                 <ImageView
-                    android:id="@+id/googlesignin"
-                    android:onClick="googleLoginClicked"
+                    android:id="@+id/google_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/google_icon"/>
@@ -259,7 +258,7 @@
                 android:layout_weight="4"
                 android:gravity="center">
                 <ImageView
-                    android:onClick="fbLoginClicked"
+                    android:id="@+id/fb_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/fb_icon"/>
