@@ -5,10 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.telecom.Call;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -28,16 +25,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.security.AuthProvider;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,12 +105,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancel() {
-
+                        loadingView.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "Cancelled Login", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(FacebookException error) {
+                        loadingView.setVisibility(View.GONE);
                         error.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "This email already exists with another login method, " +
+                                "please login with that method", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -231,7 +231,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e){
-//                Toast.makeText(this, "Failed Login", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Failed Login", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -252,7 +252,15 @@ public class RegistrationActivity extends AppCompatActivity {
                         loadingView.setVisibility(View.GONE);
                     }
 
+                })
+                .addOnCanceledListener(this, new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        loadingView.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "Login cancelled", Toast.LENGTH_SHORT).show();
+                    }
                 });
+//        loadingView.setVisibility(View.GONE);
     }
 
     void fbLogin(){
@@ -275,11 +283,19 @@ public class RegistrationActivity extends AppCompatActivity {
                             finish();
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
                         }
                         loadingView.setVisibility(View.GONE);
                     }
+                })
+                .addOnCanceledListener(this, new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        loadingView.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "Login cancelled", Toast.LENGTH_SHORT).show();
+                    }
                 });
+//        loadingView.setVisibility(View.GONE);
     }
 
     public void signupClicked(View view) {

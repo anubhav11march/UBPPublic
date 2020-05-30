@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.facebook.login.LoginManager;
+
 /**
  * Created by Kylodroid on 27-05-2020.
  */
@@ -21,6 +23,10 @@ public class SignUpActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         signUpButton = (LinearLayout) findViewById(R.id.signup_button);
         loginButton = (LinearLayout) findViewById(R.id.login_button);
+
+        if(LoginManager.getInstance()!=null){
+            LoginManager.getInstance().logOut();
+        }
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override

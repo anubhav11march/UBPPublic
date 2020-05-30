@@ -76,10 +76,15 @@ public class MainActivity : AppCompatActivity() {
 
                 override fun onCancel() {
                     Log.v("AAA", "Sign in cancelled FB")
+                    Toast.makeText(applicationContext, "Sign in Cancelled", Toast.LENGTH_LONG).show()
+                    loading_view.visibility = View.GONE
                 }
 
                 override fun onError(error: FacebookException) {
-                    Log.v("AAA", "FB Login Error")
+                    Log.v("AAA", error.localizedMessage.toString())
+                    Toast.makeText(applicationContext, "This email already exists with another login method, " +
+                            "please login with that method", Toast.LENGTH_LONG).show()
+                    loading_view.visibility = View.GONE
                     error.printStackTrace()
                 }
             }
@@ -121,6 +126,8 @@ public class MainActivity : AppCompatActivity() {
                     firebaseAuthWithGoogle(account!!)
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
+                    loading_view.visibility = View.GONE
+                    Toast.makeText(applicationContext, "An error occurred", Toast.LENGTH_LONG).show()
                     Log.w("SignUp: ", "Google sign in failed", e)
                 }
             }
