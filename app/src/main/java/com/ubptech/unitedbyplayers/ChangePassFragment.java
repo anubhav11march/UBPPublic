@@ -34,7 +34,7 @@ public class ChangePassFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
-                    ((FragmentChange) context).requestOTP("passwordChanged");
+                    ((FragmentChange) context).requestOTP("passwordChanged", null);
                     Toast.makeText(context, "Successfully changed password, please login", Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show();

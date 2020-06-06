@@ -43,7 +43,7 @@ public class VerificationForgotPassFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
-                    ((FragmentChange) context).requestOTP("verificationSuccessful");
+                    ((FragmentChange) context).requestOTP("verificationSuccessful", null);
                 }catch (Exception e){
                     Toast.makeText(context, "Incorrect OTP", Toast.LENGTH_SHORT).show();
                 }

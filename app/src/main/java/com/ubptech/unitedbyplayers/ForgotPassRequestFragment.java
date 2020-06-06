@@ -60,7 +60,7 @@ public class ForgotPassRequestFragment extends Fragment {
                                 }
                             });
                     try{
-                        ((FragmentChange) context).requestOTP("forgotPassword");
+                        ((FragmentChange) context).requestOTP("forgotPassword", null);
                     }catch (Exception e){
                         Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show();
                     }

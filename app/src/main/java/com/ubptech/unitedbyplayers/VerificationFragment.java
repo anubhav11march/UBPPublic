@@ -266,7 +266,7 @@ public class VerificationFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             try{
-                                ((FragmentChange) context).requestOTP("verifiedAccount");
+                                ((FragmentChange) context).requestOTP("verifiedAccount", user);
                                 Toast.makeText(context, "Successfully created account", Toast.LENGTH_SHORT).show();
                             }catch (Exception e){
                                 Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show();

@@ -11,4 +11,9 @@
     <color name="black">#000000</color>
     <color name="light_blue">#02B4FF</color>
     <color name="red">#FF0000</color>
+    <color name="onboarding_blue">#033C7F</color>
+    <color name="onboarding_button_blue">#033F86</color>
+    <color name="light_grey">#ECEBEB</color>
+    <color name="darker_than_light_grey">#CAC8C8</color>
+    <color name="unselected_sport">#707070</color>
 </resources>

@@ -143,7 +143,9 @@ public class MainActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Successfully Logged in", Toast.LENGTH_LONG).show()
-                    startActivity(Intent(applicationContext, HomeActivity::class.java))
+                    val intent = Intent(applicationContext, HomeActivity::class.java)
+                    intent.putExtra("method", "google")
+                    startActivity(intent)
                     finish()
                 } else {
                     Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
@@ -164,7 +166,9 @@ public class MainActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Toast.makeText(applicationContext, "Successfully Logged in",
                             Toast.LENGTH_LONG).show()
-                        startActivity(Intent(applicationContext, HomeActivity::class.java))
+                        val intent = Intent(applicationContext, HomeActivity::class.java)
+                        intent.putExtra("method", "facebook")
+                        startActivity(intent)
                         finish()
                     } else {
                         Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
@@ -187,7 +191,9 @@ public class MainActivity : AppCompatActivity() {
                 if(task.isSuccessful) {
                     Toast.makeText(applicationContext, "Logged in Successfully",
                         Toast.LENGTH_LONG).show()
-                    startActivity(Intent(applicationContext, HomeActivity::class.java))
+                    val intent = Intent(applicationContext, HomeActivity::class.java)
+                    intent.putExtra("method", "email")
+                    startActivity(intent)
                     finish()
                 }
                 else

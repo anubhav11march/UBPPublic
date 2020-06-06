@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="88">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/onboarding_blue"
+            android:text="Hi Tim."
+            android:fontFamily="@font/roboto_medium"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/onboarding_blue"
+            android:text="@string/onboard_select_sports"
+            android:fontFamily="@font/roboto"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="28"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/cricket_card"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/rounded_corner_card"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:weightSum="47">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:gravity="bottom"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/cricket_tick"
+                    android:visibility="gone"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/tick"
+                    android:layout_gravity="top|end"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="26"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/cricket_image"
+                    android:tint="@color/unselected_sport"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/cricket"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="13"
+                android:gravity="top|center">
+                <TextView
+                    android:id="@+id/cricket_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Cricket"
+                    android:textColor="@color/onboarding_blue"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="bottom|center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/football_card"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="23dp"
+            android:background="@drawable/rounded_corner_card"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:weightSum="47">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:gravity="bottom"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/football_tick"
+                    android:visibility="gone"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/tick"
+                    android:layout_gravity="top|end"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="26"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/football_image"
+                    android:tint="@color/unselected_sport"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/football"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="13"
+                android:gravity="top|center">
+                <TextView
+                    android:id="@+id/foorball_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Football"
+                    android:textColor="@color/onboarding_blue"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="bottom|center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4" />
+
+    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="28"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/badminton_card"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/rounded_corner_card"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:weightSum="47">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:gravity="bottom"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/badminton_tick"
+                    android:visibility="gone"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/tick"
+                    android:layout_gravity="top|end"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="26"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/badminton_image"
+                    android:tint="@color/unselected_sport"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/badminton"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="13"
+                android:gravity="top|center">
+                <TextView
+                    android:id="@+id/badminton_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Badminton"
+                    android:textColor="@color/onboarding_blue"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="bottom|center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="23dp"
+            android:gravity="center"
+            android:background="@drawable/rounded_corner_card"
+            android:elevation="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="More sports \ncoming soon!"
+                android:textColor="@color/onboarding_blue"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_medium" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="vertical"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/onboarding_blue"
+            android:text="2/3"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/onboard_progress" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -32,7 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:layout_marginHorizontal="33dp">
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp">
         <TextView
             android:layout_width="match_parent"
             android:textAlignment="textStart"
@@ -61,7 +62,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:layout_marginHorizontal="33dp">
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp">
         <TextView
             android:layout_width="match_parent"
             android:textAlignment="textStart"
@@ -90,7 +92,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:layout_marginHorizontal="33dp">
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp">
         <TextView
             android:layout_width="match_parent"
             android:textAlignment="textStart"
@@ -117,7 +120,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:layout_marginHorizontal="33dp">
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp">
         <TextView
             android:layout_width="match_parent"
             android:textAlignment="textStart"
@@ -144,7 +148,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="13"
-        android:layout_marginHorizontal="33dp">
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp">
         <TextView
             android:layout_width="match_parent"
             android:textAlignment="textStart"

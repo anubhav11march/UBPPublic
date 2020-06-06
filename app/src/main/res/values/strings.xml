@@ -7,6 +7,9 @@
     <string name="enter_email">Enter you email to reset your password</string>
     <string name="facebook_app_id">3148431641904274</string>
     <string name="fb_login_protocol_scheme">fb3148431641904274</string>
+    <string name="onboard_add_pictures">Upload a picture of yourself so other players around you can recognise you</string>
+    <string name="onboard_select_sports">Select the sports you\'re interested in!</string>
+    <string name="onboard_more_details">We need to know a few more details so we can find you compatible teams</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
