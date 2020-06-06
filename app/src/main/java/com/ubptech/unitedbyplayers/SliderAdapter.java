@@ -26,7 +26,7 @@ public class SliderAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @NonNull
@@ -37,6 +37,8 @@ public class SliderAdapter extends FragmentPagerAdapter {
                 return new Onboarding1Fragment();
             case 1:
                 return new Onboarding2Fragment();
+            case 2:
+                return new Onboarding3Fragment();
             default:
                 return new Onboarding1Fragment();
         }

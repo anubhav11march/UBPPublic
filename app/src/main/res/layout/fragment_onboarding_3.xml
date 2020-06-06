@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="88">
+    android:weightSum="78">
+
+    <include layout="@layout/view_pick_age"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,17 +41,16 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:gravity="center_vertical"
-        android:layout_marginHorizontal="33dp"
-        android:orientation="vertical"
-        >
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="Age"
-            android:autoSizeTextType="uniform"
-            android:textColor="@color/onboarding_button_blue"
-            />
+            android:textSize="16sp"
+            android:textColor="@color/onboarding_button_blue" />
 
     </LinearLayout>
 
@@ -58,19 +60,20 @@
         android:layout_weight="1" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/age"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="33dp"
-        >
+        android:layout_weight="5"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp"
+        android:background="@drawable/white_selectable_button">
 
-        <EditText
+        <TextView
+            android:id="@+id/age_text"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/white_selectable_button"
-            android:paddingHorizontal="20dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:text="16"
             android:inputType="number"
             android:textColor="@color/onboarding_button_blue" />
@@ -80,7 +83,98 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_weight="4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textSize="16sp"
+            android:textColor="@color/onboarding_button_blue"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp"
+        android:layout_weight="5"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_selected_button"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selectable_button"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:gravity="center"
+                android:textColor="@color/onboarding_button_blue"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preferred Age Group"
+            android:textSize="16sp"
+            android:textColor="@color/onboarding_button_blue" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,213 +185,58 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:layout_marginHorizontal="33dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:text="Gender"
-            android:autoSizeTextType="uniform"
-            android:textColor="@color/onboarding_button_blue"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="33dp"
-        android:layout_weight="10"
         android:orientation="horizontal"
-        >
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp">
 
         <LinearLayout
             android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/blue_selected_button"
-            >
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selectable_button"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Male"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="20dp"
-            android:layout_height="40dp"/>
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/white_selectable_button">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="Female"
-                android:gravity="center"
-                android:textColor="@color/onboarding_button_blue"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:layout_marginHorizontal="33dp"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:text="Preferred Age Group"
-            android:autoSizeTextType="uniform"
-            android:textColor="@color/onboarding_button_blue" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="33dp">
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/white_selectable_button">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="10-15"
-                android:gravity="center"
                 android:textColor="@color/onboarding_button_blue"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="10dp"
-            android:layout_height="40dp" />
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/blue_selected_button">
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_selected_button"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="15-20"
-                android:gravity="center"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="10dp"
-            android:layout_height="40dp" />
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/white_selectable_button">
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selectable_button"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="20-30"
-                android:gravity="center"
                 android:textColor="@color/onboarding_button_blue"
-                android:textSize="18sp"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="33dp">
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/white_selectable_button">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="30-40"
-                android:gravity="center"
-                android:textColor="@color/onboarding_button_blue"
-                android:textSize="18sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="10dp"
-            android:layout_height="40dp" />
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/white_selectable_button">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="40-50"
-                android:gravity="center"
-                android:textColor="@color/onboarding_button_blue"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="10dp"
-            android:layout_height="40dp" />
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/white_selectable_button">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="50+"
-                android:textColor="@color/onboarding_button_blue"
-                android:textSize="18sp"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -311,56 +250,109 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:layout_marginHorizontal="33dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp">
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selectable_button"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30-40"
+                android:textColor="@color/onboarding_button_blue"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selectable_button"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="40-50"
+                android:textColor="@color/onboarding_button_blue"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selectable_button"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50+"
+                android:textColor="@color/onboarding_button_blue"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="26dp"
         android:orientation="vertical"
         android:gravity="center">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:text="Maximum Distance"
-            android:autoSizeTextType="uniform"
+            android:layout_height="wrap_content"
+            android:text="Maximum Distance (in kms)"
+            android:textSize="16sp"
             android:textColor="@color/onboarding_button_blue" />
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/distance_seek"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="76dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"/>
-
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:progressDrawable="@drawable/onboard_progress"
-        android:progress="50"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:orientation="vertical"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/onboarding_blue"
-            android:text="3/3"
-            android:fontFamily="@font/roboto_medium"/>
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:progressDrawable="@drawable/onboard_progress" />
-
-    </LinearLayout>
-
+        android:layout_height="wrap_content"
+        app:rsb_mode="single"
+        app:rsb_orientation="left"
+        app:rsb_tick_mark_orientation="horizontal"
+        app:rsb_indicator_text_orientation="horizontal"
+        app:rsb_min="0"
+        app:rsb_max="50"
+        app:rsb_min_interval="1"
+        app:rsb_gravity="center"
+        app:rsb_progress_height="5dp"
+        app:rsb_indicator_show_mode="alwaysShow"
+        app:rsb_indicator_background_color="#D8D8D8"
+        app:rsb_progress_color="@color/onboarding_button_blue"
+        app:rsb_indicator_height="30dp"
+        app:rsb_indicator_width="30dp"
+        app:rsb_indicator_text_color="@color/onboarding_button_blue"
+        app:rsb_thumb_drawable="@drawable/thumb"
+        app:rsb_tick_mark_number="50"
+        app:rsb_tick_mark_mode="number"
+        app:rsb_tick_mark_text_color="@color/unselected_sport"/>
 </LinearLayout>

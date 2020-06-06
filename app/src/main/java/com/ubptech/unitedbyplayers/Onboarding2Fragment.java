@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
  * Created by Kylodroid on 06-06-2020.
  */
 public class Onboarding2Fragment extends Fragment {
-    private ProgressBar progressBar;
     private LinearLayout cricketCard, footballCard, badmintonCard;
     private ImageView cricketTick, footballTick, badmintonTick, cricketImage, footballImage, badmintonImage;
     private TextView cricketTitle, footballTitle, badmintonTitle;
@@ -28,8 +27,6 @@ public class Onboarding2Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_onboarding_2, container, false);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        progressBar.setProgress(66);
         initiateCards(view);
         return view;
     }

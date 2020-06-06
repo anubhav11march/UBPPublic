@@ -16,14 +16,10 @@ import androidx.fragment.app.Fragment;
  */
 public class Onboarding1Fragment extends Fragment {
 
-    private ProgressBar progressBar;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_onboarding_1, container, false);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        progressBar.setProgress(33);
         return view;
     }
 }

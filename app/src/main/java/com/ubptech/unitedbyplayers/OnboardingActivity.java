@@ -6,6 +6,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -16,6 +18,8 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
     ViewPager viewPager;
     LinearLayout nextButton;
     int position =0;
+    ProgressBar progressBar;
+    TextView progressFraction;
     boolean checkViewPager = false;
 
     @Override
@@ -26,6 +30,9 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new SliderAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(position);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressFraction = findViewById(R.id.progress_fraction);
+        progressFraction.setText((position+1) + "/3");
         nextButton = (LinearLayout) findViewById(R.id.next_button);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +40,11 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
             public void onClick(View view) {
 //                if(checkViewPager){
                     viewPager.setCurrentItem(++position);
+                    progressFraction.setText((position+1) + "/3");
+                    if(android.os.Build.VERSION.SDK_INT>=24)
+                        progressBar.setProgress(33*(position+1), true);
+                    else
+                        progressBar.setProgress(33*(position+1));
 //                }
 //                else {
 //                    Toast.makeText(OnboardingActivity.this, "Please complete the above steps to continue"
