@@ -74,8 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="16"
-            android:inputType="number"
+            android:text="18"
             android:textColor="@color/onboarding_button_blue" />
 
     </LinearLayout>
@@ -117,22 +116,25 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/male"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@drawable/blue_selected_button"
+            android:background="@drawable/white_selectable_button"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/male_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Male"
-                android:textColor="@android:color/white"
+                android:textColor="@color/onboarding_button_blue"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/female"
             android:layout_marginLeft="20dp"
             android:layout_width="80dp"
             android:layout_height="match_parent"
@@ -141,6 +143,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/female_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Female"
@@ -190,12 +193,14 @@
         android:layout_marginLeft="26dp">
 
         <LinearLayout
+            android:id="@+id/ten"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@drawable/white_selectable_button"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/ten_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10-15"
@@ -208,16 +213,18 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
+            android:id="@+id/fifteen"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@drawable/blue_selected_button"
+            android:background="@drawable/white_selectable_button"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/fifteen_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15-20"
-                android:textColor="@android:color/white"
+                android:textColor="@color/onboarding_button_blue"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -226,12 +233,14 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
+            android:id="@+id/twenty"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@drawable/white_selectable_button"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/twenty_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20-30"
@@ -255,12 +264,14 @@
         android:layout_marginLeft="26dp">
 
         <LinearLayout
+            android:id="@+id/thirty"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@drawable/white_selectable_button"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/thirty_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="30-40"
@@ -273,12 +284,14 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
+            android:id="@+id/forty"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@drawable/white_selectable_button"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/forty_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="40-50"
@@ -291,12 +304,14 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
+            android:id="@+id/fifty"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@drawable/white_selectable_button"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/fifty_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50+"

@@ -79,4 +79,6 @@
         android:layout_height="0dp"
         android:layout_weight="4"/>
 
+    <include layout="@layout/view_onboard_load"/>
+
 </LinearLayout>

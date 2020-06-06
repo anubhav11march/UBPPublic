@@ -1,5 +1,6 @@
 package com.ubptech.unitedbyplayers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Layout;
 import android.transition.Slide;
@@ -20,8 +21,11 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class SliderAdapter extends FragmentPagerAdapter {
 
-    SliderAdapter(FragmentManager fragmentManager){
+    Activity activity;
+
+    SliderAdapter(FragmentManager fragmentManager, Activity activity){
         super(fragmentManager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        this.activity  = activity;
     }
 
     @Override
@@ -34,13 +38,13 @@ public class SliderAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new Onboarding1Fragment();
+                return new Onboarding1Fragment(activity);
             case 1:
-                return new Onboarding2Fragment();
+                return new Onboarding2Fragment(activity);
             case 2:
-                return new Onboarding3Fragment();
+                return new Onboarding3Fragment(activity);
             default:
-                return new Onboarding1Fragment();
+                return new Onboarding1Fragment(activity);
         }
 
     }

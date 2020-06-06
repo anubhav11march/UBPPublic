@@ -1,27 +1,35 @@
 package com.ubptech.unitedbyplayers;
 
-import android.graphics.Color;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.HashMap;
+
 /**
  * Created by Kylodroid on 06-06-2020.
  */
 public class Onboarding2Fragment extends Fragment {
+
     private LinearLayout cricketCard, footballCard, badmintonCard;
     private ImageView cricketTick, footballTick, badmintonTick, cricketImage, footballImage, badmintonImage;
     private TextView cricketTitle, footballTitle, badmintonTitle;
     private boolean cricketSelect = false, footballSelect = false, badmintonSelect = false;
+    private HashMap<String, Boolean> preferences = new HashMap<>();
+    private Activity activity;
+
+    Onboarding2Fragment(Activity activity){
+        this.activity = activity;
+    }
 
     @Nullable
     @Override
@@ -32,6 +40,10 @@ public class Onboarding2Fragment extends Fragment {
     }
 
     private void initiateCards(View view){
+        preferences.put("Cricket", false);
+        preferences.put("Football", false);
+        preferences.put("Badminton", false);
+
         cricketCard = view.findViewById(R.id.cricket_card);
         footballCard = view.findViewById(R.id.football_card);
         badmintonCard = view.findViewById(R.id.badminton_card);
@@ -54,6 +66,7 @@ public class Onboarding2Fragment extends Fragment {
                     cricketTitle.setTextColor(getResources().getColor(R.color.onboarding_blue));
                     cricketTick.setVisibility(View.GONE);
                     cricketSelect = false;
+                    preferences.put("Cricket", false);
                 }
                 else{
                     cricketCard.setBackground(getResources().getDrawable(R.drawable.sports_rounded_blue_card));
@@ -61,7 +74,12 @@ public class Onboarding2Fragment extends Fragment {
                     cricketTitle.setTextColor(getResources().getColor(R.color.white));
                     cricketTick.setVisibility(View.VISIBLE);
                     cricketSelect = true;
+                    preferences.put("Cricket", true);
                 }
+                ((ViewPageChange) activity).addPreferences(preferences);
+                if(cricketSelect||footballSelect||badmintonSelect)
+                    ((ViewPageChange) activity).check(true);
+                else ((ViewPageChange) activity).check(false);
             }
         });
 
@@ -74,6 +92,7 @@ public class Onboarding2Fragment extends Fragment {
                     footballTitle.setTextColor(getResources().getColor(R.color.onboarding_blue));
                     footballTick.setVisibility(View.GONE);
                     footballSelect = false;
+                    preferences.put("Football", false);
                 }
                 else{
                     footballCard.setBackground(getResources().getDrawable(R.drawable.sports_rounded_blue_card));
@@ -81,7 +100,12 @@ public class Onboarding2Fragment extends Fragment {
                     footballTitle.setTextColor(getResources().getColor(R.color.white));
                     footballTick.setVisibility(View.VISIBLE);
                     footballSelect = true;
+                    preferences.put("Football", true);
                 }
+                ((ViewPageChange) activity).addPreferences(preferences);
+                if(cricketSelect||footballSelect||badmintonSelect)
+                    ((ViewPageChange) activity).check(true);
+                else ((ViewPageChange) activity).check(false);
             }
         });
 
@@ -94,6 +118,7 @@ public class Onboarding2Fragment extends Fragment {
                     badmintonTitle.setTextColor(getResources().getColor(R.color.onboarding_blue));
                     badmintonTick.setVisibility(View.GONE);
                     badmintonSelect = false;
+                    preferences.put("Badminton", true);
                 }
                 else{
                     badmintonCard.setBackground(getResources().getDrawable(R.drawable.sports_rounded_blue_card));
@@ -101,7 +126,12 @@ public class Onboarding2Fragment extends Fragment {
                     badmintonTitle.setTextColor(getResources().getColor(R.color.white));
                     badmintonTick.setVisibility(View.VISIBLE);
                     badmintonSelect = true;
+                    preferences.put("Badminton", true);
                 }
+                ((ViewPageChange) activity).addPreferences(preferences);
+                if(cricketSelect||footballSelect||badmintonSelect)
+                    ((ViewPageChange) activity).check(true);
+                else ((ViewPageChange) activity).check(false);
             }
         });
     }
