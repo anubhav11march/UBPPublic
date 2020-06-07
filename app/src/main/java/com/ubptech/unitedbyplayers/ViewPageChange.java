@@ -10,7 +10,7 @@ import java.util.HashMap;
 public interface ViewPageChange {
     void check(boolean done);
 
-    void addPictureUri(Uri uri);
+    void addPictureUri(HashMap<Integer, Uri> uris);
 
     void addPreferences(HashMap<String, Boolean> preferences);
 

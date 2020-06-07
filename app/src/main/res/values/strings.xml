@@ -10,6 +10,7 @@
     <string name="onboard_add_pictures">Upload a picture of yourself so other players around you can recognise you</string>
     <string name="onboard_select_sports">Select the sports you\'re interested in!</string>
     <string name="onboard_more_details">We need to know a few more details so we can find you compatible teams</string>
+    <string name="onboard_get_started">Your setup is complete. Let\'s get started!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

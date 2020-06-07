@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OnboardingActivity"></activity>
+        <activity android:name=".JoinTeamActivity"></activity>
+        <activity android:name=".CreateTeamActivity" />
+        <activity android:name=".DecisionActivity" />
+        <activity android:name=".OnboardingActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".AuthActivity" />
         <activity android:name=".RegistrationActivity" />

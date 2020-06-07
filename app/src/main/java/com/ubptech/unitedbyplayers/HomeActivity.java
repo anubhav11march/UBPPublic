@@ -71,6 +71,10 @@ public class HomeActivity extends AppCompatActivity {
                             Intent intent = new Intent(HomeActivity.this, OnboardingActivity.class);
                             startActivity(intent);
                         }
+                        else {
+                            Intent intent = new Intent(HomeActivity.this, DecisionActivity.class);
+                            startActivity(intent);
+                        }
 
                     }
                     else {

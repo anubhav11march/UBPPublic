@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import java.util.HashMap;
+
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -33,6 +35,8 @@ public class Onboarding1Fragment extends Fragment{
     LinearLayout pic1, pic2, pic3, pic4;
     ImageView image1, image2, image3, image4, img1, img2, img3, img4, currImage, currToRemove;
     Uri uri = null;
+    HashMap<Integer, Uri> uris = new HashMap<>();
+    int currId;
 
     @Nullable
     @Override
@@ -60,6 +64,7 @@ public class Onboarding1Fragment extends Fragment{
             @Override
             public void onClick(View view) {
                 imageButtonClicked(image1, img1);
+                currId = 1;
             }
         });
 
@@ -67,6 +72,7 @@ public class Onboarding1Fragment extends Fragment{
             @Override
             public void onClick(View view) {
                 imageButtonClicked(image2, img2);
+                currId = 2;
             }
         });
 
@@ -74,6 +80,7 @@ public class Onboarding1Fragment extends Fragment{
             @Override
             public void onClick(View view) {
                 imageButtonClicked(image3, img3);
+                currId = 3;
             }
         });
 
@@ -81,6 +88,7 @@ public class Onboarding1Fragment extends Fragment{
             @Override
             public void onClick(View view) {
                 imageButtonClicked(image4, img4);
+                currId = 4;
             }
         });
     }
@@ -102,7 +110,8 @@ public class Onboarding1Fragment extends Fragment{
             currImage.setImageURI(uri);
             currImage.setVisibility(View.VISIBLE);
             ((ViewPageChange)activity).check(true);
-            ((ViewPageChange)activity).addPictureUri(uri);
+            uris.put(currId, uri);
+            ((ViewPageChange)activity).addPictureUri(uris);
         }
     }
 }
