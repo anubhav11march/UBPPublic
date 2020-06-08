@@ -34,6 +34,7 @@
             android:layout_marginRight="22dp"
             android:layout_marginLeft="22dp">
             <EditText
+                android:id="@+id/team_name"
                 android:layout_width="198dp"
                 android:layout_height="wrap_content"
                 android:hint="Enter Team Name"
@@ -64,12 +65,14 @@
             android:layout_weight="5"
             android:layout_marginLeft="10dp">
             <LinearLayout
+                android:id="@+id/football"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/football_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Football"
@@ -78,6 +81,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
                 <ImageView
+                    android:id="@+id/football_tick"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="@drawable/tick"
@@ -86,6 +90,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/cricket"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
@@ -93,6 +98,7 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/cricket_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cricket"
@@ -101,6 +107,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
                 <ImageView
+                    android:id="@+id/cricket_tick"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="@drawable/tick"
@@ -109,6 +116,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/badminton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
@@ -116,6 +124,7 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/badminton_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Badminton"
@@ -124,6 +133,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
                 <ImageView
+                    android:id="@+id/badminton_tick"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="@drawable/tick"
@@ -161,12 +171,14 @@
             android:layout_marginLeft="22dp"
             android:layout_marginRight="22dp">
             <LinearLayout
+                android:id="@+id/yes"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/yes_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yes"
@@ -177,6 +189,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/no"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
@@ -184,6 +197,7 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/no_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No"

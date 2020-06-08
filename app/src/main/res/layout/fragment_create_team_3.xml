@@ -34,6 +34,7 @@
             android:layout_marginRight="22dp"
             android:layout_marginLeft="22dp">
             <EditText
+                android:id="@+id/team_bio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"

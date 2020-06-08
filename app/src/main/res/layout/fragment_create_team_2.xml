@@ -33,14 +33,16 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2.5"
-            android:layout_marginLeft="10dp">
+            android:layout_marginStart="10dp">
             <LinearLayout
+                android:id="@+id/ten"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/ten_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10-15"
@@ -51,6 +53,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fifteen"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
@@ -58,6 +61,7 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/fifteen_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15-20"
@@ -68,6 +72,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/twenty"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
@@ -75,6 +80,7 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/twenty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20-30"
@@ -85,6 +91,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/thirty"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
@@ -92,6 +99,7 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/thirty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30-50"
@@ -102,6 +110,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fifty"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_selectable_button"
@@ -109,6 +118,7 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/fifty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="50+"
@@ -193,7 +203,7 @@
             <com.jaygoo.widget.RangeSeekBar
                 android:id="@+id/bet_seek"
                 android:layout_marginStart="26dp"
-                android:layout_marginEnd="76dp"
+                android:layout_marginEnd="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:rsb_mode="single"
@@ -201,7 +211,8 @@
                 app:rsb_tick_mark_orientation="horizontal"
                 app:rsb_indicator_text_orientation="horizontal"
                 app:rsb_min="0"
-                app:rsb_max="1000"
+                app:rsb_max="10000"
+                app:rsb_steps="100"
                 app:rsb_min_interval="100"
                 app:rsb_gravity="center"
                 app:rsb_progress_height="5dp"
