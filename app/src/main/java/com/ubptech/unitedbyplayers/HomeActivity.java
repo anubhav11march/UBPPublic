@@ -72,8 +72,7 @@ public class HomeActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else {
-                            Intent intent = new Intent(HomeActivity.this, CreateTeamSuccessActivity.class);
-                            intent.putExtra("teamCode", "U6vorY");
+                            Intent intent = new Intent(HomeActivity.this, DecisionActivity.class);
                             startActivity(intent);
                         }
 
