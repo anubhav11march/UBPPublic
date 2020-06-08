@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.concurrent.TimeUnit;
 
@@ -268,6 +269,7 @@ public class VerificationFragment extends Fragment {
                             try{
                                 ((FragmentChange) context).requestOTP("verifiedAccount", user);
                                 Toast.makeText(context, "Successfully created account", Toast.LENGTH_SHORT).show();
+
                             }catch (Exception e){
                                 Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show();
                             }

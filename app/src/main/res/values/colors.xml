@@ -16,4 +16,5 @@
     <color name="light_grey">#ECEBEB</color>
     <color name="darker_than_light_grey">#CAC8C8</color>
     <color name="unselected_sport">#707070</color>
+    <color name="blackish">#3C3C3C</color>
 </resources>

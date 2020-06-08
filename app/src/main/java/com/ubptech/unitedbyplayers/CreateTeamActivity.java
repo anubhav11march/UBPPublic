@@ -112,6 +112,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         team.put("pictures", null);
         team.put("captain", currentUser.getUid());
         team.put("teamMembers", teamMembers);
+        team.put("teamCode", teamCode);
         teamRef = database.collection("teams").document(teamSport);
         teamRef.collection("teams")
                 .add(team)
@@ -120,6 +121,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                     public void onSuccess(DocumentReference documentReference) {
                         teamCode = documentReference.getId().substring(0, 6);
                         teamId = documentReference.getId();
+                        addTeamCode();
                         addToUserDatabase();
                     }
                 })
@@ -127,6 +129,30 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getApplicationContext(), "An error occured " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addTeamCode(){
+        HashMap<String, Object> code = new HashMap<>();
+        code.put("fullCode", teamId);
+        code.put("teamCode", teamCode);
+        code.put("sport", teamSport);
+        database.collection("codes").document(teamCode)
+                .set(code)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                });
+        teamRef.collection("teams")
+                .document(teamId)
+                .update(code)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
                     }
                 });
     }
@@ -161,7 +187,9 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        startActivity(new Intent(CreateTeamActivity.this, CreateTeamSuccessActivity.class));
+                        Intent intent = new Intent(CreateTeamActivity.this, CreateTeamSuccessActivity.class);
+                        intent.putExtra("teamCode", teamCode);
+                        startActivity(intent);
                         loadingView.setVisibility(View.GONE);
                     }
                 })
