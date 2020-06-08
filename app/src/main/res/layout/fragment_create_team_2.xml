@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="57"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/teaming_card"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:gravity="center_vertical"
+            android:layout_marginRight="22dp"
+            android:layout_marginLeft="22dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preferred Age Group"
+                android:textColor="@color/onboarding_button_blue"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:layout_marginLeft="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_selectable_button"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10-15"
+                    android:textColor="@color/onboarding_button_blue"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_selectable_button"
+                android:gravity="center"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15-20"
+                    android:textColor="@color/onboarding_button_blue"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_selectable_button"
+                android:gravity="center"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20-30"
+                    android:textColor="@color/onboarding_button_blue"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_selectable_button"
+                android:gravity="center"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30-50"
+                    android:textColor="@color/onboarding_button_blue"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_selectable_button"
+                android:gravity="center"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50+"
+                    android:textColor="@color/onboarding_button_blue"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:layout_marginRight="22dp"
+            android:layout_marginLeft="22dp"
+            android:gravity="bottom"
+            android:layout_marginBottom="3dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximum Distance (in kms)"
+                android:textColor="@color/onboarding_button_blue"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+            <com.jaygoo.widget.RangeSeekBar
+                android:id="@+id/distance_seek"
+                android:layout_marginStart="26dp"
+                android:layout_marginEnd="76dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rsb_mode="single"
+                app:rsb_orientation="left"
+                app:rsb_tick_mark_orientation="horizontal"
+                app:rsb_indicator_text_orientation="horizontal"
+                app:rsb_min="0"
+                app:rsb_max="50"
+                app:rsb_min_interval="1"
+                app:rsb_gravity="center"
+                app:rsb_progress_height="5dp"
+                app:rsb_indicator_show_mode="alwaysShow"
+                app:rsb_indicator_background_color="#D8D8D8"
+                app:rsb_progress_color="@color/onboarding_button_blue"
+                app:rsb_indicator_height="10dp"
+                app:rsb_indicator_width="10dp"
+                app:rsb_indicator_text_size="10sp"
+                app:rsb_indicator_text_color="@color/onboarding_button_blue"
+                app:rsb_thumb_drawable="@drawable/thumb"
+                app:rsb_tick_mark_number="50"
+                app:rsb_tick_mark_mode="number"
+                app:rsb_tick_mark_text_color="@color/unselected_sport"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"
+            android:layout_marginLeft="22dp"
+            android:gravity="bottom"
+            android:layout_marginBottom="3dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximum Bet (in Rupees)"
+                android:textColor="@color/onboarding_button_blue"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:layout_marginLeft="10dp">
+            <com.jaygoo.widget.RangeSeekBar
+                android:id="@+id/bet_seek"
+                android:layout_marginStart="26dp"
+                android:layout_marginEnd="76dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rsb_mode="single"
+                app:rsb_orientation="left"
+                app:rsb_tick_mark_orientation="horizontal"
+                app:rsb_indicator_text_orientation="horizontal"
+                app:rsb_min="0"
+                app:rsb_max="1000"
+                app:rsb_min_interval="100"
+                app:rsb_gravity="center"
+                app:rsb_progress_height="5dp"
+                app:rsb_indicator_show_mode="alwaysShow"
+                app:rsb_indicator_background_color="#D8D8D8"
+                app:rsb_progress_color="@color/onboarding_button_blue"
+                app:rsb_indicator_height="10dp"
+                app:rsb_indicator_width="10dp"
+                app:rsb_indicator_text_size="10sp"
+                app:rsb_indicator_text_color="@color/onboarding_button_blue"
+                app:rsb_thumb_drawable="@drawable/thumb"
+                app:rsb_tick_mark_number="50"
+                app:rsb_tick_mark_mode="number"
+                app:rsb_tick_mark_text_color="@color/unselected_sport"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

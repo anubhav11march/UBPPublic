@@ -31,13 +31,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="19"
+        android:layout_weight="13"
         android:orientation="vertical">
         <ImageView
             android:layout_gravity="center"
-            android:layout_width="102dp"
-            android:layout_height="102dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/add_pic"/>
+    </LinearLayout>
         <TextView
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -47,204 +48,59 @@
             android:text="Add Team Photo"
             android:textColor="@color/onboarding_button_blue"
             android:textAlignment="center"/>
-    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="57"
+        android:orientation="vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/current_page"
+            android:layout_marginRight="5dp"/>
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/not_current_page"
+            android:layout_marginRight="5dp"/>
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/not_current_page"
+            android:layout_marginRight="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/next_button"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="47"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/teaming_card"
-        android:orientation="vertical">
+        android:layout_weight="8"
+        android:orientation="vertical"
+        android:background="@drawable/next_button_blue"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:gravity="center"
+        android:foreground="?attr/selectableItemBackground">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
-            android:layout_marginRight="22dp"
-            android:layout_marginLeft="22dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Team Name"
-                    android:textColor="@color/onboarding_button_blue"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/roboto"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
-            android:layout_marginRight="22dp"
-            android:layout_marginLeft="22dp">
-            <EditText
-                android:layout_width="198dp"
-                android:layout_height="wrap_content"
-                android:hint="Enter Team Name"
-                android:textColor="@color/onboarding_button_blue"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:layout_marginRight="22dp"
-            android:layout_marginLeft="22dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Choose Sport"
-                android:textColor="@color/onboarding_button_blue"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/white_selectable_button"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Football"
-                    android:textColor="@color/onboarding_button_blue"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/tick"
-                    android:layout_marginRight="5dp"
-                    android:visibility="gone"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/white_selectable_button"
-                android:gravity="center"
-                android:layout_marginLeft="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Football"
-                    android:textColor="@color/onboarding_button_blue"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/tick"
-                    android:layout_marginRight="5dp"
-                    android:visibility="gone"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/white_selectable_button"
-                android:gravity="center"
-                android:layout_marginLeft="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Football"
-                    android:textColor="@color/onboarding_button_blue"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/tick"
-                    android:layout_marginRight="5dp"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:layout_marginRight="22dp"
-            android:layout_marginLeft="22dp"
-            android:gravity="bottom">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/want_other_players"
-                android:textColor="@color/onboarding_button_blue"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <LinearLayout
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/white_selectable_button"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes"
-                    android:textColor="@color/onboarding_button_blue"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/white_selectable_button"
-                android:gravity="center"
-                android:layout_marginLeft="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No"
-                    android:textColor="@color/onboarding_button_blue"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"/>
-
+        <TextView
+            android:id="@+id/next_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="Next"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
