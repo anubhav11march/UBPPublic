@@ -23,6 +23,7 @@
             android:textColor="@color/onboarding_button_blue"
             android:textAlignment="center"/>
         <TextView
+            android:id="@+id/welcome_to_team"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Team Name"
+                android:text="Captain"
                 android:textColor="@color/onboarding_button_blue"
                 android:textAlignment="center"/>
             <TextView
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Team Name"
+                android:text="Sport"
                 android:textColor="@color/onboarding_button_blue"
                 android:textAlignment="center"/>
             <TextView
@@ -89,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Team Name"
+                android:text="Team Code"
                 android:textColor="@color/onboarding_button_blue"
                 android:textAlignment="center"/>
 

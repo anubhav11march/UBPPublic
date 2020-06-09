@@ -100,8 +100,6 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
     void createTeam(){
         loadingView.setVisibility(View.VISIBLE);
         HashMap<String, Object> team = new HashMap<>();
-        HashMap<String, String> teamMembers = new HashMap<>();
-        teamMembers.put(currentUser.getUid(), currentUser.getUid());
         team.put("name", teamName);
         team.put("sport", teamSport);
         team.put("allowDiscovery", otherPlayersAllow);
@@ -111,7 +109,6 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         team.put("bio", bio);
         team.put("pictures", null);
         team.put("captain", currentUser.getUid());
-        team.put("teamMembers", teamMembers);
         team.put("teamCode", teamCode);
         teamRef = database.collection("teams").document(teamSport);
         teamRef.collection("teams")
@@ -152,6 +149,17 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
+                    }
+                });
+        HashMap<String, String> teamMembers = new HashMap<>();
+        teamMembers.put("playerUid", currentUser.getUid());
+        teamRef.collection("teams").document(teamId)
+                .collection("teamMembers")
+                .add(teamMembers)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
 
                     }
                 });
@@ -203,13 +211,14 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
 
     private void addToUserDatabase(){
         HashMap<String, String> team = new HashMap<>();
-        team.put(teamCode, teamCode);
+        team.put("teamCode", teamCode);
         userRef = database.collection("users").document(currentUser.getUid());
         userRef.collection("teams")
-                .add(team)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(teamCode)
+                .set(team)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
                         uploadTeamPicture();
                     }
                 })

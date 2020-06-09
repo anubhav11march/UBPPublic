@@ -73,6 +73,7 @@
                 android:textAlignment="center"/>
 
             <EditText
+                android:id="@+id/team_code"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/code_box_white"
@@ -100,7 +101,7 @@
             <LinearLayout
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:id="@+id/create_team_button"
+                android:id="@+id/join_team_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/blue_selected_button"
