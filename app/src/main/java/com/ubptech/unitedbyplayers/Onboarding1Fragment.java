@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 
@@ -37,6 +40,7 @@ public class Onboarding1Fragment extends Fragment{
     Uri uri = null;
     HashMap<Integer, Uri> uris = new HashMap<>();
     int currId;
+    TextView hiPlayer;
 
     @Nullable
     @Override
@@ -59,6 +63,9 @@ public class Onboarding1Fragment extends Fragment{
         img2 = view.findViewById(R.id.img2);
         img3 = view.findViewById(R.id.img3);
         img4 = view.findViewById(R.id.img4);
+        hiPlayer = view.findViewById(R.id.hi_player);
+
+        hiPlayer.setText("Hi " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + ".");
 
         pic1.setOnClickListener(new View.OnClickListener() {
             @Override

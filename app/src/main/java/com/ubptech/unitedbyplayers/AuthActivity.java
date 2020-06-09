@@ -70,7 +70,11 @@ public class AuthActivity extends AppCompatActivity implements FragmentChange {
         else if(source.equals("verificationSuccessful"))
             displayFragment("verificationSuccessful");
         else if(source.equals("passwordChanged") || source.equals("verifiedAccount")){
-            startActivity(new Intent(AuthActivity.this, HomeActivity.class));
+            Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+            intent.putExtra("phone", user.getPhoneNumber());
+            intent.putExtra("method", "email");
+            intent.putExtra("name", user.getFullName());
+            startActivity(intent);
             finish();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }

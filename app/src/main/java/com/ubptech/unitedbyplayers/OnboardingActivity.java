@@ -193,6 +193,7 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
             loadingView.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(), "Onboarding Successful. Welcome aboard!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(OnboardingActivity.this, DecisionActivity.class));
+            finish();
         }
     }
 

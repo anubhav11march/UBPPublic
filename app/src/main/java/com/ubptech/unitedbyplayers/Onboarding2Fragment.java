@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.HashMap;
 
 /**
@@ -22,7 +24,7 @@ public class Onboarding2Fragment extends Fragment {
 
     private LinearLayout cricketCard, footballCard, badmintonCard;
     private ImageView cricketTick, footballTick, badmintonTick, cricketImage, footballImage, badmintonImage;
-    private TextView cricketTitle, footballTitle, badmintonTitle;
+    private TextView cricketTitle, footballTitle, badmintonTitle, hiPlayer;
     private boolean cricketSelect = false, footballSelect = false, badmintonSelect = false;
     private HashMap<String, Boolean> preferences = new HashMap<>();
     private Activity activity;
@@ -56,6 +58,9 @@ public class Onboarding2Fragment extends Fragment {
         badmintonImage = view.findViewById(R.id.badminton_image);
         badmintonTick = view.findViewById(R.id.badminton_tick);
         badmintonTitle = view.findViewById(R.id.badminton_title);
+        hiPlayer = view.findViewById(R.id.hi_player);
+
+        hiPlayer.setText("Hi " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + ".");
 
         cricketCard.setOnClickListener(new View.OnClickListener() {
             @Override

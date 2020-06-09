@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -17,6 +18,7 @@ public class DecisionActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore firebaseFirestore;
     DocumentReference mRef;
+    TextView hiPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,9 @@ public class DecisionActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         createTeam = (LinearLayout) findViewById(R.id.create_team_button);
         joinTeam = (LinearLayout) findViewById(R.id.join_team_button);
+        hiPlayer = findViewById(R.id.hi_player);
+
+        hiPlayer.setText("Hi " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + ".");
 
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();

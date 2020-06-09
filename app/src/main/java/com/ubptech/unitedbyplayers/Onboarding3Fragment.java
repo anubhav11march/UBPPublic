@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 
@@ -25,7 +26,7 @@ public class Onboarding3Fragment extends Fragment{
 
     private RangeSeekBar distanceSeek;
     private LinearLayout age, pickLayout, male, female, ten, fifteen, twenty, thirty, forty, fifty;
-    private TextView ageText, done, maleText, femaleText, tenText, fifteenText, twentyText, thirtyText, fortyText, fiftyText;
+    private TextView ageText, done, maleText, femaleText, tenText, fifteenText, twentyText, thirtyText, fortyText, fiftyText, hiPlayer;
     private NumberPicker agePicker;
     private int gender = 0, ageGroup = 0;
     private Activity activity;
@@ -69,6 +70,9 @@ public class Onboarding3Fragment extends Fragment{
         thirtyText = view.findViewById(R.id.thirty_text);
         fortyText = view.findViewById(R.id.forty_text);
         fiftyText = view.findViewById(R.id.fifty_text);
+        hiPlayer = view.findViewById(R.id.hi_player);
+
+        hiPlayer.setText("Hi " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + ".");
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override

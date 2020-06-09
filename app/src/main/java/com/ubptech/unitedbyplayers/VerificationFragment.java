@@ -28,6 +28,7 @@ import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -267,6 +268,16 @@ public class VerificationFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             try{
+                                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(user.getFullName()).build();
+                                currentUser.updateProfile(profileUpdate)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Log.v("AAA", "Display name updated");
+                                            }
+                                        });
                                 ((FragmentChange) context).requestOTP("verifiedAccount", user);
                                 Toast.makeText(context, "Successfully created account", Toast.LENGTH_SHORT).show();
 
