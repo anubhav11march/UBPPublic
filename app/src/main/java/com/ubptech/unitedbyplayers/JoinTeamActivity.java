@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -56,7 +59,10 @@ public class JoinTeamActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             name.setText(document.get("name").toString());
                             HashMap<String, String> pic = (HashMap<String, String>)document.get("pictures");
-                            Picasso.get().load(pic.get("0")).into(photo);
+                            Glide.with(JoinTeamActivity.this).load(pic.get("0"))
+                                    .apply(new RequestOptions()
+                                            .override(200, 200)).centerCrop().into(photo);
+//                            Picasso.get().load(pic.get("0")).into(photo);
                         }
                     }
                 });

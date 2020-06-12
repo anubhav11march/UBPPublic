@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -155,7 +157,10 @@ public class CreateTeamSuccessActivity extends AppCompatActivity {
                 ? "Private Team":"Currently looking for players");
         teamSportt.setText((char)(teamSport.charAt(0)-32) + teamSport.substring(1) + " team");
         HashMap<String, String> url = (HashMap<String, String>) document.get("pictures");
-        Picasso.get().load(url.get("0")).into(teamPhoto);
+        Glide.with(CreateTeamSuccessActivity.this).load(url.get("0"))
+                .apply(new RequestOptions()
+                        .override(200, 200)).centerCrop().into(teamPhoto);
+//        Picasso.get().load(url.get("0")).into(teamPhoto);
         //TODO: isme display name waala scene for email pass and email login functionality verify https://stackoverflow.com/questions/38114358/firebase-setdisplayname-of-user-while-creating-user-android
     }
 }

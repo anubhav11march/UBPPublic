@@ -102,6 +102,8 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
                         progressBar.setProgress(33*(position+1), true);
                     else
                         progressBar.setProgress(33*(position+1));
+                    if(progressBar.getProgress() == 99)
+                        progressBar.setProgress(100);
                     if(position==2){
                         progressBar.setProgress(100);
                         nextText.setText("Get Started");

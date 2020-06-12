@@ -87,16 +87,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="8"
             android:gravity="center"
             android:orientation="horizontal">
-
-            <View
-                android:layout_marginLeft="15dp"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@color/onboarding_button_blue"/>
 
             <LinearLayout
                 android:layout_marginLeft="10dp"
@@ -118,23 +111,25 @@
                     android:fontFamily="@font/roboto_medium"/>
             </LinearLayout>
 
-            <View
-                android:layout_marginRight="15dp"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@color/onboarding_button_blue"/>
-
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="12"
             android:gravity="center"
             android:orientation="horizontal">
+
+            <View
+                android:layout_marginLeft="15dp"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/onboarding_button_blue"/>
             <TextView
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
@@ -142,6 +137,13 @@
                 android:text="OR"
                 android:textColor="@color/onboarding_button_blue"
                 android:textAlignment="center"/>
+
+            <View
+                android:layout_marginRight="15dp"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/onboarding_button_blue"/>
         </LinearLayout>
 
         <LinearLayout

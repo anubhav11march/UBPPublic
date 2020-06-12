@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CreateTeamSuccessActivity"
     android:orientation="vertical"
-    android:weightSum="108">
+    android:weightSum="131">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,12 +25,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="47"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/teaming_card"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:weightSum="">
 
         <ImageView
             android:id="@+id/team_photo"
@@ -109,7 +111,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="12"
         android:gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
@@ -125,9 +128,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:gravity="center"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -155,8 +158,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_height="0dp"
+        android:layout_weight="12"
         android:gravity="center"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp">
@@ -172,24 +175,30 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:id="@+id/done_button"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:orientation="vertical"
-        android:background="@drawable/next_button_blue"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"
-        android:gravity="center"
-        android:foreground="?attr/selectableItemBackground">
+        android:layout_height="0dp"
+        android:layout_weight="20">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="Let's Go"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/done_button"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:orientation="vertical"
+            android:background="@drawable/next_button_blue"
+            android:layout_marginLeft="33dp"
+            android:layout_marginRight="33dp"
+            android:gravity="center"
+            android:foreground="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Let's Go"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

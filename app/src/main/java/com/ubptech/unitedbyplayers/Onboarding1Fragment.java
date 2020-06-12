@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
@@ -114,7 +116,9 @@ public class Onboarding1Fragment extends Fragment{
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             uri = data.getData();
             currToRemove.setVisibility(View.GONE);
-            currImage.setImageURI(uri);
+            Glide.with(this).load(uri)
+                    .apply(new RequestOptions()
+                            .override(pic1.getWidth(), pic1.getHeight())).centerCrop().into(currImage);
             currImage.setVisibility(View.VISIBLE);
             ((ViewPageChange)activity).check(true);
             uris.put(currId, uri);

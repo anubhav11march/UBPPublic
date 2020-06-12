@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -78,7 +80,10 @@ public class WelcomeTeamActivity extends AppCompatActivity {
                             privatePublic.setText(documentSnapshot.get("allowDiscovery").equals("false") ?
                                     "Private team" : "Currently looking for players");
                             HashMap<String, String> url = (HashMap<String, String>) documentSnapshot.get("pictures");
-                            Picasso.get().load(url.get("0")).into(teamPhoto);
+//                            Picasso.get().load(url.get("0")).into(teamPhoto);
+                            Glide.with(WelcomeTeamActivity.this).load(url.get("0"))
+                                    .apply(new RequestOptions()
+                                            .override(200, 200)).centerCrop().into(teamPhoto);
                             setCaptainName(documentSnapshot);
                         }
                     }

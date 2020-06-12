@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +27,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FilePermission;
 import java.util.HashMap;
 
 public class CreateTeamActivity extends AppCompatActivity implements CreateTeamChange {
@@ -264,7 +269,10 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             uri = data.getData();
-            teamPhoto.setImageURI(uri);
+            Glide.with(this).load(uri)
+                    .apply(new RequestOptions()
+                            .override(200, 200)).centerCrop().into(teamPhoto);
+//            Picasso.get().load(uri).resize(200, 200).centerCrop().into(teamPhoto);
             addTeamPhoto.setText("Change Team Photo");
         }
     }
