@@ -247,17 +247,38 @@
             android:layout_marginStart="13dp"
             android:layout_marginEnd="23dp"
             android:gravity="center"
-            android:background="@drawable/rounded_corner_card"
-            android:elevation="2dp">
+            android:background="@drawable/sports_rounded_blue_card"
+            android:elevation="2dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="More sports \ncoming soon!"
-                android:textColor="@color/onboarding_blue"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto_medium" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/more_sports"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="17"
+                android:gravity="top|center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="More Sports \nComing soon!"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/roboto_medium" />
+            </LinearLayout>
 
         </LinearLayout>
 

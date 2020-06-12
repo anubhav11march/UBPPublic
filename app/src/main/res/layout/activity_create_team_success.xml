@@ -10,9 +10,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="30dp">
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,27 +26,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="47"
+        android:layout_weight="55"
+        android:minHeight="400dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/teaming_card"
         android:orientation="vertical"
         android:gravity="center"
-        android:weightSum="">
+        android:weightSum="73">
 
         <ImageView
             android:id="@+id/team_photo"
-            android:layout_marginTop="15dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="30"
             android:src="@drawable/add_pic"/>
 
         <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_weight="13"
             android:gravity="center_horizontal"
             android:orientation="vertical">
             <TextView
@@ -71,11 +70,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="13"
+            android:layout_weight="30"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -177,12 +174,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20">
+        android:layout_weight="17"
+        android:gravity="center">
 
         <LinearLayout
             android:id="@+id/done_button"
             android:layout_width="match_parent"
-            android:layout_height="38dp"
+            android:layout_height="40dp"
             android:orientation="vertical"
             android:background="@drawable/next_button_blue"
             android:layout_marginLeft="33dp"
