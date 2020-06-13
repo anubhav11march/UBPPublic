@@ -358,4 +358,9 @@ public class RegistrationActivity extends AppCompatActivity {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         return email.matches(regex);
     }
+
+    public void loginClicked(View view){
+        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+        finish();
+    }
 }

@@ -36,7 +36,7 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
 
     ViewPager viewPager;
     LinearLayout nextButton;
-    int position =0;
+    int position = 0;
     ProgressBar progressBar;
     TextView progressFraction, nextText;
     boolean checkViewPager = false;
@@ -64,7 +64,7 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
         viewPager.setCurrentItem(position);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressFraction = findViewById(R.id.progress_fraction);
-        progressFraction.setText((position+1) + "/3");
+        progressFraction.setText((position + 1) + "/3");
         nextButton = (LinearLayout) findViewById(R.id.next_button);
         nextText = findViewById(R.id.next_text);
         loadingView = findViewById(R.id.onboard_loading);
@@ -77,41 +77,36 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
 
         builder = new AlertDialog.Builder(this);
 
-        if(android.os.Build.VERSION.SDK_INT>=24)
-            progressBar.setProgress(33*(position+1), true);
+        if (android.os.Build.VERSION.SDK_INT >= 24)
+            progressBar.setProgress(33 * (position + 1), true);
         else
-            progressBar.setProgress(33*(position+1));
+            progressBar.setProgress(33 * (position + 1));
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(position == 2){
-                    if(age!=0 && distance!=0 && gender!=0 && ageGroup!=null){
+                if (position == 2) {
+                    if (age != 0 && distance != 0 && gender != 0 && !ageGroup.equals("")) {
                         startOnboarding();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(OnboardingActivity.this, "Please complete the above steps to continue"
                                 , Toast.LENGTH_SHORT).show();
                         viewPager.setCurrentItem(position);
                     }
-                }
-                else if(checkViewPager){
+                } else if (checkViewPager) {
                     viewPager.setCurrentItem(++position);
-                    progressFraction.setText((position+1) + "/3");
-                    if(android.os.Build.VERSION.SDK_INT>=24)
-                        progressBar.setProgress(33*(position+1), true);
+                    progressFraction.setText((position + 1) + "/3");
+                    if (android.os.Build.VERSION.SDK_INT >= 24)
+                        progressBar.setProgress(33 * (position + 1), true);
                     else
-                        progressBar.setProgress(33*(position+1));
-                    if(progressBar.getProgress() == 99)
-                        progressBar.setProgress(100);
-                    if(position==2){
+                        progressBar.setProgress(33 * (position + 1));
+                    if (position == 2) {
                         progressBar.setProgress(100);
                         nextText.setText("Get Started");
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(OnboardingActivity.this, "Please complete the above steps to continue"
-                    , Toast.LENGTH_SHORT).show();
+                            , Toast.LENGTH_SHORT).show();
                     viewPager.setCurrentItem(position);
                 }
                 checkViewPager = false;
@@ -121,23 +116,23 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
 
     static int x = 0, y = 0;
 
-    private void startOnboarding(){
+    private void startOnboarding() {
         loadingView.setVisibility(View.VISIBLE);
         HashMap<String, Object> db = new HashMap<>();
         db.put("preferences", preferences);
         db.put("age", age);
-        if(gender == 1)
+        if (gender == 1)
             db.put("gender", "male");
         else db.put("gender", "female");
         db.put("ageGroup", ageGroup);
         db.put("distance", distance);
         db.put("onboarding", "true");
-        for(Map.Entry<Integer, Uri> u : uris.entrySet()){
-            if(u.getValue()!=null)
+        for (Map.Entry<Integer, Uri> u : uris.entrySet()) {
+            if (u.getValue() != null)
                 y++;
         }
-        for(Map.Entry<Integer, Uri> u : uris.entrySet()){
-            if(u.getValue()!=null){
+        for (Map.Entry<Integer, Uri> u : uris.entrySet()) {
+            if (u.getValue() != null) {
                 final StorageReference filePath = storageReference.child(u.getValue().getLastPathSegment());
                 (filePath).putFile(u.getValue()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -154,26 +149,26 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
                                             public void onSuccess(Void aVoid) {
                                                 Log.v("AAA", "Write successful");
                                                 storageWrite = true;
-                                                if(x == y)
+                                                if (x == y)
                                                     doneOnboarding();
                                             }
                                         });
                             }
                         })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.v("AAA", e.toString());
-                                storageWrite = false;
-                            }
-                        });
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.v("AAA", e.toString());
+                                        storageWrite = false;
+                                    }
+                                });
                     }
                 });
             }
 
         }
         db.put("pictures", urii);
-        x=0;
+        x = 0;
         mRef.update(db)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -185,13 +180,13 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(OnboardingActivity.this,  e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OnboardingActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void doneOnboarding(){
-        if(storageWrite && databaseWrite){
+    private void doneOnboarding() {
+        if (storageWrite && databaseWrite) {
             loadingView.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(), "Onboarding Successful. Welcome aboard!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(OnboardingActivity.this, DecisionActivity.class));

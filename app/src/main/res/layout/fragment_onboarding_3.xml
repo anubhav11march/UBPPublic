@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="15"
+        android:layout_weight="25"
         android:layout_marginLeft="26dp"
         android:layout_marginRight="26dp"
         android:orientation="vertical">
@@ -40,7 +40,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="8"
         android:gravity="center_vertical"
         android:layout_marginRight="26dp"
         android:layout_marginLeft="26dp"
@@ -61,7 +61,6 @@
         android:layout_weight="1" />
 
     <LinearLayout
-        android:id="@+id/age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -74,7 +73,7 @@
             android:textSize="16sp"
             android:textColor="@color/onboarding_button_blue"
             android:hint="13-99"
-            android:id="@+id/age_textt"/>
+            android:id="@+id/age_text"/>
 
     </LinearLayout>
 
@@ -86,7 +85,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="8"
         android:layout_marginRight="26dp"
         android:layout_marginLeft="26dp"
         android:orientation="vertical"
@@ -111,7 +110,7 @@
         android:layout_height="0dp"
         android:layout_marginRight="26dp"
         android:layout_marginLeft="26dp"
-        android:layout_weight="5"
+        android:layout_weight="10"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -163,7 +162,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="8"
         android:layout_marginRight="26dp"
         android:layout_marginLeft="26dp"
         android:orientation="vertical"
@@ -172,7 +171,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Preferred Age Group"
+            android:text="Preferred Age Group (Years)"
             android:textSize="16sp"
             android:textColor="@color/onboarding_button_blue" />
 
@@ -193,8 +192,8 @@
         app:rsb_orientation="left"
         app:rsb_tick_mark_orientation="horizontal"
         app:rsb_indicator_text_orientation="horizontal"
-        app:rsb_min="0"
-        app:rsb_max="50"
+        app:rsb_min="13"
+        app:rsb_max="99"
         app:rsb_min_interval="1"
         app:rsb_gravity="center"
         app:rsb_progress_height="5dp"
@@ -217,7 +216,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="8"
         android:layout_marginRight="26dp"
         android:layout_marginLeft="26dp"
         android:orientation="vertical"

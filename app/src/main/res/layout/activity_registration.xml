@@ -7,7 +7,7 @@
     tools:context=".RegistrationActivity"
     android:orientation="vertical"
     android:background="@drawable/bg_blur"
-    android:weightSum="93">
+    android:weightSum="98">
 
     <LinearLayout
         android:orientation="vertical"
@@ -272,6 +272,25 @@
                     android:src="@drawable/fb_icon"/>
             </LinearLayout>
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:onClick="loginClicked"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:background="@color/black"
+        android:alpha=".55"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@string/already_a_member"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/roboto"/>
 
     </LinearLayout>
     <include layout="@layout/view_loading"/>
