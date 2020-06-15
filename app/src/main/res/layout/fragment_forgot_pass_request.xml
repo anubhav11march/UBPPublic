@@ -23,7 +23,7 @@
             android:text="Forgot Password"
             android:textAlignment="center"
             android:textColor="@color/titles_dark_blue2"
-            android:textSize="40sp" />
+            android:textSize="@dimen/forty_sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="@dimen/sixteen_sp"
             android:text="@string/enter_email"
             android:textColor="@color/white"
             android:layout_marginRight="31dp"
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:textAlignment="textStart"
             android:layout_height="30dp"
-            android:textSize="24sp"
+            android:textSize="@dimen/twenty_four_sp"
             android:autoSizeTextType="uniform"
             android:text="Email Address"
             android:textColor="@color/titles_dark_blue"
@@ -85,7 +85,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/twenty_sp"
             android:text="Send"
             android:textColor="@color/white"
             android:fontFamily="@font/roboto"/>

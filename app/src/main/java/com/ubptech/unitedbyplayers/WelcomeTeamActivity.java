@@ -81,6 +81,7 @@ public class WelcomeTeamActivity extends AppCompatActivity {
                                     "Private team" : "Currently looking for players");
                             HashMap<String, String> url = (HashMap<String, String>) documentSnapshot.get("pictures");
 //                            Picasso.get().load(url.get("0")).into(teamPhoto);
+
                             Glide.with(WelcomeTeamActivity.this).load(url.get("0"))
                                     .apply(new RequestOptions()
                                             .override(200, 200)).centerCrop().into(teamPhoto);

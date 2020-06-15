@@ -183,6 +183,10 @@ public class MainActivity : AppCompatActivity() {
         val password = pass.text.toString()
         if(!email.isEmpty() && !password.isEmpty())
             login(email, password)
+        else{
+            loading_view.visibility = View.GONE
+            Toast.makeText(applicationContext, "Please enter both the fields", Toast.LENGTH_LONG).show()
+        }
     }
 
     fun login(email:String, password:String){
@@ -204,6 +208,7 @@ public class MainActivity : AppCompatActivity() {
 
     fun signUpClicked(view: View){
         startActivity(Intent(applicationContext, RegistrationActivity::class.java))
+        finish()
     }
 
 

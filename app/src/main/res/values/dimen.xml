@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sixteen_sp">12sp</dimen>
+    <dimen name="eighteen_sp">12.5sp</dimen>
+    <dimen name="twenty_two_sp">15.5sp</dimen>
+    <dimen name="twelve_sp">9sp</dimen>
+    <dimen name="thirteen_sp">9.7sp</dimen>
+    <dimen name="twenty_four_sp">18sp</dimen>
+    <dimen name="twenty_five_sp">18.2sp</dimen>
+    <dimen name="fifteen_sp">11.3sp</dimen>
+    <dimen name="ten_sp">7.5sp</dimen>
+    <dimen name="twenty_sp">15sp</dimen>
+    <dimen name="thirty_sp">22.5sp</dimen>
+    <dimen name="forty_sp">30sp</dimen>
+    <dimen name="eighty_sp">60sp</dimen>
+</resources>

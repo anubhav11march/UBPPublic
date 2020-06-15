@@ -23,7 +23,7 @@
             android:text="Log in"
             android:textAlignment="center"
             android:textColor="@color/titles_dark_blue2"
-            android:textSize="40sp" />
+            android:textSize="@dimen/forty_sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:textAlignment="textStart"
             android:layout_height="30dp"
-            android:textSize="24sp"
+            android:textSize="@dimen/twenty_four_sp"
             android:autoSizeTextType="uniform"
             android:text="Email"
             android:textColor="@color/titles_dark_blue"
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:textAlignment="textStart"
             android:layout_height="30dp"
-            android:textSize="24sp"
+            android:textSize="@dimen/twenty_four_sp"
             android:autoSizeTextType="uniform"
             android:text="Password"
             android:textColor="@color/titles_dark_blue"
@@ -94,7 +94,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/twenty_sp"
             android:text="Login"
             android:textColor="@color/white"
             android:fontFamily="@font/roboto"/>
@@ -111,7 +111,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="16dp"
-            android:textSize="13sp"
+            android:textSize="@dimen/thirteen_sp"
             android:textAlignment="center"
             android:text="Forgot Password?"
             android:textColor="@color/white"
@@ -141,7 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="@dimen/sixteen_sp"
                 android:textAlignment="center"
                 android:text="or Login with"
                 android:textColor="@color/white"
@@ -209,7 +209,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="@dimen/eighteen_sp"
             android:text="@string/dont_have_account"
             android:textColor="@color/white"
             android:textAlignment="center"

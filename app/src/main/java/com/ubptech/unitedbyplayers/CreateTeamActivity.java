@@ -43,7 +43,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
     Uri uri = null;
     TextView addTeamPhoto;
     String teamName, teamSport, ageGroup, bio, teamCode, teamId;
-    boolean otherPlayersAllow;
+    boolean otherPlayersAllow, teamPhotoAdded;
     int maxBet, distance;
     FirebaseFirestore database;
     DocumentReference userRef, teamRef;
@@ -84,8 +84,12 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                     else Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
                             Toast.LENGTH_SHORT).show();
                 else if(pos==2)
-                    if(bio!=null)
-                        createTeam();
+                    if(bio!=null) {
+                        if(teamPhotoAdded)
+                            createTeam();
+                        else Toast.makeText(CreateTeamActivity.this, "Please add a team picture to continue",
+                                Toast.LENGTH_SHORT).show();
+                    }
                     else Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
                             Toast.LENGTH_SHORT).show();
 
@@ -274,6 +278,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                             .override(200, 200)).centerCrop().into(teamPhoto);
 //            Picasso.get().load(uri).resize(200, 200).centerCrop().into(teamPhoto);
             addTeamPhoto.setText("Change Team Photo");
+            teamPhotoAdded = true;
         }
     }
 
