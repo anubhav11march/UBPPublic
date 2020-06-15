@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -51,6 +52,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
     FirebaseUser currentUser;
     StorageReference storageReference;
     View loadingView;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         teamPhoto = findViewById(R.id.team_photo);
         addTeamPhoto = findViewById(R.id.add_team_photo);
         loadingView = findViewById(R.id.create_team_loading);
+        viewPager = findViewById(R.id.options);
+        viewPager.setAdapter(new CreateTeamSliderAdapter(getSupportFragmentManager(), CreateTeamActivity.this));
+        viewPager.setCurrentItem(0);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -76,13 +81,19 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                 if(pos==0)
                     if(teamName!=null && teamSport!=null)
                         displayFragment(++pos);
-                    else Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
-                            Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
+                                Toast.LENGTH_SHORT).show();
+                        displayFragment(0);
+                    }
                 else if(pos==1)
                     if(ageGroup!=null && distance >0)
                         displayFragment(++pos);
-                    else Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
-                            Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
+                                Toast.LENGTH_SHORT).show();
+                        displayFragment(1);
+                    }
                 else if(pos==2)
                     if(bio!=null) {
                         if(teamPhotoAdded)
@@ -90,8 +101,11 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                         else Toast.makeText(CreateTeamActivity.this, "Please add a team picture to continue",
                                 Toast.LENGTH_SHORT).show();
                     }
-                    else Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
-                            Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(CreateTeamActivity.this, "Please fill the above information to continue",
+                                Toast.LENGTH_SHORT).show();
+                        displayFragment(2);
+                    }
 
             }
         });
@@ -240,26 +254,23 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
     }
 
     void displayFragment(int position){
-        Fragment fragment = null;
         switch (position){
-            case 0: fragment = new CreateTeam1Fragment(this);
+            case 0: viewPager.setCurrentItem(0);
                     p1.setBackgroundResource(R.drawable.current_page);
+                    p2.setBackgroundResource(R.drawable.not_current_page);
+                p3.setBackgroundResource(R.drawable.not_current_page);
                         break;
-            case 1: fragment = new CreateTeam2Fragment(this);
+            case 1: viewPager.setCurrentItem(1);
                 p1.setBackgroundResource(R.drawable.not_current_page);
                 p2.setBackgroundResource(R.drawable.current_page);
+                p3.setBackgroundResource(R.drawable.not_current_page);
                 break;
-            case 2: fragment = new CreateTeam3Fragment(this);
+            case 2: viewPager.setCurrentItem(2);
+                p1.setBackgroundResource(R.drawable.not_current_page);
                 p2.setBackgroundResource(R.drawable.not_current_page);
                 p3.setBackgroundResource(R.drawable.current_page);
                 break;
         }
-        if(fragment!=null){
-            FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.options, fragment);
-            ft.commitAllowingStateLoss();
-        }
-
     }
 
     private void addTeamPhoto(){
