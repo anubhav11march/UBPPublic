@@ -2,11 +2,13 @@ package com.ubptech.unitedbyplayers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,7 +39,7 @@ import java.util.HashMap;
 public class CreateTeamActivity extends AppCompatActivity implements CreateTeamChange {
 
     LinearLayout nextButton;
-    static int pos = 0;
+    int pos = 0;
     private View p1, p2, p3;
     ImageView teamPhoto;
     private static final int GALLERY_REQUEST = 2;
@@ -53,6 +55,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
     StorageReference storageReference;
     View loadingView;
     ViewPager viewPager;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         viewPager = findViewById(R.id.options);
         viewPager.setAdapter(new CreateTeamSliderAdapter(getSupportFragmentManager(), CreateTeamActivity.this));
         viewPager.setCurrentItem(0);
+        builder = new AlertDialog.Builder(this);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -332,7 +336,23 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
 
     @Override
     public void onBackPressed() {
-
+        builder.setMessage("Unsaved changes might get lost.")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        CreateTeamActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("Do you want to exit?");
+        alertDialog.show();
     }
 
     @Override

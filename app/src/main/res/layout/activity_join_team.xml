@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:text="Browse"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sixteen_sp"
+                    android:textSize="@dimen/eighteen_sp"
                     android:fontFamily="@font/roboto_medium"/>
             </LinearLayout>
         </LinearLayout>

@@ -39,7 +39,6 @@ public class DecisionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DecisionActivity.this, CreateTeamActivity.class));
-                finish();
             }
         });
 
@@ -47,7 +46,6 @@ public class DecisionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DecisionActivity.this, JoinTeamActivity.class));
-                finish();
             }
         });
     }
