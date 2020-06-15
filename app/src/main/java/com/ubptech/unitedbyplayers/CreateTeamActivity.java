@@ -75,6 +75,23 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         database = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setCurrentPage(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -266,6 +283,26 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
                 p3.setBackgroundResource(R.drawable.not_current_page);
                 break;
             case 2: viewPager.setCurrentItem(2);
+                p1.setBackgroundResource(R.drawable.not_current_page);
+                p2.setBackgroundResource(R.drawable.not_current_page);
+                p3.setBackgroundResource(R.drawable.current_page);
+                break;
+        }
+    }
+
+    void setCurrentPage(int position){
+        switch (position){
+            case 0:
+                p1.setBackgroundResource(R.drawable.current_page);
+                p2.setBackgroundResource(R.drawable.not_current_page);
+                p3.setBackgroundResource(R.drawable.not_current_page);
+                break;
+            case 1:
+                p1.setBackgroundResource(R.drawable.not_current_page);
+                p2.setBackgroundResource(R.drawable.current_page);
+                p3.setBackgroundResource(R.drawable.not_current_page);
+                break;
+            case 2:
                 p1.setBackgroundResource(R.drawable.not_current_page);
                 p2.setBackgroundResource(R.drawable.not_current_page);
                 p3.setBackgroundResource(R.drawable.current_page);

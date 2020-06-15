@@ -36,71 +36,155 @@
         android:weightSum="73">
 
         <ImageView
+            android:padding="10dp"
             android:id="@+id/team_photo"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_weight="27"
             android:src="@drawable/add_pic"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <GridLayout
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="13"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_weight="34"
+            android:columnCount="3"
+            android:rowCount="4"
+            android:padding="2dp"
+            android:columnOrderPreserved="false"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+            <TextView
+                android:layout_columnWeight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Team Name"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="textStart"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto_medium"
+                android:text=":"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="center"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="10dp"/>
             <TextView
                 android:id="@+id/team_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/eighteen_sp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Team Name"
-                android:textColor="@color/onboarding_button_blue"
-                android:textAlignment="center"/>
-            <TextView
-                android:id="@+id/team_sport"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/eighteen_sp"
+                android:textSize="@dimen/sixteen_sp"
                 android:fontFamily="@font/roboto"
-                android:text="Sports team"
                 android:textColor="@color/onboarding_button_blue"
-                android:textAlignment="center"/>
+                android:textAlignment="textEnd"/>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30"
-            android:gravity="center"
-            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/private_public"
+                android:layout_columnWeight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/eighteen_sp"
-                android:fontFamily="@font/roboto"
-                android:text="Currently looking for players"
-                android:textColor="@color/onboarding_button_blue"
-                android:textAlignment="center"/>
-            <TextView
-                android:id="@+id/team_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/eighteen_sp"
+                android:textSize="@dimen/sixteen_sp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Team Code: "
+                android:text="Captain"
                 android:textColor="@color/onboarding_button_blue"
-                android:textAlignment="center"/>
+                android:textAlignment="textStart"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto_medium"
+                android:text=":"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="center"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="10dp"/>
             <TextView
                 android:id="@+id/team_captain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/eighteen_sp"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="textEnd"/>
+
+
+
+            <TextView
+                android:layout_columnWeight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Captain: "
+                android:text="Sport"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="textStart"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto_medium"
+                android:text=":"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="center"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="10dp"/>
+            <TextView
+                android:id="@+id/team_sport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_columnWeight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Team Code"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="textStart"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto_medium"
+                android:text=":"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="center"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="10dp"/>
+            <TextView
+                android:id="@+id/team_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/onboarding_button_blue"
+                android:textAlignment="center"/>
+
+
+        </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="12"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/private_public"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sixteen_sp"
+                android:fontFamily="@font/roboto"
+                android:text="Currently looking for players"
                 android:textColor="@color/onboarding_button_blue"
                 android:textAlignment="center"/>
         </LinearLayout>

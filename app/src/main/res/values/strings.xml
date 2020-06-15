@@ -15,6 +15,10 @@
     <string name="share_team_code">Share team code with your teammates who want to join the team</string>
     <string name="team_created">Your team has successfully been created. \nAll the best!</string>
     <string name="already_a_member">Already a member? <u>Login</u></string>
+    <string name="team_name"><b>Team Name: </b></string>
+    <string name="captain"><b>Captain: </b></string>
+    <string name="sport"><b>Sport: </b></string>
+    <string name="team_code"><b>Team Code: </b></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

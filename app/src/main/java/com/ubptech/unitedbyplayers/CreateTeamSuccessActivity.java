@@ -151,16 +151,15 @@ public class CreateTeamSuccessActivity extends AppCompatActivity {
 
     private void setUI(DocumentSnapshot document){
         teamName.setText(document.get("name").toString());
-        teamCaptain.setText("Captain: " + currentUser.getDisplayName());
-        teamCodee.setText("Team Code: " + document.get("teamCode").toString());
+        teamCaptain.setText(currentUser.getDisplayName());
+        teamCodee.setText(document.get("teamCode").toString());
         publicPrivate.setText(document.get("allowDiscovery").toString().equals("false")
                 ? "Private Team":"Currently looking for players");
         teamSportt.setText((char)(teamSport.charAt(0)-32) + teamSport.substring(1) + " team");
         HashMap<String, String> url = (HashMap<String, String>) document.get("pictures");
         Glide.with(CreateTeamSuccessActivity.this).load(url.get("0"))
                 .apply(new RequestOptions()
-                        .override(200, 200)).centerCrop().into(teamPhoto);
+                        .override(220, 220)).centerCrop().into(teamPhoto);
 //        Picasso.get().load(url.get("0")).into(teamPhoto);
-        //TODO: isme display name waala scene for email pass and email login functionality verify https://stackoverflow.com/questions/38114358/firebase-setdisplayname-of-user-while-creating-user-android
     }
 }
