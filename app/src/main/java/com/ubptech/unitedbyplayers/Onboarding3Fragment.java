@@ -154,7 +154,8 @@ public class Onboarding3Fragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                ((ViewPageChange) activity).addAge(Integer.parseInt(ageText.getText().toString().trim()));
+                if(!ageText.getText().toString().trim().equals(""))
+                    ((ViewPageChange) activity).addAge(Integer.parseInt(ageText.getText().toString().trim()));
             }
         });
     }

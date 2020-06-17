@@ -46,7 +46,7 @@
             android:layout_marginStart="23dp"
             android:layout_marginEnd="13dp"
             android:gravity="center"
-            android:background="@drawable/rounded_corner_card"
+            android:background="@drawable/rounded_grey_corner_card"
             android:elevation="2dp">
 
             <ImageView
@@ -71,7 +71,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="23dp"
             android:gravity="center"
-            android:background="@drawable/rounded_corner_card"
+            android:background="@drawable/rounded_grey_corner_card"
             android:elevation="2dp">
 
             <ImageView
@@ -109,7 +109,7 @@
             android:layout_marginStart="23dp"
             android:layout_marginEnd="13dp"
             android:gravity="center"
-            android:background="@drawable/rounded_corner_card"
+            android:background="@drawable/rounded_grey_corner_card"
             android:elevation="2dp">
 
             <ImageView
@@ -134,7 +134,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginEnd="23dp"
             android:gravity="center"
-            android:background="@drawable/rounded_corner_card"
+            android:background="@drawable/rounded_grey_corner_card"
             android:elevation="2dp">
 
             <ImageView

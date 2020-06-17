@@ -41,7 +41,7 @@ public class CreateTeam2Fragment extends Fragment {
         CharSequence[] distanceArray = {"0", "50"};
         distance.setTickMarkTextArray(distanceArray);
         distance.setIndicatorTextDecimalFormat("0");
-        CharSequence[] betArray = {"0", "10000"};
+        CharSequence[] betArray = {"0", "50000"};
         betAmount.setTickMarkTextArray(betArray);
         betAmount.setIndicatorTextDecimalFormat("0");
         betAmount.setSteps(100);

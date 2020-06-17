@@ -36,7 +36,7 @@
             <com.jaygoo.widget.RangeSeekBar
                 android:id="@+id/age_group_seek"
                 android:layout_marginStart="26dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="26dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:rsb_mode="range"
@@ -87,7 +87,7 @@
             <com.jaygoo.widget.RangeSeekBar
                 android:id="@+id/distance_seek"
                 android:layout_marginStart="26dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="26dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:rsb_mode="single"
@@ -137,7 +137,7 @@
             <com.jaygoo.widget.RangeSeekBar
                 android:id="@+id/bet_seek"
                 android:layout_marginStart="26dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="26dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:rsb_mode="single"
@@ -145,8 +145,8 @@
                 app:rsb_tick_mark_orientation="horizontal"
                 app:rsb_indicator_text_orientation="horizontal"
                 app:rsb_min="0"
-                app:rsb_max="10000"
-                app:rsb_steps="100"
+                app:rsb_max="50000"
+                app:rsb_steps="500"
                 app:rsb_min_interval="100"
                 app:rsb_gravity="center"
                 app:rsb_progress_height="5dp"
