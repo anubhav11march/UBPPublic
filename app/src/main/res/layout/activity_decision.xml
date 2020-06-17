@@ -62,7 +62,8 @@
                 android:background="@drawable/blue_selected_button"
                 android:gravity="center"
                 android:foreground="?attr/selectableItemBackground"
-                android:clickable="true">
+                android:clickable="true"
+                android:elevation="4dp">
                 <TextView
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -162,7 +163,8 @@
                 android:background="@drawable/blue_selected_button"
                 android:gravity="center"
                 android:foreground="?attr/selectableItemBackground"
-                android:clickable="true">
+                android:clickable="true"
+                android:elevation="4dp">
                 <TextView
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"

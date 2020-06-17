@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 
@@ -38,7 +39,8 @@ public class Onboarding1Fragment extends Fragment{
 
     private static final int GALLERY_REQUEST = 2;
     LinearLayout pic1, pic2, pic3, pic4;
-    ImageView image1, image2, image3, image4, img1, img2, img3, img4, currImage, currToRemove;
+    ImageView img1, img2, img3, img4, currImage;
+    CardView image1, image2, image3, image4, currToRemove;
     Uri uri = null;
     HashMap<Integer, Uri> uris = new HashMap<>();
     int currId;
@@ -102,7 +104,7 @@ public class Onboarding1Fragment extends Fragment{
         });
     }
 
-    private void imageButtonClicked(ImageView image, ImageView img){
+    private void imageButtonClicked(CardView image, ImageView img){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, GALLERY_REQUEST);

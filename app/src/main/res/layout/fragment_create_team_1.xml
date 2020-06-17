@@ -86,13 +86,6 @@
                     android:textSize="@dimen/sixteen_sp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
-                <ImageView
-                    android:id="@+id/football_tick"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/tick"
-                    android:layout_marginRight="5dp"
-                    android:visibility="gone"/>
             </LinearLayout>
 
             <LinearLayout
@@ -116,13 +109,6 @@
                     android:textSize="@dimen/sixteen_sp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
-                <ImageView
-                    android:id="@+id/cricket_tick"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/tick"
-                    android:layout_marginRight="5dp"
-                    android:visibility="gone"/>
             </LinearLayout>
 
             <LinearLayout
@@ -146,13 +132,6 @@
                     android:textSize="@dimen/sixteen_sp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
-                <ImageView
-                    android:id="@+id/badminton_tick"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/tick"
-                    android:layout_marginRight="5dp"
-                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
 

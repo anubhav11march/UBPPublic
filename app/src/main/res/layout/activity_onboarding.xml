@@ -47,7 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="14dp"
             style="?android:attr/progressBarStyleHorizontal"
-            android:progressDrawable="@drawable/onboard_progress" />
+            android:progressDrawable="@drawable/onboard_progress"
+            android:elevation="5dp"/>
 
     </LinearLayout>
 
@@ -61,7 +62,10 @@
         android:layout_marginLeft="33dp"
         android:layout_marginRight="33dp"
         android:gravity="center"
-        android:foreground="?attr/selectableItemBackground">
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:elevation="4dp">
 
             <TextView
                 android:id="@+id/next_text"

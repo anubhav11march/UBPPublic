@@ -24,7 +24,6 @@ public class CreateTeam1Fragment extends Fragment {
     LinearLayout football, cricket, badminton, yes, no;
     EditText teamName;
     TextView footballTitle, cricktTitle, badmintonTitle, yesTitle, noTitle;
-    ImageView footballTick, cricketTick, badmintonTick;
     Activity activity;
 
     CreateTeam1Fragment(Activity activity){
@@ -42,13 +41,10 @@ public class CreateTeam1Fragment extends Fragment {
     private void initiate(View view){
         football = view.findViewById(R.id.football);
         footballTitle = view.findViewById(R.id.football_title);
-        footballTick = view.findViewById(R.id.football_tick);
         cricket = view.findViewById(R.id.cricket);
         cricktTitle = view.findViewById(R.id.cricket_title);
-        cricketTick = view.findViewById(R.id.cricket_tick);
         badminton = view.findViewById(R.id.badminton);
         badmintonTitle = view.findViewById(R.id.badminton_title);
-        badmintonTick = view.findViewById(R.id.badminton_tick);
         yes = view.findViewById(R.id.yes);
         yesTitle = view.findViewById(R.id.yes_title);
         no = view.findViewById(R.id.no);
@@ -78,7 +74,6 @@ public class CreateTeam1Fragment extends Fragment {
                 removeSelectedSports();
                 football.setBackground(getResources().getDrawable(R.drawable.blue_selected_button));
                 footballTitle.setTextColor(getResources().getColor(R.color.white));
-                footballTick.setVisibility(View.VISIBLE);
                 ((CreateTeamChange) activity).setSport("football");
             }
         });
@@ -89,7 +84,6 @@ public class CreateTeam1Fragment extends Fragment {
                 removeSelectedSports();
                 cricket.setBackground(getResources().getDrawable(R.drawable.blue_selected_button));
                 cricktTitle.setTextColor(getResources().getColor(R.color.white));
-                cricketTick.setVisibility(View.VISIBLE);
                 ((CreateTeamChange) activity).setSport("cricket");
             }
         });
@@ -100,7 +94,6 @@ public class CreateTeam1Fragment extends Fragment {
                 removeSelectedSports();
                 badminton.setBackground(getResources().getDrawable(R.drawable.blue_selected_button));
                 badmintonTitle.setTextColor(getResources().getColor(R.color.white));
-                badmintonTick.setVisibility(View.VISIBLE);
                 ((CreateTeamChange) activity).setSport("badminton");
             }
         });
@@ -131,12 +124,9 @@ public class CreateTeam1Fragment extends Fragment {
     private void removeSelectedSports(){
         football.setBackground(getResources().getDrawable(R.drawable.white_selectable_button));
         footballTitle.setTextColor(getResources().getColor(R.color.onboarding_button_blue));
-        footballTick.setVisibility(View.GONE);
         cricket.setBackground(getResources().getDrawable(R.drawable.white_selectable_button));
         cricktTitle.setTextColor(getResources().getColor(R.color.onboarding_button_blue));
-        cricketTick.setVisibility(View.GONE);
         badminton.setBackground(getResources().getDrawable(R.drawable.white_selectable_button));
         badmintonTitle.setTextColor(getResources().getColor(R.color.onboarding_button_blue));
-        badmintonTick.setVisibility(View.GONE);
     }
 }

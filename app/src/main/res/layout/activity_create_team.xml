@@ -40,7 +40,9 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/add_pic"/>
+                android:src="@drawable/add_pic"
+                android:elevation="3dp"
+                android:layout_margin="3dp"/>
     </LinearLayout>
         <TextView
             android:id="@+id/add_team_photo"
@@ -57,7 +59,7 @@
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="57"
+        android:layout_weight="65"
         android:id="@+id/options"/>
 
 <!--    <LinearLayout-->
@@ -75,20 +77,20 @@
         android:gravity="center">
         <View
             android:id="@+id/p1"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             android:background="@drawable/current_page"
             android:layout_marginRight="5dp"/>
         <View
             android:id="@+id/p2"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             android:background="@drawable/not_current_page"
             android:layout_marginRight="5dp"/>
         <View
             android:id="@+id/p3"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             android:background="@drawable/not_current_page"
             android:layout_marginRight="5dp"/>
     </LinearLayout>
