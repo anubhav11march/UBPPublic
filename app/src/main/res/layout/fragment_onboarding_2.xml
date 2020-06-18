@@ -50,7 +50,8 @@
             android:background="@drawable/rounded_corner_card"
             android:elevation="4dp"
             android:orientation="vertical"
-            android:weightSum="47">
+            android:weightSum="47"
+            android:foreground="?attr/selectableItemBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +116,8 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:orientation="vertical"
-            android:weightSum="47">
+            android:weightSum="47"
+            android:foreground="?attr/selectableItemBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -193,7 +195,8 @@
             android:orientation="vertical"
             android:weightSum="47"
             android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp">
+            android:layout_marginTop="4dp"
+            android:foreground="?attr/selectableItemBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -254,8 +257,10 @@
             android:layout_marginEnd="23dp"
             android:gravity="center"
             android:background="@drawable/sports_rounded_blue_card"
-            android:elevation="2dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:elevation="4dp">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"

@@ -63,7 +63,7 @@
                 android:gravity="center"
                 android:foreground="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:elevation="4dp">
+                android:elevation="8dp">
                 <TextView
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -164,7 +164,7 @@
                 android:gravity="center"
                 android:foreground="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:elevation="4dp">
+                android:elevation="8dp">
                 <TextView
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"

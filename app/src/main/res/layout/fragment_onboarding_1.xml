@@ -64,13 +64,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_image_container"
-                android:elevation="8dp"
+                android:elevation="4dp"
                 app:cardCornerRadius="100dp">
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/plus_circle" />
+                    android:src="@drawable/plus_circle"
+                    android:elevation="4dp"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -100,13 +101,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_image_container"
-                android:elevation="8dp"
+                android:elevation="4dp"
                 app:cardCornerRadius="100dp">
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/plus_circle" />
+                    android:src="@drawable/plus_circle"
+                    android:elevation="4dp"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -149,13 +151,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_image_container"
-                android:elevation="8dp"
+                android:elevation="4dp"
                 app:cardCornerRadius="100dp">
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/plus_circle" />
+                    android:src="@drawable/plus_circle"
+                    android:elevation="4dp"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -185,13 +188,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_image_container"
-                android:elevation="8dp"
+                android:elevation="4dp"
                 app:cardCornerRadius="100dp">
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/plus_circle" />
+                    android:src="@drawable/plus_circle"
+                    android:elevation="4dp"/>
 
             </androidx.cardview.widget.CardView>
 
