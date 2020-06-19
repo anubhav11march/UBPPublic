@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,6 +63,8 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarColor(window, this);
         nextButton = (LinearLayout) findViewById(R.id.next_button);
         p1 = findViewById(R.id.p1);
         p2 = findViewById(R.id.p2);
@@ -179,6 +182,7 @@ public class CreateTeamActivity extends AppCompatActivity implements CreateTeamC
         code.put("fullCode", teamId);
         code.put("teamCode", teamCode);
         code.put("sport", teamSport);
+        code.put("teamName", teamName);
         database.collection("codes").document(teamCode)
                 .set(code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +60,8 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPageCha
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarColor(window, this);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new SliderAdapter(getSupportFragmentManager(), OnboardingActivity.this));
         viewPager.setCurrentItem(position);

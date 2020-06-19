@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ public class DecisionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decision);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarColor(window, this);
         createTeam = (LinearLayout) findViewById(R.id.create_team_button);
         joinTeam = (LinearLayout) findViewById(R.id.join_team_button);
         hiPlayer = findViewById(R.id.hi_player);

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.Window;
 
 /**
  * Created by Kylodroid on 27-05-2020.
@@ -21,6 +22,8 @@ public class AuthActivity extends AppCompatActivity implements FragmentChange {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarDarkColor(window, this);
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             if(bundle.getString("type").equals("requestPass"))

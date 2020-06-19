@@ -13,4 +13,5 @@
     <dimen name="thirty_sp">26.5sp</dimen>
     <dimen name="forty_sp">35.5sp</dimen>
     <dimen name="eighty_sp">70.8sp</dimen>
+    <dimen name="twenty_eight_sp">24.7sp</dimen>
 </resources>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -60,6 +61,8 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarDarkColor(window, this);
         fullName = (EditText) findViewById(R.id.full_name);
         phoneNumber = (EditText) findViewById(R.id.phone_number);
         email = (EditText) findViewById(R.id.email);

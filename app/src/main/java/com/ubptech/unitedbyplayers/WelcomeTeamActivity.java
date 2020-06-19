@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class WelcomeTeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_team);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarColor(window, this);
 
         Bundle bundle = getIntent().getExtras();
         teamCodee = bundle.getString("teamCode");

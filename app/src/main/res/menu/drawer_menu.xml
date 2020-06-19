@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/wallet" android:icon="@drawable/wallet_icon"
+        android:title="My Wallet"/>
+    <item android:id="@+id/invitations" android:icon="@drawable/invitation_icon"
+        android:title="My Invitations"/>
+    <item android:id="@+id/matches" android:icon="@drawable/matches_icon"
+        android:title="My Matches"/>
+    <item android:id="@+id/profile" android:icon="@drawable/profile_icon"
+        android:title="My Profile"/>
+</menu>

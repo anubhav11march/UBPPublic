@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +44,8 @@ public class JoinTeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_team);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarColor(window, this);
         name = findViewById(R.id.name);
         photo = findViewById(R.id.photo);
         teamCode = findViewById(R.id.team_code);

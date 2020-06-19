@@ -2,14 +2,11 @@ package com.ubptech.unitedbyplayers
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -25,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_loading.*
-import java.security.MessageDigest
 
 /**
  * Created by Kylodroid on 26-05-2020.
@@ -44,6 +40,8 @@ public class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar!!.hide()
+        val window = this.window
+        Utils.setStatusBarDarkColor(window, this)
 
         FacebookSdk.sdkInitialize(applicationContext);
         auth = FirebaseAuth.getInstance()

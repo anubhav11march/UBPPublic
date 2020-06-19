@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.facebook.login.LoginManager;
@@ -21,6 +22,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         getSupportActionBar().hide();
+        Window window = this.getWindow();
+        Utils.setStatusBarDarkColor(window, this);
         signUpButton = (LinearLayout) findViewById(R.id.signup_button);
         loginButton = (LinearLayout) findViewById(R.id.login_button);
 
