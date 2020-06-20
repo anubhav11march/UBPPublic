@@ -3,6 +3,9 @@ package com.ubptech.unitedbyplayers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,13 +57,14 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     FirebaseUser currentUser;
     NavigationView drawer;
     DrawerLayout drawerLayout;
-    LinearLayout drawerButton, nameSpinner;
+    LinearLayout drawerButton, nameSpinner, settingsButton;
     ImageView profile1, profile2, profile3;
     ArrayList<Profile> profiles = new ArrayList<>();
     ArrayList<String> profileNames = new ArrayList<>();
     Spinner teamsSpinner;
     ArrayAdapter teamsSpinnerAdapter;
     TextView profileName;
+    ImageView gear, home, favs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +139,38 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         profile3 = drawer.getHeaderView(0).findViewById(R.id.profile_3);
         teamsSpinner = drawer.getHeaderView(0).findViewById(R.id.team_spinner);
         profileName = drawer.getHeaderView(0).findViewById(R.id.profile_name);
+        settingsButton = findViewById(R.id.settings_button);
+        gear = findViewById(R.id.gear);
+        home = findViewById(R.id.home);
+        favs = findViewById(R.id.favs);
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new AppSettingsFragment(HomeActivity.this);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_layout, fragment);
+                ft.commit();
+
+                gear.setImageDrawable(getResources().getDrawable(R.drawable.gear));
+                home.setImageDrawable(getResources().getDrawable(R.drawable.home_not));
+                favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
+            }
+        });
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new AppSettingsFragment(HomeActivity.this);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_layout, fragment);
+                ft.commit();
+
+                gear.setImageDrawable(getResources().getDrawable(R.drawable.gear));
+                home.setImageDrawable(getResources().getDrawable(R.drawable.home_not));
+                favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
+            }
+        });
 
         teamsSpinnerAdapter = new ArrayAdapter(this, R.layout.item_dropdown_simple, R.id.team_name,
                 profileNames);

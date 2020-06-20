@@ -75,9 +75,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fragment_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="107">
+            android:layout_weight="107"
+            android:orientation="vertical">
 
         </LinearLayout>
 
@@ -88,6 +90,7 @@
             android:orientation="horizontal"
             android:background="@color/colorAccent">
             <LinearLayout
+                android:id="@+id/settings_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -96,9 +99,10 @@
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground">
                 <ImageView
+                    android:id="@+id/gear"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/gear"/>
+                    android:src="@drawable/gear_not"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
@@ -109,6 +113,7 @@
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground">
                 <ImageView
+                    android:id="@+id/home"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/home"/>
@@ -122,9 +127,10 @@
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground">
                 <ImageView
+                    android:id="@+id/favs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/favs"/>
+                    android:src="@drawable/favs_not"/>
             </LinearLayout>
         </LinearLayout>
 
