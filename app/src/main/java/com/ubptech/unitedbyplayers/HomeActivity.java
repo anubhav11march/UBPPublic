@@ -10,8 +10,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -29,8 +33,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -39,7 +45,7 @@ import java.util.Map;
 /**
  * Created by Kylodroid on 27-05-2020.
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     FirebaseAuth mAuth;
     FirebaseFirestore database;
@@ -48,9 +54,13 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseUser currentUser;
     NavigationView drawer;
     DrawerLayout drawerLayout;
-    LinearLayout drawerButton;
+    LinearLayout drawerButton, nameSpinner;
     ImageView profile1, profile2, profile3;
-    ArrayList<String> profiles = new ArrayList<>();
+    ArrayList<Profile> profiles = new ArrayList<>();
+    ArrayList<String> profileNames = new ArrayList<>();
+    Spinner teamsSpinner;
+    ArrayAdapter teamsSpinnerAdapter;
+    TextView profileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +129,26 @@ public class HomeActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer_layout);
         drawerButton = findViewById(R.id.drawer_button);
         drawerLayout = findViewById(R.id.drawer);
+        nameSpinner = drawer.getHeaderView(0).findViewById(R.id.name_spinner);
         profile1 = drawer.getHeaderView(0).findViewById(R.id.profile_1);
         profile2 = drawer.getHeaderView(0).findViewById(R.id.profile_2);
         profile3 = drawer.getHeaderView(0).findViewById(R.id.profile_3);
+        teamsSpinner = drawer.getHeaderView(0).findViewById(R.id.team_spinner);
+        profileName = drawer.getHeaderView(0).findViewById(R.id.profile_name);
+
+        teamsSpinnerAdapter = new ArrayAdapter(this, R.layout.item_dropdown_simple, R.id.team_name,
+                profileNames);
+//        teamsSpinnerAdapter.setDropDownViewResource(R.layout.item_dropdown_simple);
+        teamsSpinner.setAdapter(teamsSpinnerAdapter);
+
+        nameSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                teamsSpinner.performClick();
+            }
+        });
+
+        teamsSpinner.setOnItemSelectedListener(this);
 
         drawerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +196,9 @@ public class HomeActivity extends AppCompatActivity {
 
     static int count = 0;
     private void updateHomeUI(final DocumentSnapshot document){
+        profiles.add(new Profile(currentUser.getDisplayName(), "", currentUser.getUid()));
+        profileNames.add(currentUser.getDisplayName());
+        teamsSpinner.setAdapter(teamsSpinnerAdapter);
         HashMap<String, String> userPictures = (HashMap<String, String>) document.get("pictures");
         Glide.with(this)
                 .load(userPictures.get("0"))
@@ -183,11 +213,29 @@ public class HomeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot documents: task.getResult()){
-
+                                addTeamToList(documents.getData());
                                 if(count<2)
                                     setTeamPicture(count++, documents.getData());
                             }
                             count=0;
+                        }
+                    }
+                });
+    }
+
+    private void addTeamToList(final Map<String, Object> doc){
+        database.collection("codes").document(doc.get("teamCode").toString())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            profiles.add(new Profile(documentSnapshot.get("teamName").toString(),
+                                    documentSnapshot.get("sport").toString(),
+                                    documentSnapshot.get("fullCode").toString()));
+                            profileNames.add(documentSnapshot.get("teamName").toString());
+                            teamsSpinner.setAdapter(teamsSpinnerAdapter);
                         }
                     }
                 });
@@ -231,5 +279,17 @@ public class HomeActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//        Log.v("AAA", "dafa");
+//        Toast.makeText(HomeActivity.this, profiles.get(i).getTeamName(), Toast.LENGTH_LONG).show();
+        profileName.setText(profiles.get(i).getTeamName());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

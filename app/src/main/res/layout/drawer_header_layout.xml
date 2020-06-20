@@ -44,11 +44,18 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="end">
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:visibility="invisible"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:id="@+id/team_spinner" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Name"
                 android:ellipsize="end"
                 android:textSize="@dimen/twenty_sp"
@@ -60,6 +67,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical">
                 <ImageView
+                    android:layout_marginStart="20dp"
                     android:layout_width="@dimen/fifteen_sp"
                     android:layout_height="@dimen/fifteen_sp"
                     android:padding="2dp"
