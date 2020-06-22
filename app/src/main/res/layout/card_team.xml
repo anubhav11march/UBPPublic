@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:elevation="30dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40">
+            <ImageView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/loading_img"/>
+            <ImageView
+                android:elevation="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="40dp"
+                android:layout_gravity="right"
+                android:layout_height="45dp"
+                android:layout_width="45dp"
+                android:paddingTop="-10dp"
+                android:src="@drawable/fav_icon"/>
+        </FrameLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4">
+            <View
+                android:id="@+id/p1"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/current_page"
+                android:layout_marginRight="5dp"/>
+            <View
+                android:id="@+id/p2"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/not_current_page"
+                android:layout_marginRight="5dp"/>
+            <View
+                android:id="@+id/p3"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/not_current_page"
+                android:layout_marginRight="5dp"/>
+
+        </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/twenty_five_sp"
+            android:textColor="@color/colorAccent"
+            android:text="Saket Alphas"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/thirteen_sp"
+            android:textColor="@color/lightish_blue"
+            android:text="1.2 Km Away, Friendly Matches Only" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/thirteen_sp"
+            android:textColor="@color/lightish_blue"
+            android:text="@string/matches_stats" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/thirteen_sp"
+            android:textColor="@color/colorAccent"
+            android:text="@string/view_more"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -19,6 +19,8 @@
     <string name="captain"><b>Captain: </b></string>
     <string name="sport"><b>Sport: </b></string>
     <string name="team_code"><b>Team Code: </b></string>
+    <string name="matches_stats">27 Matches &#8226; 13 Won &#8226; 14 Lost</string>
+    <string name="view_more"><u>View More</u></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

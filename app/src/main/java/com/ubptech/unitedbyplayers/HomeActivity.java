@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,10 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -57,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     FirebaseUser currentUser;
     NavigationView drawer;
     DrawerLayout drawerLayout;
-    LinearLayout drawerButton, nameSpinner, settingsButton;
+    LinearLayout drawerButton, nameSpinner, settingsButton, homeButton;
     ImageView profile1, profile2, profile3;
     ArrayList<Profile> profiles = new ArrayList<>();
     ArrayList<String> profileNames = new ArrayList<>();
@@ -140,9 +136,24 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         teamsSpinner = drawer.getHeaderView(0).findViewById(R.id.team_spinner);
         profileName = drawer.getHeaderView(0).findViewById(R.id.profile_name);
         settingsButton = findViewById(R.id.settings_button);
+        homeButton = findViewById(R.id.home_button);
         gear = findViewById(R.id.gear);
         home = findViewById(R.id.home);
         favs = findViewById(R.id.favs);
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new DiscoverFragment();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_layout, fragment);
+                ft.commit();
+
+                gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
+                home.setImageDrawable(getResources().getDrawable(R.drawable.home));
+                favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
+            }
+        });
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
