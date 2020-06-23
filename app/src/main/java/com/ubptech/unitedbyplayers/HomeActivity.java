@@ -61,6 +61,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayAdapter teamsSpinnerAdapter;
     TextView profileName;
     ImageView gear, home, favs;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -57,9 +57,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="72"
-        android:gravity="center"
-        android:elevation="20dp">
-        <include layout="@layout/card_team"/>
+        android:gravity="center">
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/teams_stack"/>
     </LinearLayout>
 
     <LinearLayout
