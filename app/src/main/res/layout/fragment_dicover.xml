@@ -57,11 +57,24 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="72"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
         <com.yuyakaido.android.cardstackview.CardStackView
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/teams_stack"/>
+            android:id="@+id/players_stack"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="70dp"
+            android:paddingEnd="70dp"
+            android:clipToPadding="false"/>
     </LinearLayout>
 
     <LinearLayout
@@ -69,7 +82,8 @@
         android:layout_height="0dp"
         android:layout_weight="21"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/transparent">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -77,6 +91,7 @@
             android:layout_weight="1"
             android:padding="@dimen/twelve_sp">
                 <ImageView
+                    android:id="@+id/reject_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/reject_icon"/>
@@ -87,6 +102,7 @@
             android:layout_weight="1"
             android:padding="@dimen/twelve_sp">
             <ImageView
+                android:id="@+id/accept_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ubp_icon"/>
@@ -97,6 +113,7 @@
             android:layout_weight="1"
             android:padding="@dimen/twelve_sp">
             <ImageView
+                android:id="@+id/rewind_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/undo_icon"/>

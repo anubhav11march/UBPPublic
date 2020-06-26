@@ -2,11 +2,16 @@ package com.ubptech.unitedbyplayers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,12 +41,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,9 +76,15 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<String> profileNames = new ArrayList<>();
     Spinner teamsSpinner;
     ArrayAdapter teamsSpinnerAdapter;
-    TextView profileName;
+    TextView profileName, logoutButton;
     ImageView gear, home, favs;
-    
+    final int REQUEST_LOCATION_PERMISSION = 1;
+    String currentProfileCode;
+    ArrayList<PlayerIdLoc> playerIds = new ArrayList<>();
+    ArrayList<PlayerCardDetails> playerCardDetails = new ArrayList<>();
+    double currLat, currLon;
+    Fragment discoverFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +157,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         profile1 = drawer.getHeaderView(0).findViewById(R.id.profile_1);
         profile2 = drawer.getHeaderView(0).findViewById(R.id.profile_2);
         profile3 = drawer.getHeaderView(0).findViewById(R.id.profile_3);
+        logoutButton = drawer.getHeaderView(0).findViewById(R.id.logout_button);
         teamsSpinner = drawer.getHeaderView(0).findViewById(R.id.team_spinner);
         profileName = drawer.getHeaderView(0).findViewById(R.id.profile_name);
         settingsButton = findViewById(R.id.settings_button);
@@ -142,12 +166,23 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         home = findViewById(R.id.home);
         favs = findViewById(R.id.favs);
 
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                    mAuth.signOut();
+                    startActivity(new Intent(HomeActivity.this, SignUpActivity.class));
+                    finish();
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new DiscoverFragment();
+                discoverFragment = new DiscoverFragment(HomeActivity.this, playerCardDetails);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_layout, fragment);
+                ft.replace(R.id.fragment_layout, discoverFragment);
                 ft.commit();
 
                 gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
@@ -244,6 +279,82 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     static int count = 0;
     private void updateHomeUI(final DocumentSnapshot document){
+        DatabaseReference locRef = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+        final GeoFire geoFire = new GeoFire(locRef);
+
+        currentProfileCode = currentUser.getUid();
+        //location updation
+        if(!checkLocationPermission())
+            checkLocationPermission();
+        FusedLocationProviderClient fusedLocationProviderClient =
+                LocationServices.getFusedLocationProviderClient(this);
+        LocationRequest locationRequest =
+                new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        fusedLocationProviderClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(final Location location) {
+                        if(location!=null){
+                            Log.v("AAA", location.getLatitude() + " " + location.getLongitude());
+                            geoFire.setLocation(currentProfileCode, new GeoLocation(location.getLatitude()
+                                    , location.getLongitude()), new GeoFire.CompletionListener() {
+                                @Override
+                                public void onComplete(String key, DatabaseError error) {
+                                    if(error!=null){
+                                        Log.v("AAA", "Some error occurred");
+                                    }else {
+                                        currLat = location.getLatitude();
+                                        currLon = location.getLongitude();
+                                        Log.v("AAA", "Location added");
+                                        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.getLatitude(),
+                                                location.getLongitude()), 2);
+
+                                        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+                                            @Override
+                                            public void onKeyEntered(String key, GeoLocation location) {
+//                                                if(!key.equals(currentProfileCode))
+                                                    playerIds.add(new PlayerIdLoc(key, location.latitude, location.longitude));
+                                                    Log.v("AAA", key);
+                                            }
+
+                                            @Override
+                                            public void onKeyExited(String key) {
+                                                Log.v("AAA", "exited");
+                                            }
+
+                                            @Override
+                                            public void onKeyMoved(String key, GeoLocation location) {
+                                                Log.v("AAA", "moved");
+                                            }
+
+                                            @Override
+                                            public void onGeoQueryReady() {
+                                                Log.v("AAA", "DOne");
+                                                fetchPlayers();
+                                            }
+
+                                            @Override
+                                            public void onGeoQueryError(DatabaseError error) {
+                                                Log.v("AAA", "error");
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            Log.v("AAA", "Location null");
+                        }
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        checkLocationPermission();
+                        Log.v("AAA", "failed");
+                    }
+                });
+
         profiles.add(new Profile(currentUser.getDisplayName(), "", currentUser.getUid()));
         profileNames.add(currentUser.getDisplayName());
         teamsSpinner.setAdapter(teamsSpinnerAdapter);
@@ -329,6 +440,51 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 });
     }
 
+    private void fetchPlayers(){
+        for (int i=0; i<playerIds.size(); i++){
+            final int index = i;
+            database.collection("users").document(playerIds.get(i).getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                HashMap<String, String> pics = (HashMap<String, String>) documentSnapshot.get("pictures");
+                                double distance = Math.sqrt(
+                                        Math.pow(Math.abs(playerIds.get(index).getLat() - currLat)*110.574, 2) +
+                                        Math.pow(Math.abs(Math.cos(playerIds.get(index).getLon()) - Math.cos(currLon))*111.32, 2));
+                                String distanceWith1Decimal = (distance+"").substring(0, (distance+"").indexOf(".")) +
+                                        (distance+"").substring((distance+"").indexOf("."), (distance+"").indexOf(".")+2);
+                                if(documentSnapshot.get("totalMatches") == null){
+                                    playerCardDetails.add(new PlayerCardDetails(
+                                            documentSnapshot.get("gender").toString(),
+                                            "No matches played till now",
+                                            distanceWith1Decimal + " Kms Away",
+                                            pics,
+                                            documentSnapshot.get("name").toString()
+                                    ));
+                                }
+                                else {
+                                    playerCardDetails.add(new PlayerCardDetails(
+                                            documentSnapshot.get("gender").toString(),
+                                            documentSnapshot.get("totalMatches").toString() + " Matches " + getString(R.string.bullet) + " "
+                                            + documentSnapshot.get("wonMatches").toString() + " Won " + getString(R.string.bullet) + " "
+                                            + documentSnapshot.get("lostMatches").toString() + " Lost",
+                                            distanceWith1Decimal + " Kms Away",
+                                            pics,
+                                            documentSnapshot.get("name").toString()
+
+                                    ));
+                                }
+                                if (discoverFragment instanceof DiscoverFragment)
+                                    ((PlayersListReadyListener) discoverFragment).updatePlayersList(playerCardDetails);
+                            }
+                        }
+                    });
+        }
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //        Log.v("AAA", "dafa");
@@ -338,6 +494,21 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private boolean checkLocationPermission(){
+        String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION};
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            return true;
+        }
+        else {
+            ActivityCompat.requestPermissions(this,
+                    permissions, REQUEST_LOCATION_PERMISSION);
+        }
+        return false;
 
     }
 }
