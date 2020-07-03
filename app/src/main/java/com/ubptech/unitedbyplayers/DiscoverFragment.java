@@ -7,13 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -31,7 +29,7 @@ import java.util.List;
 /**
  * Created by Kylodroid on 21-06-2020.
  */
-public class DiscoverFragment extends Fragment implements PlayersListReadyListener, CardStackListener {
+public class DiscoverFragment extends Fragment implements PlayersListReadyListener, CardStackListener, TeamsListReadyListener {
 
     TabLayout sportsTabs;
     TabItem cricket, football, badminton, tennis, basketball;
@@ -98,7 +96,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
             }
         });
 
-        sportsTabs.selectTab(sportsTabs.getTabAt(1), true);
+        sportsTabs.selectTab(sportsTabs.getTabAt(2), true);
 
         if(playerCardDetails.size()>0){
             updatePlayersList((ArrayList<PlayerCardDetails>) playerCardDetails);
@@ -114,7 +112,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         cardStackLayoutManager.setVisibleCount(3);
         cardStackLayoutManager.setScaleInterval(0.95f);
         playersStack.setLayoutManager(cardStackLayoutManager);
-        playersStack.setAdapter(new TeamStackAdapter(activity, playerCardDetails));
+        playersStack.setAdapter(new PlayersStackAdapter(activity, playerCardDetails));
     }
 
     @Override
@@ -145,5 +143,17 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     @Override
     public void onCardDisappeared(View view, int position) {
 
+    }
+
+    @Override
+    public void updateTeamsList(ArrayList<TeamCardDetails> teamCardDetails) {
+        loader.setVisibility(View.GONE);
+        playersStack.setVisibility(View.VISIBLE);
+        cardStackLayoutManager = new CardStackLayoutManager(activity, this);
+        cardStackLayoutManager.setStackFrom(StackFrom.Bottom);
+        cardStackLayoutManager.setVisibleCount(3);
+        cardStackLayoutManager.setScaleInterval(0.95f);
+        playersStack.setLayoutManager(cardStackLayoutManager);
+        playersStack.setAdapter(new TeamsStackAdapter(activity, teamCardDetails));
     }
 }

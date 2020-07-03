@@ -19,26 +19,28 @@ import java.util.List;
 /**
  * Created by Kylodroid on 23-06-2020.
  */
-class TeamStackAdapter extends RecyclerView.Adapter<TeamStackAdapter.ViewHolder> {
+class PlayersStackAdapter extends RecyclerView.Adapter<PlayersStackAdapter.ViewHolder> {
 
     List<PlayerCardDetails> playerCardDetails;
     Context context;
     static int picNo = 0;
 
-    TeamStackAdapter(Context context, List<PlayerCardDetails> playerCardDetails){
+    PlayersStackAdapter(Context context, List<PlayerCardDetails> playerCardDetails){
         this.playerCardDetails = playerCardDetails;
         this.context = context;
     }
 
+
+
     @NonNull
     @Override
-    public TeamStackAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PlayersStackAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_player, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TeamStackAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PlayersStackAdapter.ViewHolder holder, int position) {
         holder.setMatchesStats(playerCardDetails.get(position).getTotalMatches());
         holder.setDistanceGender(playerCardDetails.get(position).getDistance()
                 + ", " + playerCardDetails.get(position).getGender());
