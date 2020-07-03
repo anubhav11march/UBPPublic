@@ -63,7 +63,8 @@ import java.util.Map;
 /**
  * Created by Kylodroid on 27-05-2020.
  */
-public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
+SportChangeListener{
 
     FirebaseAuth mAuth;
     FirebaseFirestore database;
@@ -349,7 +350,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                                 public void onComplete(String key, DatabaseError error) {
                                     if(error!=null){
                                         Log.v("AAA", "Some error occurred");
-                                        Toast.makeText(HomeActivity.this, "An error occurred in nearby teams," +
+                                        Toast.makeText(HomeActivity.this, "An error occurred in nearby teams, " +
                                                 "please restart your app", Toast.LENGTH_LONG).show();
                                     }else {
                                         currLat = location.getLatitude();
@@ -484,6 +485,15 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                             }
                         }
                     });
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(teamCardDetails.size()==0){
+                        if (fragment instanceof DiscoverFragment)
+                            ((NoTeamAvailableInGivenRadiusListener) fragment).noTeamUpdate("No team around, try increasing the distance");
+                    }
+                }
+            }, 3000);
         }
     }
 
@@ -856,5 +866,11 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         return false;
 
+    }
+
+    @Override
+    public void updateSport(String sport) {
+        currentSport = sport;
+        fetchTeamsForJoining();
     }
 }

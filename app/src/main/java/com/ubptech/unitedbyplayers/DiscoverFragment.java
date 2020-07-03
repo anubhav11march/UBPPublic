@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +32,8 @@ import java.util.List;
 /**
  * Created by Kylodroid on 21-06-2020.
  */
-public class DiscoverFragment extends Fragment implements PlayersListReadyListener, CardStackListener, TeamsListReadyListener {
+public class DiscoverFragment extends Fragment implements PlayersListReadyListener,
+        CardStackListener, TeamsListReadyListener, NoTeamAvailableInGivenRadiusListener {
 
     TabLayout sportsTabs;
     TabItem cricket, football, badminton, tennis, basketball;
@@ -39,6 +43,8 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     List<PlayerCardDetails> playerCardDetails;
     ImageView rejectButton, acceptButton, rewindButton;
     CardStackLayoutManager cardStackLayoutManager;
+    TextView instructionText, noTeamText;
+    LinearLayout noTeamLayout, cardsLayout;
 
     DiscoverFragment(Activity activity, List<PlayerCardDetails> playerCardDetails){
         this.activity = activity;
@@ -61,6 +67,10 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         rejectButton = view.findViewById(R.id.reject_button);
         acceptButton = view.findViewById(R.id.accept_button);
         rewindButton = view.findViewById(R.id.rewind_button);
+        instructionText = view.findViewById(R.id.instruction_text);
+        noTeamLayout = view.findViewById(R.id.no_team);
+        cardsLayout = view.findViewById(R.id.cards_layout);
+        noTeamText = view.findViewById(R.id.no_team_text);
 
 
         rewindButton.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +107,49 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         });
 
         sportsTabs.selectTab(sportsTabs.getTabAt(2), true);
+
+        sportsTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int index = tab.getPosition();
+                String sport="football";
+                switch (index){
+                    case 0: sport = "basketball";
+                    break;
+                    case 1: sport = "football";
+                        break;
+                    case 2: sport = "cricket";
+                        break;
+                    case 3: sport = "badminton";
+                        break;
+                    case 4: sport = "tennis";
+                        break;
+                }
+                loader.setVisibility(View.VISIBLE);
+
+                if(index == 0 || index == 4){
+                    comingSoon("Sport coming soon!");
+                    return;
+                }
+                cardsLayout.setVisibility(View.VISIBLE);
+                noTeamLayout.setVisibility(View.GONE);
+                if(playersStack.getVisibility() == View.VISIBLE)
+                    playersStack.setVisibility(View.GONE);
+
+
+                ((SportChangeListener) activity).updateSport(sport);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         if(playerCardDetails.size()>0){
             updatePlayersList((ArrayList<PlayerCardDetails>) playerCardDetails);
@@ -148,6 +201,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     @Override
     public void updateTeamsList(ArrayList<TeamCardDetails> teamCardDetails) {
         loader.setVisibility(View.GONE);
+        instructionText.setText("Discover and join teams near you!");
         playersStack.setVisibility(View.VISIBLE);
         cardStackLayoutManager = new CardStackLayoutManager(activity, this);
         cardStackLayoutManager.setStackFrom(StackFrom.Bottom);
@@ -155,5 +209,22 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         cardStackLayoutManager.setScaleInterval(0.95f);
         playersStack.setLayoutManager(cardStackLayoutManager);
         playersStack.setAdapter(new TeamsStackAdapter(activity, teamCardDetails));
+    }
+
+    @Override
+    public void noTeamUpdate(String message) {
+        if(sportsTabs.getSelectedTabPosition()!=0 && sportsTabs.getSelectedTabPosition()!=4) {
+            loader.setVisibility(View.GONE);
+            cardsLayout.setVisibility(View.GONE);
+            noTeamLayout.setVisibility(View.VISIBLE);
+            noTeamText.setText(message);
+        }
+    }
+
+    private void comingSoon(String message){
+        loader.setVisibility(View.GONE);
+        cardsLayout.setVisibility(View.GONE);
+        noTeamLayout.setVisibility(View.VISIBLE);
+        noTeamText.setText(message);
     }
 }
