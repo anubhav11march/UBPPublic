@@ -22,6 +22,7 @@
     <string name="matches_stats">27 Matches &#8226; 13 Won &#8226; 14 Lost</string>
     <string name="view_more"><u>View More</u></string>
     <string name="bullet">&#8226;</string>
+    <string name="have_code"><u>Have a team code?</u></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -12,6 +12,7 @@
         app:tabGravity="fill"
         app:tabMode="scrollable"
         android:elevation="10dp"
+        android:background="@color/white"
         app:tabIconTint="@color/onboarding_blue"
         app:tabTextColor="@color/onboarding_blue"
         app:tabRippleColor="@color/lightish_blue">
@@ -102,16 +103,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="21"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_weight="20"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:background="@drawable/transparent">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="@dimen/twelve_sp">
+            android:padding="@dimen/ten_sp">
                 <ImageView
                     android:id="@+id/reject_button"
                     android:layout_width="match_parent"
@@ -122,7 +123,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="@dimen/twelve_sp">
+            android:padding="@dimen/ten_sp">
             <ImageView
                 android:id="@+id/accept_button"
                 android:layout_width="match_parent"
@@ -133,7 +134,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="@dimen/twelve_sp">
+            android:padding="@dimen/ten_sp">
             <ImageView
                 android:id="@+id/rewind_button"
                 android:layout_width="match_parent"
@@ -142,5 +143,12 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/have_code"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center"/>
 
 </LinearLayout>

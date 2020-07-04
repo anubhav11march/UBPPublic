@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,10 +25,13 @@ class TeamsStackAdapter extends RecyclerView.Adapter<TeamsStackAdapter.ViewHolde
     List<TeamCardDetails> teamCardDetails;
     Context context;
     static int picNo = 0;
+    ImageView favButton;
+    Fragment parentFragment;
 
-    TeamsStackAdapter(Context context, List<TeamCardDetails> teamCardDetails){
+    TeamsStackAdapter(Context context, List<TeamCardDetails> teamCardDetails, Fragment parentFragment){
         this.teamCardDetails = teamCardDetails;
         this.context = context;
+        this.parentFragment = parentFragment;
     }
 
     @NonNull
@@ -38,13 +42,20 @@ class TeamsStackAdapter extends RecyclerView.Adapter<TeamsStackAdapter.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TeamsStackAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final TeamsStackAdapter.ViewHolder holder, final int position) {
         holder.setMatchesStats(teamCardDetails.get(position).getTotalMatches());
         holder.setDistanceFriendly(teamCardDetails.get(position).getDistance()
                 + ", " + teamCardDetails.get(position).getFriendly());
         holder.setTeamName(teamCardDetails.get(position).getName());
         holder.setImageView(teamCardDetails.get(position).getPhotos());
-
+        favButton = holder.itemView.findViewById(R.id.fav_button);
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Added team to favorites", Toast.LENGTH_SHORT).show();
+                ((AddToFavoritesListener) parentFragment).addToFavorites(teamCardDetails.get(position));
+            }
+        });
     }
 
     @Override
@@ -53,7 +64,7 @@ class TeamsStackAdapter extends RecyclerView.Adapter<TeamsStackAdapter.ViewHolde
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView imageView;
+        private ImageView imageView, favButton;
         private TextView matchesStats, distanceFriendly, teamName;
         private View p1, p2, p3, p4;
 
@@ -63,6 +74,7 @@ class TeamsStackAdapter extends RecyclerView.Adapter<TeamsStackAdapter.ViewHolde
             matchesStats = view.findViewById(R.id.matches_stats);
             distanceFriendly = view.findViewById(R.id.distance_gender);
             teamName = view.findViewById(R.id.player_name);
+            favButton = view.findViewById(R.id.fav_button);
             p1 = view.findViewById(R.id.p1);
             p2 = view.findViewById(R.id.p2);
             p3 = view.findViewById(R.id.p3);

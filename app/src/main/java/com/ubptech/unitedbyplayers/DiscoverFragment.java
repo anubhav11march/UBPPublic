@@ -2,6 +2,7 @@ package com.ubptech.unitedbyplayers;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -27,13 +36,15 @@ import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Kylodroid on 21-06-2020.
  */
 public class DiscoverFragment extends Fragment implements PlayersListReadyListener,
-        CardStackListener, TeamsListReadyListener, NoTeamAvailableInGivenRadiusListener {
+        CardStackListener, TeamsListReadyListener, NoTeamAvailableInGivenRadiusListener,
+        AddToFavoritesListener {
 
     TabLayout sportsTabs;
     TabItem cricket, football, badminton, tennis, basketball;
@@ -45,10 +56,18 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     CardStackLayoutManager cardStackLayoutManager;
     TextView instructionText, noTeamText;
     LinearLayout noTeamLayout, cardsLayout;
+    DocumentReference documentReference;
+    FirebaseFirestore database;
+    FirebaseAuth mAuth;
+    List<TeamCardDetails> teamCardDetails;
 
-    DiscoverFragment(Activity activity, List<PlayerCardDetails> playerCardDetails){
+    DiscoverFragment(Activity activity, List<PlayerCardDetails> playerCardDetails, DocumentReference documentReference,
+                     FirebaseFirestore database, FirebaseAuth mAuth) {
         this.activity = activity;
         this.playerCardDetails = playerCardDetails;
+        this.documentReference = documentReference;
+        this.database = database;
+        this.mAuth = mAuth;
     }
 
     @Nullable
@@ -59,7 +78,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         return view;
     }
 
-    private void initializeUIElements(View view){
+    private void initializeUIElements(View view) {
         loader = view.findViewById(R.id.loader);
         sportsTabs = view.findViewById(R.id.sports_tabs);
         cricket = view.findViewById(R.id.cricket);
@@ -112,28 +131,33 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
-                String sport="football";
-                switch (index){
-                    case 0: sport = "basketball";
-                    break;
-                    case 1: sport = "football";
+                String sport = "football";
+                switch (index) {
+                    case 0:
+                        sport = "basketball";
                         break;
-                    case 2: sport = "cricket";
+                    case 1:
+                        sport = "football";
                         break;
-                    case 3: sport = "badminton";
+                    case 2:
+                        sport = "cricket";
                         break;
-                    case 4: sport = "tennis";
+                    case 3:
+                        sport = "badminton";
+                        break;
+                    case 4:
+                        sport = "tennis";
                         break;
                 }
                 loader.setVisibility(View.VISIBLE);
 
-                if(index == 0 || index == 4){
+                if (index == 0 || index == 4) {
                     comingSoon("Sport coming soon!");
                     return;
                 }
                 cardsLayout.setVisibility(View.VISIBLE);
                 noTeamLayout.setVisibility(View.GONE);
-                if(playersStack.getVisibility() == View.VISIBLE)
+                if (playersStack.getVisibility() == View.VISIBLE)
                     playersStack.setVisibility(View.GONE);
 
 
@@ -151,7 +175,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
             }
         });
 
-        if(playerCardDetails.size()>0){
+        if (playerCardDetails.size() > 0) {
             updatePlayersList((ArrayList<PlayerCardDetails>) playerCardDetails);
         }
     }
@@ -168,6 +192,8 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         playersStack.setAdapter(new PlayersStackAdapter(activity, playerCardDetails));
     }
 
+    int currentPos = -1;
+
     @Override
     public void onCardDragging(Direction direction, float ratio) {
 
@@ -175,7 +201,12 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 
     @Override
     public void onCardSwiped(Direction direction) {
-
+        if (direction == Direction.Right) {
+            checkIfMatch(teamCardDetails.get(currentPos));
+        } else if (direction == Direction.Left) {
+            addResponseToUser("negative", teamCardDetails.get(currentPos));
+        }
+        Log.v("AAA", teamCardDetails.get(currentPos).getName());
     }
 
     @Override
@@ -190,7 +221,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 
     @Override
     public void onCardAppeared(View view, int position) {
-
+        currentPos = position;
     }
 
     @Override
@@ -200,6 +231,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 
     @Override
     public void updateTeamsList(ArrayList<TeamCardDetails> teamCardDetails) {
+        this.teamCardDetails = teamCardDetails;
         loader.setVisibility(View.GONE);
         instructionText.setText("Discover and join teams near you!");
         playersStack.setVisibility(View.VISIBLE);
@@ -208,12 +240,12 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         cardStackLayoutManager.setVisibleCount(3);
         cardStackLayoutManager.setScaleInterval(0.95f);
         playersStack.setLayoutManager(cardStackLayoutManager);
-        playersStack.setAdapter(new TeamsStackAdapter(activity, teamCardDetails));
+        playersStack.setAdapter(new TeamsStackAdapter(activity, teamCardDetails, this));
     }
 
     @Override
     public void noTeamUpdate(String message) {
-        if(sportsTabs.getSelectedTabPosition()!=0 && sportsTabs.getSelectedTabPosition()!=4) {
+        if (sportsTabs.getSelectedTabPosition() != 0 && sportsTabs.getSelectedTabPosition() != 4) {
             loader.setVisibility(View.GONE);
             cardsLayout.setVisibility(View.GONE);
             noTeamLayout.setVisibility(View.VISIBLE);
@@ -221,10 +253,110 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         }
     }
 
-    private void comingSoon(String message){
+    private void comingSoon(String message) {
         loader.setVisibility(View.GONE);
         cardsLayout.setVisibility(View.GONE);
         noTeamLayout.setVisibility(View.VISIBLE);
         noTeamText.setText(message);
+    }
+
+    private void checkIfMatch(final TeamCardDetails teamCardDetails) {
+        documentReference.collection("likesMe")
+                .document(teamCardDetails.getFullCode())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()) {
+                                //TODO: match and add to messages
+                            } else {
+                                addResponseToUser("positive", teamCardDetails);
+                                addRequestToTeam(teamCardDetails);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void addResponseToUser(String response, TeamCardDetails teamCardDetails) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("response", response);
+        map.put("fullCode", teamCardDetails.getFullCode());
+        map.put("sport", teamCardDetails.getSport());
+        documentReference.collection("teamsResponse")
+                .document(teamCardDetails.getFullCode())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity.getApplicationContext(),
+                                "An error occurred, please try again later", Toast.LENGTH_LONG).show();
+                        playersStack.rewind();
+                    }
+                });
+
+    }
+
+    private void addRequestToTeam(TeamCardDetails teamCardDetails) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("timestamp", System.currentTimeMillis());
+        database.collection("teams").document(teamCardDetails.getSport())
+                .collection("teams").document(teamCardDetails.getFullCode())
+                .collection("requests").document(mAuth.getCurrentUser().getUid())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity.getApplicationContext(),
+                                "An error occurred, please try again later", Toast.LENGTH_LONG).show();
+                        playersStack.rewind();
+                    }
+                });
+    }
+
+    @Override
+    public void addToFavorites(TeamCardDetails teamCardDetails) {
+        SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Bottom)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(new AccelerateInterpolator())
+                .build();
+        cardStackLayoutManager.setSwipeAnimationSetting(swipeAnimationSetting);
+        playersStack.swipe();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("timestamp", System.currentTimeMillis());
+        map.put("fullCode", teamCardDetails.getFullCode());
+        map.put("sport", teamCardDetails.getSport());
+        documentReference.collection("teamsSaved")
+                .document(teamCardDetails.getFullCode())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity.getApplicationContext(),
+                                "An error occurred, please try again later", Toast.LENGTH_LONG).show();
+                        playersStack.rewind();
+                    }
+                });
     }
 }

@@ -208,7 +208,7 @@ SportChangeListener{
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = new DiscoverFragment(HomeActivity.this, playerCardDetails);
+                fragment = new DiscoverFragment(HomeActivity.this, playerCardDetails, mRef, database, mAuth);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
