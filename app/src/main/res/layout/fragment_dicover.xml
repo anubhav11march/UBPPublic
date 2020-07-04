@@ -145,10 +145,11 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/have_code"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:text="@string/have_code"
-        android:textColor="@color/colorAccent"
-        android:textAlignment="center"/>
+        android:textColor="@color/colorAccent"/>
 
 </LinearLayout>

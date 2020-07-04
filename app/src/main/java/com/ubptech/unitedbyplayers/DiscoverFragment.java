@@ -1,6 +1,7 @@
 package com.ubptech.unitedbyplayers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     List<PlayerCardDetails> playerCardDetails;
     ImageView rejectButton, acceptButton, rewindButton;
     CardStackLayoutManager cardStackLayoutManager;
-    TextView instructionText, noTeamText;
+    TextView instructionText, noTeamText, haveCode;
     LinearLayout noTeamLayout, cardsLayout;
     DocumentReference documentReference;
     FirebaseFirestore database;
@@ -90,7 +91,14 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         noTeamLayout = view.findViewById(R.id.no_team);
         cardsLayout = view.findViewById(R.id.cards_layout);
         noTeamText = view.findViewById(R.id.no_team_text);
+        haveCode = view.findViewById(R.id.have_code);
 
+        haveCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(activity.getApplicationContext(), JoinTeamActivity.class));
+            }
+        });
 
         rewindButton.setOnClickListener(new View.OnClickListener() {
             @Override
