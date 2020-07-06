@@ -278,7 +278,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
                             if (documentSnapshot.exists()) {
-                                //TODO: match and add to messages
+                                addToMatchedTeams(teamCardDetails);
                             } else {
                                 addResponseToUser("positive", teamCardDetails);
                                 addRequestToTeam(teamCardDetails);
@@ -364,6 +364,30 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                         Toast.makeText(activity.getApplicationContext(),
                                 "An error occurred, please try again later", Toast.LENGTH_LONG).show();
                         playersStack.rewind();
+                    }
+                });
+    }
+
+    private void addToMatchedTeams(final TeamCardDetails teamCardDetails){
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("timestamp", System.currentTimeMillis());
+//        map.put("lastMessage", null);
+//        map.put("name", teamCardDetails.getName());
+//        map.put("photo", teamCardDetails.getPhotos().get("0"));
+//        map.put("uid", teamCardDetails.getFullCode());
+//        map.put("sport", teamCardDetails.getSport());
+//        map.put("newMessage", false);
+        MessageCard messageCard = new MessageCard(System.currentTimeMillis(), null, teamCardDetails.getName(),
+                teamCardDetails.getPhotos().get("0"), teamCardDetails.getFullCode(),
+                teamCardDetails.getSport(), true);
+        documentReference.collection("matches")
+                .add(messageCard)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        //TODO: show matched and to Team side also
+                        Toast.makeText(activity.getApplicationContext(), "You have matched with " +
+                                teamCardDetails.getName(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -6,11 +6,12 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/search_messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/search_box"
-        android:hint="@string/search_messages"
         android:textAlignment="center"
+        android:textColor="@color/onboarding_blue"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:textSize="@dimen/sixteen_sp"
@@ -19,5 +20,5 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/messages"/>
+        android:id="@+id/messages_recycler_view"/>
 </LinearLayout>

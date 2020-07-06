@@ -181,7 +181,7 @@ SportChangeListener{
         messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment  = new MessagesFragment(HomeActivity.this);
+                fragment  = new MessagesFragment(HomeActivity.this, database, mRef, mAuth);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
@@ -224,6 +224,7 @@ SportChangeListener{
                 gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
                 home.setImageDrawable(getResources().getDrawable(R.drawable.home));
                 favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
+                fetchTeamsForJoining();
             }
         });
 
@@ -872,5 +873,27 @@ SportChangeListener{
     public void updateSport(String sport) {
         currentSport = sport;
         fetchTeamsForJoining();
+    }
+
+    private boolean pressedBack = false;
+
+    @Override
+    public void onBackPressed() {
+        if(!(fragment instanceof DiscoverFragment)){
+            homeButton.performClick();
+            return;
+        }
+        if(pressedBack)
+            super.onBackPressed();
+        else {
+            pressedBack = true;
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    pressedBack = false;
+                }
+            }, 2000);
+        }
     }
 }

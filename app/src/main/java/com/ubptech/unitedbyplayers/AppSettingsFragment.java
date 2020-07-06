@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.jaygoo.widget.OnRangeChangedListener;
@@ -26,6 +28,7 @@ public class AppSettingsFragment extends Fragment {
     private SharedPreferences preferences;
     private int ageLeft, ageRight, maxDistance, maxBet;
     private SharedPreferences.Editor editor;
+    private SwitchCompat hideProfile, appNotifs;
 
     AppSettingsFragment(Activity activity){
         this.activity = activity;
@@ -47,27 +50,24 @@ public class AppSettingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(!(preferences.getInt("ageRight", 0) == 0)){
-//            ageGroup.setRight(preferences.getInt("ageRight", 0));
-//            ageGroup.setLeft(preferences.getInt("ageLeft", 0));
+        if(!(preferences.getInt("ageRight", 0) == 0))
             ageGroup.setProgress(preferences.getInt("ageLeft", 0), preferences.getInt("ageRight", 0));
-        }
-        if(!(preferences.getInt("maxDistance", 0) == 0)){
-//            ageGroup.invalidate();
-//            ageGroup.setLeft(preferences.getInt("maxDistance", 0));
+        if(!(preferences.getInt("maxDistance", 0) == 0))
             distance.setProgress(preferences.getInt("maxDistance", 0));
-        }
-        Toast.makeText(activity.getApplicationContext(), preferences.getInt("maxDistance", 0)+"", Toast.LENGTH_SHORT).show();
-        if(!(preferences.getInt("maxBet", 0) == 0)){
-//            ageGroup.setLeft(preferences.getInt("maxBet", 0));
+        if(!(preferences.getInt("maxBet", 0) == 0))
             betAmount.setProgress(preferences.getInt("maxBet", 0));
-        }
+        if((preferences.getBoolean("hideProfile", false)))
+            hideProfile.setChecked(true);
+        if((preferences.getBoolean("appNotifs", false)))
+            appNotifs.setChecked(true);
     }
 
     private void initializeUIElements(View view){
         distance = view.findViewById(R.id.distance_seek);
         betAmount = view.findViewById(R.id.bet_seek);
         ageGroup = view.findViewById(R.id.age_group_seek);
+        appNotifs = view.findViewById(R.id.app_notifs);
+        hideProfile = view.findViewById(R.id.hide_profile);
 
         CharSequence[] distanceArray = {"0", "50"};
         distance.setTickMarkTextArray(distanceArray);
@@ -82,6 +82,22 @@ public class AppSettingsFragment extends Fragment {
         ageGroup.setIndicatorTextDecimalFormat("0");
         ageGroup.setSteps(86);
         ageGroup.setStepsAutoBonding(true);
+
+        appNotifs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    editor.putBoolean("appNotifs", (boolean)b);
+                    editor.apply();
+            }
+        });
+
+        hideProfile.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                editor.putBoolean("hideProfile", (boolean)b);
+                editor.apply();
+            }
+        });
 
         ageGroup.setOnRangeChangedListener(new OnRangeChangedListener() {
             @Override
