@@ -635,11 +635,13 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            profiles.add(new Profile(documentSnapshot.get("teamName").toString(),
-                                    documentSnapshot.get("sport").toString(),
-                                    documentSnapshot.get("fullCode").toString()));
-                            profileNames.add(documentSnapshot.get("teamName").toString());
-                            teamsSpinner.setAdapter(teamsSpinnerAdapter);
+                            if(documentSnapshot.exists()) {
+                                profiles.add(new Profile(documentSnapshot.get("teamName").toString(),
+                                        documentSnapshot.get("sport").toString(),
+                                        documentSnapshot.get("fullCode").toString()));
+                                profileNames.add(documentSnapshot.get("teamName").toString());
+                                teamsSpinner.setAdapter(teamsSpinnerAdapter);
+                            }
                         }
                     }
                 });
