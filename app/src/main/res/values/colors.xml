@@ -20,4 +20,6 @@
     <color name="darkest_blue">#00244E</color>
     <color name="lightish_blue">#5583BA</color>
     <color name="transparent">#00000000</color>
+    <color name="me_color">#007EF4</color>
+    <color name="other_color">#00244E</color>
 </resources>

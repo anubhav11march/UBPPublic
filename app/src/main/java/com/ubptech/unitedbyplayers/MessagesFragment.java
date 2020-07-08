@@ -3,6 +3,7 @@ package com.ubptech.unitedbyplayers;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,13 +80,23 @@ public class MessagesFragment extends Fragment {
                 .build();
         FirestoreRecyclerAdapter firestoreRecyclerAdapter = new FirestoreRecyclerAdapter<MessageCard, MessageCardViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull MessageCardViewHolder holder, int position, @NonNull MessageCard model) {
+            protected void onBindViewHolder(@NonNull MessageCardViewHolder holder, int position, @NonNull final MessageCard model) {
+                final String messageId =getSnapshots().getSnapshot(position).getId();
+                Log.v("AAA", model.toString());
                 holder.setImage(model.getPhoto());
                 if(model.getLastMessage()!=null)
                     holder.setMessage(model.getLastMessage());
                 holder.setNewMessage(model.isNewMessage());
                 holder.setName(model.getName());
                 holder.setTime(model.getTimestamp());
+                LinearLayout messageCard = holder.mView.findViewById(R.id.message_card);
+                messageCard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((ChangeFragmentListener) activity).changeFragment(new ChatFragment(activity,
+                                documentReference, mAuth, database, model, messageId));
+                    }
+                });
 
             }
 
@@ -122,9 +133,16 @@ public class MessagesFragment extends Fragment {
 
         void setTime(long timestamp){
             long currentTime = System.currentTimeMillis();
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.US);
-            Date date = new Date(timestamp);
-            time.setText(sdf.format(date));
+            if(currentTime - timestamp > 86400000){
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MM yy", Locale.US);
+                Date date = new Date(timestamp);
+                time.setText(sdf.format(date));
+            }
+            else {
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.US);
+                Date date = new Date(timestamp);
+                time.setText(sdf.format(date));
+            }
         }
 
         void setMessage(String message){

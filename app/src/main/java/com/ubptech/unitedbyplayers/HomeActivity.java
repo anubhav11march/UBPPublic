@@ -64,7 +64,7 @@ import java.util.Map;
  * Created by Kylodroid on 27-05-2020.
  */
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
-SportChangeListener{
+SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, ChangeFragmentListener{
 
     FirebaseAuth mAuth;
     FirebaseFirestore database;
@@ -74,7 +74,7 @@ SportChangeListener{
     NavigationView drawer;
     DrawerLayout drawerLayout;
     LinearLayout drawerButton, nameSpinner, settingsButton, homeButton, favButton;
-    ImageView profile1, profile2, profile3, dropdownIcon;
+    ImageView profile1, profile2, profile3, dropdownIcon, messagesIcon;
     ArrayList<Profile> profiles = new ArrayList<>();
     ArrayList<String> profileNames = new ArrayList<>();
     Spinner teamsSpinner;
@@ -177,6 +177,7 @@ SportChangeListener{
         dropdownIcon = findViewById(R.id.dropdown_icon);
         pageTitle = findViewById(R.id.page_title);
         loadingView = findViewById(R.id.loading_view);
+        messagesIcon = findViewById(R.id.messages_icon);
 
         messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -444,44 +445,21 @@ SportChangeListener{
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
-                                DocumentSnapshot documentSnapshot = task.getResult();
+                                final DocumentSnapshot documentSnapshot = task.getResult();
                                 if(documentSnapshot.exists()) {
-                                    HashMap<String, String> pics = (HashMap<String, String>) documentSnapshot.get("pictures");
-                                    double distance = Math.sqrt(
-                                            Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
-                                                    Math.pow(Math.abs(Math.cos(teamIds.get(index).getLon()) - Math.cos(currLon)) * 111.32, 2));
-                                    String distanceWith1Decimal = (distance + "").substring(0, (distance + "").indexOf(".")) +
-                                            (distance + "").substring((distance + "").indexOf("."), (distance + "").indexOf(".") + 2);
-                                    String friendlyOrNot;
-                                    if(documentSnapshot.get("maxBet").equals(0))
-                                        friendlyOrNot = "Friendly Matches Only";
-                                    else
-                                        friendlyOrNot = "Max Bet amount " + documentSnapshot.get("maxBet");
-                                    if (documentSnapshot.get("totalMatches") == null) {
-                                        teamCardDetails.add(new TeamCardDetails(
-                                                friendlyOrNot,
-                                                "No matches played till now",
-                                                distanceWith1Decimal + " Kms Away",
-                                                pics,
-                                                documentSnapshot.get("name").toString(),
-                                                documentSnapshot.get("sport").toString(),
-                                                documentSnapshot.get("fullCode").toString()
-                                        ));
-                                    } else {
-                                        teamCardDetails.add(new TeamCardDetails(
-                                                friendlyOrNot,
-                                                documentSnapshot.get("totalMatches").toString() + " Matches " + getString(R.string.bullet) + " "
-                                                        + documentSnapshot.get("wonMatches").toString() + " Won " + getString(R.string.bullet) + " "
-                                                        + documentSnapshot.get("lostMatches").toString() + " Lost",
-                                                distanceWith1Decimal + " Kms Away",
-                                                pics,
-                                                documentSnapshot.get("name").toString(),
-                                                documentSnapshot.get("sport").toString(),
-                                                documentSnapshot.get("fullCode").toString()
-                                        ));
-                                    }
-                                    if (fragment instanceof DiscoverFragment)
-                                        ((TeamsListReadyListener) fragment).updateTeamsList(teamCardDetails);
+                                    mRef.collection("teamsResponse").document(documentSnapshot.get("fullCode").toString())
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                       DocumentSnapshot documentSnapshot1 = task.getResult();
+                                                       if(!documentSnapshot1.exists())
+                                                           continueAddingTeamForJoining(documentSnapshot, index);
+                                                    }
+                                                }
+                                            });
+
                                 }
                             }
                         }
@@ -496,6 +474,46 @@ SportChangeListener{
                 }
             }, 3000);
         }
+    }
+
+    private void continueAddingTeamForJoining(DocumentSnapshot documentSnapshot, int index){
+        HashMap<String, String> pics = (HashMap<String, String>) documentSnapshot.get("pictures");
+        double distance = Math.sqrt(
+                Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
+                        Math.pow(Math.abs(Math.cos(teamIds.get(index).getLon()) - Math.cos(currLon)) * 111.32, 2));
+        String distanceWith1Decimal = (distance + "").substring(0, (distance + "").indexOf(".")) +
+                (distance + "").substring((distance + "").indexOf("."), (distance + "").indexOf(".") + 2);
+        String friendlyOrNot;
+        if(documentSnapshot.get("maxBet").equals(0))
+            friendlyOrNot = "Friendly Matches Only";
+        else
+            friendlyOrNot = "Max Bet amount " + documentSnapshot.get("maxBet");
+        if (documentSnapshot.get("totalMatches") == null) {
+            teamCardDetails.add(new TeamCardDetails(
+                    friendlyOrNot,
+                    "No matches played till now",
+                    distanceWith1Decimal + " Kms Away",
+                    pics,
+                    documentSnapshot.get("name").toString(),
+                    documentSnapshot.get("sport").toString(),
+                    documentSnapshot.get("fullCode").toString()
+            ));
+        } else {
+            teamCardDetails.add(new TeamCardDetails(
+                    friendlyOrNot,
+                    documentSnapshot.get("totalMatches").toString() + " Matches " + getString(R.string.bullet) + " "
+                            + documentSnapshot.get("wonMatches").toString() + " Won " + getString(R.string.bullet) + " "
+                            + documentSnapshot.get("lostMatches").toString() + " Lost",
+                    distanceWith1Decimal + " Kms Away",
+                    pics,
+                    documentSnapshot.get("name").toString(),
+                    documentSnapshot.get("sport").toString(),
+                    documentSnapshot.get("fullCode").toString()
+            ));
+        }
+
+        if (fragment instanceof DiscoverFragment)
+            ((TeamsListReadyListener) fragment).updateTeamsList(teamCardDetails);
     }
 
     private void updateHomeUI(final DocumentSnapshot document){
@@ -730,7 +748,7 @@ SportChangeListener{
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful()){
                                 DocumentSnapshot documentSnapshot = task.getResult();
-                                updateHomeUI(documentSnapshot);
+                                updateHomeUIForJoiningTeamNew(documentSnapshot);
                             }
                         }
                     });
@@ -879,6 +897,10 @@ SportChangeListener{
 
     @Override
     public void onBackPressed() {
+//        if(fragment instanceof ChatFragment){
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(fragment, )
+//        }
         if(!(fragment instanceof DiscoverFragment)){
             homeButton.performClick();
             return;
@@ -895,5 +917,26 @@ SportChangeListener{
                 }
             }, 2000);
         }
+    }
+
+    @Override
+    public void changeMessageIcon(boolean isMessages) {
+        if(isMessages)
+            messagesIcon.setImageDrawable(getDrawable(R.drawable.vertical_ellipses));
+        else  messagesIcon.setImageDrawable(getDrawable(R.drawable.chat));
+    }
+
+
+    @Override
+    public void updateTitle(String title) {
+        pageTitle.setText(title);
+    }
+
+    @Override
+    public void changeFragment(Fragment fragment) {
+        this.fragment = fragment;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_layout, fragment);
+        ft.commit();
     }
 }

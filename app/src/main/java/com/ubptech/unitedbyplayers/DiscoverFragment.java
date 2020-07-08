@@ -280,6 +280,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                             if (documentSnapshot.exists()) {
                                 addToMatchedTeams(teamCardDetails);
                             } else {
+                                addToMatchedTeams(teamCardDetails); //TODO: will be removed, here only for testing
                                 addResponseToUser("positive", teamCardDetails);
                                 addRequestToTeam(teamCardDetails);
                             }

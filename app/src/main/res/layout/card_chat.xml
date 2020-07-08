@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/chat_container"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:orientation="horizontal"
+        android:gravity="start">
+        <ImageView
+            android:id="@+id/other_photo"
+            android:layout_gravity="bottom"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile_icon"
+            android:background="@drawable/round_image_40"
+            android:layout_marginStart="10dp"/>
+        <LinearLayout
+            android:id="@+id/chat_bg"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:background="@drawable/other_card">
+            <TextView
+                android:id="@+id/chat_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sample Message"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fifteen_sp"
+                android:fontFamily="@font/roboto_medium"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chat_image"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/chat_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="now"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_thin"
+                android:textSize="@dimen/thirteen_sp"/>
+        </LinearLayout>
+    </LinearLayout>
+    
+</LinearLayout>
