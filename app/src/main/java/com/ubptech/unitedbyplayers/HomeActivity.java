@@ -485,9 +485,9 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                 (distance + "").substring((distance + "").indexOf("."), (distance + "").indexOf(".") + 2);
         String friendlyOrNot;
         if(documentSnapshot.get("maxBet").equals(0))
-            friendlyOrNot = "Friendly Matches Only";
+            friendlyOrNot = getString(R.string.bullet) + " Friendly Matches Only";
         else
-            friendlyOrNot = "Max Bet amount " + documentSnapshot.get("maxBet");
+            friendlyOrNot = getString(R.string.bullet) + " Max Bet " + documentSnapshot.get("maxBet");
         if (documentSnapshot.get("totalMatches") == null) {
             teamCardDetails.add(new TeamCardDetails(
                     friendlyOrNot,

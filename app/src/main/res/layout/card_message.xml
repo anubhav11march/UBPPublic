@@ -71,6 +71,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginEnd="20dp"
                 android:ellipsize="end"
+                android:maxWidth="220dp"
+                android:maxLines="1"
                 android:layout_height="wrap_content"
                 android:text="Start a conversation with the team."
                 android:textStyle="italic"

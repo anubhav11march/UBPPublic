@@ -45,7 +45,7 @@ class TeamsStackAdapter extends RecyclerView.Adapter<TeamsStackAdapter.ViewHolde
     public void onBindViewHolder(@NonNull final TeamsStackAdapter.ViewHolder holder, final int position) {
         holder.setMatchesStats(teamCardDetails.get(position).getTotalMatches());
         holder.setDistanceFriendly(teamCardDetails.get(position).getDistance()
-                + ", " + teamCardDetails.get(position).getFriendly());
+                + " " + teamCardDetails.get(position).getFriendly());
         holder.setTeamName(teamCardDetails.get(position).getName());
         holder.setImageView(teamCardDetails.get(position).getPhotos());
         favButton = holder.itemView.findViewById(R.id.fav_button);
