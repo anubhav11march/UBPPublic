@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/shadow_stack"
     android:layout_gravity="center"
-    android:elevation="5dp">
+    android:background="@drawable/shadow_stack"
+    android:elevation="4dp"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,8 +18,8 @@
                 <ImageView
                     android:elevation="10dp"
                     android:id="@+id/imageView"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="20dp"
                     android:layout_width="match_parent"
@@ -29,13 +29,13 @@
                     android:id="@+id/fav_button"
                     android:elevation="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="47dp"
+                    android:layout_marginEnd="17dp"
                     android:layout_marginBottom="40dp"
                     android:layout_gravity="right"
                     android:layout_height="45dp"
                     android:layout_width="45dp"
                     android:paddingTop="-7dp"
-                    android:src="@drawable/fav_icon"
+                    android:src="@drawable/fav_yes"
                     android:background="@drawable/fav_shadow"/>
             </FrameLayout>
             <LinearLayout
@@ -139,5 +139,4 @@
             android:layout_gravity="center"/>
 
     </FrameLayout>
-
-</androidx.cardview.widget.CardView>
+</FrameLayout>

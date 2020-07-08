@@ -61,6 +61,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     FirebaseFirestore database;
     FirebaseAuth mAuth;
     List<TeamCardDetails> teamCardDetails;
+    TeamsStackAdapter teamsStackAdapter;
 
     DiscoverFragment(Activity activity, List<PlayerCardDetails> playerCardDetails, DocumentReference documentReference,
                      FirebaseFirestore database, FirebaseAuth mAuth) {
@@ -248,7 +249,8 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         cardStackLayoutManager.setVisibleCount(3);
         cardStackLayoutManager.setScaleInterval(0.95f);
         playersStack.setLayoutManager(cardStackLayoutManager);
-        playersStack.setAdapter(new TeamsStackAdapter(activity, teamCardDetails, this));
+        teamsStackAdapter = new TeamsStackAdapter(activity, teamCardDetails, this);
+        playersStack.setAdapter(teamsStackAdapter);
     }
 
     @Override

@@ -93,10 +93,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/players_stack"
-            android:paddingBottom="20dp"
+            android:paddingBottom="22dp"
             android:paddingTop="10dp"
-            android:paddingStart="70dp"
-            android:paddingEnd="70dp"
+            android:paddingStart="55dp"
+            android:paddingEnd="55dp"
             android:clipToPadding="false"/>
     </LinearLayout>
 

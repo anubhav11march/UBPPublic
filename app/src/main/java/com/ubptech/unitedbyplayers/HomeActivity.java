@@ -216,7 +216,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
 
                 if(currentProfileCode.equals(currentUser.getUid())) {
                     pageTitle.setText("Join");
-                    dropdownIcon.setVisibility(View.VISIBLE);
+                    dropdownIcon.setVisibility(View.GONE);
                 }
                 else {
                     pageTitle.setText("Challenge");
