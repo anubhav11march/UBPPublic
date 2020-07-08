@@ -232,7 +232,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = new AppSettingsFragment(HomeActivity.this);
+                fragment = new AppSettingsFragment(HomeActivity.this, mRef);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
@@ -248,7 +248,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = new AppSettingsFragment(HomeActivity.this);
+                fragment = new AppSettingsFragment(HomeActivity.this, mRef);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
@@ -435,6 +435,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
     }
 
     private void fetchTeamsForJoining(){
+        //TODO: location ka check ki on hui ya nahi aur permission hai ya nahi
         teamCardDetails = new ArrayList<>();
         for (int i=0; i<teamIds.size(); i++) {
             final int index = i;

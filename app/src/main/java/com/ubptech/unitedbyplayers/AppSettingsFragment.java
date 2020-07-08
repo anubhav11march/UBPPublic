@@ -15,6 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 
@@ -29,9 +34,11 @@ public class AppSettingsFragment extends Fragment {
     private int ageLeft, ageRight, maxDistance, maxBet;
     private SharedPreferences.Editor editor;
     private SwitchCompat hideProfile, appNotifs;
+    private DocumentReference documentReference;
 
-    AppSettingsFragment(Activity activity){
+    AppSettingsFragment(Activity activity, DocumentReference documentReference){
         this.activity = activity;
+        this.documentReference = documentReference;
     }
 
     @Override
@@ -60,6 +67,22 @@ public class AppSettingsFragment extends Fragment {
             hideProfile.setChecked(true);
         if((preferences.getBoolean("appNotifs", false)))
             appNotifs.setChecked(true);
+
+        documentReference.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            int distanceInt = (int) documentSnapshot.get("distance");
+//                            int ageGroupLeft = Integer.parseInt(documentSnapshot.get("ageGroup").toString().substring(0, 2));
+//                            int ageGroupRight = Integer.parseInt(documentSnapshot.get("ageGroup").toString().substring(3));
+//                            if(ageGroupLeft<ageGroupRight)
+//
+                            distance.setProgress(distanceInt);
+                        }
+                    }
+                });
     }
 
     private void initializeUIElements(View view){
@@ -82,6 +105,7 @@ public class AppSettingsFragment extends Fragment {
         ageGroup.setIndicatorTextDecimalFormat("0");
         ageGroup.setSteps(86);
         ageGroup.setStepsAutoBonding(true);
+        ageGroup.setProgress(15, 25);
 
         appNotifs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -126,6 +150,13 @@ public class AppSettingsFragment extends Fragment {
                 if(isFromUser) {
                     editor.putInt("maxDistance", (int) leftValue);
                     editor.apply();
+                    documentReference.update("distance", (int) leftValue)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            });
                 }
             }
 
