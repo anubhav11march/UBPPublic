@@ -74,7 +74,7 @@ public class AppSettingsFragment extends Fragment {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            int distanceInt = (int) documentSnapshot.get("distance");
+                            long distanceInt = (long) documentSnapshot.get("distance");
 //                            int ageGroupLeft = Integer.parseInt(documentSnapshot.get("ageGroup").toString().substring(0, 2));
 //                            int ageGroupRight = Integer.parseInt(documentSnapshot.get("ageGroup").toString().substring(3));
 //                            if(ageGroupLeft<ageGroupRight)

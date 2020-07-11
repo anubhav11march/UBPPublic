@@ -1,6 +1,7 @@
 package com.ubptech.unitedbyplayers;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -182,16 +183,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment  = new MessagesFragment(HomeActivity.this, database, mRef, mAuth);
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_layout, fragment);
-                ft.commit();
-
-                pageTitle.setText("Messages");
-                dropdownIcon.setVisibility(View.GONE);
-                gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
-                home.setImageDrawable(getResources().getDrawable(R.drawable.home_not));
-                favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
+                messagesButtonClicked();
             }
         });
 
@@ -324,6 +316,8 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
     private void updateHomeUIForJoiningTeamNew(final DocumentSnapshot document){
         DatabaseReference locRef = FirebaseDatabase.getInstance().getReference("path/to/geofireteams");
         final GeoFire geoFire = new GeoFire(locRef);
+        DatabaseReference locRef1 = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+        final GeoFire geoFire1 = new GeoFire(locRef1);
 
         currentProfileCode = currentUser.getUid();
 
@@ -336,6 +330,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         //location updation
         if(!checkLocationPermission())
             checkLocationPermission();
+        Utils.checkIfLocationOn(this, HomeActivity.this);
         FusedLocationProviderClient fusedLocationProviderClient =
                 LocationServices.getFusedLocationProviderClient(this);
         LocationRequest locationRequest =
@@ -346,7 +341,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                     public void onSuccess(final Location location) {
                         if(location!=null){
                             Log.v("AAA", location.getLatitude() + " " + location.getLongitude());
-                            geoFire.setLocation(currentProfileCode, new GeoLocation(location.getLatitude()
+                            geoFire1.setLocation(currentProfileCode, new GeoLocation(location.getLatitude()
                                     , location.getLongitude()), new GeoFire.CompletionListener() {
                                 @Override
                                 public void onComplete(String key, DatabaseError error) {
@@ -764,7 +759,8 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                 }
             }, 1500);
             database.collection("teams")
-                    .document(profiles.get(i).getSport()).collection("teams")
+                    .document(profiles.get(i).getSport())
+                    .collection("teams")
                     .document(profiles.get(i).getFullCode())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -786,16 +782,20 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
     }
 
     private void changeUIToTeamView(DocumentSnapshot documentSnapshot){
-        DatabaseReference locRef = FirebaseDatabase.getInstance().getReference("path/to/geofireteams");
-        final GeoFire geoFire = new GeoFire(locRef);
+        DatabaseReference teamLocRef = FirebaseDatabase.getInstance().getReference("path/to/geofireteams");
+        final GeoFire teamGeoFire = new GeoFire(teamLocRef);
+        DatabaseReference playerLocRef = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+        final GeoFire playerGeoFire = new GeoFire(playerLocRef);
 
         currentProfileCode =documentSnapshot.get("fullCode").toString();
 
         pageTitle.setText("Challenge");
+        dropdownIcon.setVisibility(View.VISIBLE);
 
         //location updation
         if(!checkLocationPermission())
             checkLocationPermission();
+        Utils.checkIfLocationOn(this, HomeActivity.this);
         FusedLocationProviderClient fusedLocationProviderClient =
                 LocationServices.getFusedLocationProviderClient(this);
         LocationRequest locationRequest =
@@ -806,7 +806,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                     public void onSuccess(final Location location) {
                         if(location!=null){
                             Log.v("AAA", location.getLatitude() + " " + location.getLongitude());
-                            geoFire.setLocation(currentProfileCode, new GeoLocation(location.getLatitude()
+                            teamGeoFire.setLocation(currentProfileCode, new GeoLocation(location.getLatitude()
                                     , location.getLongitude()), new GeoFire.CompletionListener() {
                                 @Override
                                 public void onComplete(String key, DatabaseError error) {
@@ -816,7 +816,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                                         currLat = location.getLatitude();
                                         currLon = location.getLongitude();
                                         Log.v("AAA", "Location added");
-                                        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.getLatitude(),
+                                        GeoQuery geoQuery = teamGeoFire.queryAtLocation(new GeoLocation(location.getLatitude(),
                                                 location.getLongitude()), 2000);
 
                                         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
@@ -840,9 +840,9 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                                             @Override
                                             public void onGeoQueryReady() {
                                                 Log.v("AAA", "DOne");
-                                                Toast.makeText(HomeActivity.this,
-                                                        "Teams and players will be fetched",
-                                                        Toast.LENGTH_LONG).show();
+//                                                Toast.makeText(HomeActivity.this,
+//                                                        "Teams and players will be fetched",
+//                                                        Toast.LENGTH_LONG).show();
                                             }
 
                                             @Override
@@ -900,10 +900,10 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
 
     @Override
     public void onBackPressed() {
-//        if(fragment instanceof ChatFragment){
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.replace(fragment, )
-//        }
+        if(fragment instanceof ChatFragment){
+            messagesButtonClicked();
+            return;
+        }
         if(!(fragment instanceof DiscoverFragment)){
             homeButton.performClick();
             return;
@@ -941,5 +941,33 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_layout, fragment);
         ft.commit();
+    }
+
+    private void messagesButtonClicked(){
+        fragment  = new MessagesFragment(HomeActivity.this, database, mRef, mAuth);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_layout, fragment);
+        ft.commit();
+
+        pageTitle.setText("Messages");
+        dropdownIcon.setVisibility(View.GONE);
+        gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
+        home.setImageDrawable(getResources().getDrawable(R.drawable.home_not));
+        favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Utils.LOCATION_SETTING_REQUEST){
+           if(resultCode == 0) {
+                //show location dikha bhai
+           }
+           else {
+               Toast.makeText(getApplicationContext(), "Granted", Toast.LENGTH_LONG).show();
+               finish();
+               startActivity(new Intent(this, HomeActivity.class));
+           }
+        }
     }
 }

@@ -253,7 +253,7 @@ public class ChatFragment extends Fragment {
             if(currentTime - timestamp < 60000)
                 chatTime.setText("now");
             else if(currentTime - timestamp > 86400000){
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MM yy", Locale.US);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy", Locale.US);
                 Date date = new Date(timestamp);
                 chatTime.setText(sdf.format(date));
             }

@@ -134,7 +134,7 @@ public class MessagesFragment extends Fragment {
         void setTime(long timestamp){
             long currentTime = System.currentTimeMillis();
             if(currentTime - timestamp > 86400000){
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MM yy", Locale.US);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy", Locale.US);
                 Date date = new Date(timestamp);
                 time.setText(sdf.format(date));
             }
