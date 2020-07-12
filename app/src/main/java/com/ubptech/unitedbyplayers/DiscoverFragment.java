@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class DiscoverFragment extends Fragment implements PlayersListReadyListener,
         CardStackListener, TeamsListReadyListener, NoTeamAvailableInGivenRadiusListener,
-        AddToFavoritesListener {
+        AddToFavoritesListener, TeamViewEnabledListener {
 
     TabLayout sportsTabs;
     TabItem cricket, football, badminton, tennis, basketball;
@@ -393,5 +393,10 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                                 teamCardDetails.getName(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    public void hideSportsTabBar() {
+        sportsTabs.setVisibility(View.GONE);
     }
 }

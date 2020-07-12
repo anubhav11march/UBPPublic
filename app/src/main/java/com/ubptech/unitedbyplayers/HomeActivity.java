@@ -92,6 +92,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
     Fragment fragment;
     RelativeLayout messagesButton;
     FrameLayout loadingView;
+    boolean isPlayer;
 
 
     @Override
@@ -137,6 +138,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                         else {
 //                            Intent intent = new Intent(HomeActivity.this, DecisionActivity.class);
 //                            startActivity(intent);
+                            isPlayer = true;
                             updateHomeUIForJoiningTeamNew(document);
                         }
 
@@ -205,7 +207,6 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
-
                 if(currentProfileCode.equals(currentUser.getUid())) {
                     pageTitle.setText("Join");
                     dropdownIcon.setVisibility(View.GONE);
@@ -217,7 +218,11 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                 gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
                 home.setImageDrawable(getResources().getDrawable(R.drawable.home));
                 favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
-                fetchTeamsForJoining();
+                if (isPlayer) {
+                    fetchTeamsForJoining();
+                } else {
+                    fetchTeamsForChallenging();
+                }
             }
         });
 
@@ -347,7 +352,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                                 public void onComplete(String key, DatabaseError error) {
                                     if(error!=null){
                                         Log.v("AAA", "Some error occurred");
-                                        Toast.makeText(HomeActivity.this, "An error occurred in nearby teams, " +
+                                        Toast.makeText(HomeActivity.this, "An error occurred in fetching nearby teams, " +
                                                 "please restart your app", Toast.LENGTH_LONG).show();
                                     }else {
                                         currLat = location.getLatitude();
@@ -739,6 +744,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         drawerLayout.closeDrawer(Gravity.LEFT);
         Toast.makeText(HomeActivity.this, "Switching profile", Toast.LENGTH_LONG).show();
         if(profiles.get(i).getFullCode().equals(currentUser.getUid())) {
+            isPlayer = true;
             loadingView.setVisibility(View.GONE);
             mRef.get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -752,6 +758,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                     });
         }
         else {
+            isPlayer = false;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -788,9 +795,13 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         final GeoFire playerGeoFire = new GeoFire(playerLocRef);
 
         currentProfileCode =documentSnapshot.get("fullCode").toString();
+        currentSport = documentSnapshot.get("sport").toString();
 
         pageTitle.setText("Challenge");
         dropdownIcon.setVisibility(View.VISIBLE);
+        homeButton.performClick();
+
+        teamIds = new ArrayList<>();
 
         //location updation
         if(!checkLocationPermission())
@@ -824,6 +835,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                                             public void onKeyEntered(String key, GeoLocation location) {
 //                                                if(!key.equals(currentProfileCode))
 //                                                playerIds.add(new PlayerIdLoc(key, location.latitude, location.longitude));
+                                                teamIds.add(new TeamIdLoc(key, location.latitude, location.longitude));
                                                 Log.v("AAA", key);
                                             }
 
@@ -843,6 +855,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
 //                                                Toast.makeText(HomeActivity.this,
 //                                                        "Teams and players will be fetched",
 //                                                        Toast.LENGTH_LONG).show();
+                                                fetchTeamsForChallenging();
                                             }
 
                                             @Override
@@ -875,6 +888,93 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         profile1.setBackground(getResources().getDrawable(R.drawable.round_image_100));
     }
 
+    private void fetchTeamsForChallenging(){
+        teamCardDetails = new ArrayList<>();
+        for (int i=0; i<teamIds.size(); i++) {
+            final int index = i;
+            database.collection("teams").document(currentSport)
+                    .collection("teams").document(teamIds.get(i).getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                final DocumentSnapshot documentSnapshot = task.getResult();
+                                if (documentSnapshot.exists()) {
+                                    database.collection("teams").document(currentSport)
+                                            .collection("teams").document(currentProfileCode)
+                                            .collection("teamsResponse").document(documentSnapshot.get("fullCode").toString())
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot documentSnapshot1 = task.getResult();
+                                                        if (!documentSnapshot1.exists())
+                                                            continueAddingTeamForChallenging(documentSnapshot, index);
+                                                    }
+                                                }
+                                            });
+
+                                }
+                            }
+                        }
+                    });
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (teamCardDetails.size() == 0) {
+                        if (fragment instanceof DiscoverFragment)
+                            ((NoTeamAvailableInGivenRadiusListener) fragment).noTeamUpdate("No team around, try increasing the distance");
+                    }
+                }
+            }, 3000);
+//            if(fragment instanceof DiscoverFragment){
+//                ((TeamViewEnabledListener) fragment).hideSportsTabBar();
+//            }
+        }
+    }
+
+    private void continueAddingTeamForChallenging(DocumentSnapshot documentSnapshot, int index){
+        HashMap<String, String> pics = (HashMap<String, String>) documentSnapshot.get("pictures");
+        double distance = Math.sqrt(
+                Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
+                        Math.pow(Math.abs(Math.cos(teamIds.get(index).getLon()) - Math.cos(currLon)) * 111.32, 2));
+        String distanceWith1Decimal = (distance + "").substring(0, (distance + "").indexOf(".")) +
+                (distance + "").substring((distance + "").indexOf("."), (distance + "").indexOf(".") + 2);
+        String friendlyOrNot;
+        if(documentSnapshot.get("maxBet").equals(0))
+            friendlyOrNot = getString(R.string.bullet) + " Friendly Matches Only";
+        else
+            friendlyOrNot = getString(R.string.bullet) + " Max Bet " + documentSnapshot.get("maxBet");
+        if (documentSnapshot.get("totalMatches") == null) {
+            teamCardDetails.add(new TeamCardDetails(
+                    friendlyOrNot,
+                    "No matches played till now",
+                    distanceWith1Decimal + " Kms Away",
+                    pics,
+                    documentSnapshot.get("name").toString(),
+                    documentSnapshot.get("sport").toString(),
+                    documentSnapshot.get("fullCode").toString()
+            ));
+        } else {
+            teamCardDetails.add(new TeamCardDetails(
+                    friendlyOrNot,
+                    documentSnapshot.get("totalMatches").toString() + " Matches " + getString(R.string.bullet) + " "
+                            + documentSnapshot.get("wonMatches").toString() + " Won " + getString(R.string.bullet) + " "
+                            + documentSnapshot.get("lostMatches").toString() + " Lost",
+                    distanceWith1Decimal + " Kms Away",
+                    pics,
+                    documentSnapshot.get("name").toString(),
+                    documentSnapshot.get("sport").toString(),
+                    documentSnapshot.get("fullCode").toString()
+            ));
+        }
+
+        if (fragment instanceof DiscoverFragment)
+            ((TeamsListReadyListener) fragment).updateTeamsList(teamCardDetails);
+    }
+
     private boolean checkLocationPermission(){
         String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION};
@@ -893,7 +993,9 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
     @Override
     public void updateSport(String sport) {
         currentSport = sport;
-        fetchTeamsForJoining();
+        if(isPlayer)
+            fetchTeamsForJoining();
+        else fetchTeamsForChallenging();
     }
 
     private boolean pressedBack = false;
