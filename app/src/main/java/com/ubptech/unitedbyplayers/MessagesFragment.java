@@ -42,13 +42,15 @@ public class MessagesFragment extends Fragment {
     DocumentReference documentReference;
     FirebaseAuth mAuth;
     EditText searchMessages;
+    boolean isPlayer;
 
     MessagesFragment(Activity activity, FirebaseFirestore database,
-                     DocumentReference documentReference, FirebaseAuth mAuth){
+                     DocumentReference documentReference, FirebaseAuth mAuth, boolean isPlayer){
         this.activity = activity;
         this.database = database;
         this.documentReference = documentReference;
         this.mAuth = mAuth;
+        this.isPlayer = isPlayer;
     }
 
     @Override
@@ -93,8 +95,12 @@ public class MessagesFragment extends Fragment {
                 messageCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(isPlayer)
                         ((ChangeFragmentListener) activity).changeFragment(new ChatFragment(activity,
                                 documentReference, mAuth, database, model, messageId));
+                        else {
+                            //match request waala chat fragment
+                        }
                     }
                 });
 

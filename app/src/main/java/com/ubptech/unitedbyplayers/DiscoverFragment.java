@@ -62,14 +62,16 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     FirebaseAuth mAuth;
     List<TeamCardDetails> teamCardDetails;
     TeamsStackAdapter teamsStackAdapter;
+    boolean isPlayer;
 
     DiscoverFragment(Activity activity, List<PlayerCardDetails> playerCardDetails, DocumentReference documentReference,
-                     FirebaseFirestore database, FirebaseAuth mAuth) {
+                     FirebaseFirestore database, FirebaseAuth mAuth, boolean isPlayer) {
         this.activity = activity;
         this.playerCardDetails = playerCardDetails;
         this.documentReference = documentReference;
         this.database = database;
         this.mAuth = mAuth;
+        this.isPlayer = isPlayer;
     }
 
     @Nullable
@@ -93,6 +95,9 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         cardsLayout = view.findViewById(R.id.cards_layout);
         noTeamText = view.findViewById(R.id.no_team_text);
         haveCode = view.findViewById(R.id.have_code);
+
+        if(!isPlayer)
+            sportsTabs.setVisibility(View.GONE);
 
         haveCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -397,6 +402,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 
     @Override
     public void hideSportsTabBar() {
-        sportsTabs.setVisibility(View.GONE);
+        if(sportsTabs!=null)
+            sportsTabs.setVisibility(View.GONE);
     }
 }

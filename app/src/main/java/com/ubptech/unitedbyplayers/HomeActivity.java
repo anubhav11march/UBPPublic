@@ -203,7 +203,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = new DiscoverFragment(HomeActivity.this, playerCardDetails, mRef, database, mAuth);
+                fragment = new DiscoverFragment(HomeActivity.this, playerCardDetails, mRef, database, mAuth, isPlayer);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
@@ -222,6 +222,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                     fetchTeamsForJoining();
                 } else {
                     fetchTeamsForChallenging();
+                    Log.v("AAA", teamIds.toString() + " home button");
                 }
             }
         });
@@ -799,9 +800,10 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
 
         pageTitle.setText("Challenge");
         dropdownIcon.setVisibility(View.VISIBLE);
-        homeButton.performClick();
+//        homeButton.performClick();
 
         teamIds = new ArrayList<>();
+        Log.v("AAA", "teamid created");
 
         //location updation
         if(!checkLocationPermission())
@@ -855,6 +857,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
 //                                                Toast.makeText(HomeActivity.this,
 //                                                        "Teams and players will be fetched",
 //                                                        Toast.LENGTH_LONG).show();
+                                                Log.v("AAA", teamIds.toString() + "geoready");
                                                 fetchTeamsForChallenging();
                                             }
 
@@ -910,8 +913,9 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()) {
                                                         DocumentSnapshot documentSnapshot1 = task.getResult();
-                                                        if (!documentSnapshot1.exists())
+                                                        if (!documentSnapshot1.exists()) {
                                                             continueAddingTeamForChallenging(documentSnapshot, index);
+                                                        }
                                                     }
                                                 }
                                             });
@@ -929,13 +933,14 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                     }
                 }
             }, 3000);
-//            if(fragment instanceof DiscoverFragment){
-//                ((TeamViewEnabledListener) fragment).hideSportsTabBar();
-//            }
+            if(fragment instanceof DiscoverFragment){
+                ((TeamViewEnabledListener) fragment).hideSportsTabBar();
+            }
         }
     }
 
     private void continueAddingTeamForChallenging(DocumentSnapshot documentSnapshot, int index){
+        Log.v("AAA", teamIds.toString() + " & " + index);
         HashMap<String, String> pics = (HashMap<String, String>) documentSnapshot.get("pictures");
         double distance = Math.sqrt(
                 Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
@@ -995,7 +1000,10 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         currentSport = sport;
         if(isPlayer)
             fetchTeamsForJoining();
-        else fetchTeamsForChallenging();
+        else {
+            fetchTeamsForChallenging();
+            Log.v("AAA", teamIds.toString() + " updatesport");
+        }
     }
 
     private boolean pressedBack = false;
@@ -1046,7 +1054,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
     }
 
     private void messagesButtonClicked(){
-        fragment  = new MessagesFragment(HomeActivity.this, database, mRef, mAuth);
+        fragment  = new MessagesFragment(HomeActivity.this, database, mRef, mAuth, isPlayer);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_layout, fragment);
         ft.commit();
