@@ -757,6 +757,8 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                             }
                         }
                     });
+            if(fragment instanceof DiscoverFragment)
+                ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer);
         }
         else {
             isPlayer = false;
@@ -780,6 +782,8 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                             }
                         }
                     });
+            if(fragment instanceof DiscoverFragment)
+                ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer);
         }
 
     }

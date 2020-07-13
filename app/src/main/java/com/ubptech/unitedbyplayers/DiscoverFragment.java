@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class DiscoverFragment extends Fragment implements PlayersListReadyListener,
         CardStackListener, TeamsListReadyListener, NoTeamAvailableInGivenRadiusListener,
-        AddToFavoritesListener, TeamViewEnabledListener {
+        AddToFavoritesListener, TeamViewEnabledListener, IsPlayerOrNotListener {
 
     TabLayout sportsTabs;
     TabItem cricket, football, badminton, tennis, basketball;
@@ -215,6 +215,10 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 
     @Override
     public void onCardSwiped(Direction direction) {
+        if(!isPlayer){
+            //Team waala
+            return;
+        }
         if (direction == Direction.Right) {
             checkIfMatch(teamCardDetails.get(currentPos));
         } else if (direction == Direction.Left) {
@@ -346,6 +350,9 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 
     @Override
     public void addToFavorites(TeamCardDetails teamCardDetails) {
+        if(!isPlayer){
+            //team
+        }
         SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder()
                 .setDirection(Direction.Bottom)
                 .setDuration(Duration.Normal.duration)
@@ -404,5 +411,10 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     public void hideSportsTabBar() {
         if(sportsTabs!=null)
             sportsTabs.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateIsPlayer(boolean isPlayer) {
+        this.isPlayer = isPlayer;
     }
 }
