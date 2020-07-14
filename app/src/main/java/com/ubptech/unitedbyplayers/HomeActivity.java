@@ -203,7 +203,9 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = new DiscoverFragment(HomeActivity.this, playerCardDetails, mRef, database, mAuth, isPlayer);
+                fragment = new DiscoverFragment(HomeActivity.this,
+                        playerCardDetails, mRef, database, mAuth, isPlayer,
+                        currentProfileCode, currentSport);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
@@ -757,8 +759,11 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                             }
                         }
                     });
-            if(fragment instanceof DiscoverFragment)
-                ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer);
+            if(fragment instanceof DiscoverFragment) {
+                currentProfileCode = currentUser.getUid();
+                currentSport = null;
+                ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer, currentProfileCode, currentSport);
+            }
         }
         else {
             isPlayer = false;
@@ -782,8 +787,11 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                             }
                         }
                     });
-            if(fragment instanceof DiscoverFragment)
-                ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer);
+            if(fragment instanceof DiscoverFragment) {
+                currentProfileCode = profiles.get(i).getFullCode();
+                currentSport = profiles.get(i).getSport();
+                ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer, currentProfileCode, currentSport);
+            }
         }
 
     }
@@ -1075,7 +1083,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == Utils.LOCATION_SETTING_REQUEST){
            if(resultCode == 0) {
-                //show location dikha bhai
+                //show, location dikha bhai
            }
            else {
                Toast.makeText(getApplicationContext(), "Granted", Toast.LENGTH_LONG).show();

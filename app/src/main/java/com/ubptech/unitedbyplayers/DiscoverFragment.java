@@ -63,15 +63,19 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     List<TeamCardDetails> teamCardDetails;
     TeamsStackAdapter teamsStackAdapter;
     boolean isPlayer;
+    String currentProfileCode, currentSport;
 
     DiscoverFragment(Activity activity, List<PlayerCardDetails> playerCardDetails, DocumentReference documentReference,
-                     FirebaseFirestore database, FirebaseAuth mAuth, boolean isPlayer) {
+                     FirebaseFirestore database, FirebaseAuth mAuth, boolean isPlayer,
+                     String currentProfileCode, String currentSport) {
         this.activity = activity;
         this.playerCardDetails = playerCardDetails;
         this.documentReference = documentReference;
         this.database = database;
         this.mAuth = mAuth;
         this.isPlayer = isPlayer;
+        this.currentProfileCode =currentProfileCode;
+        this.currentSport = currentSport;
     }
 
     @Nullable
@@ -216,7 +220,11 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     @Override
     public void onCardSwiped(Direction direction) {
         if(!isPlayer){
-            //Team waala
+            if (direction == Direction.Right) {
+                checkIfMatchForTeam(teamCardDetails.get(currentPos));
+            } else if (direction == Direction.Left) {
+                addResponseToUserForTeams("negative", teamCardDetails.get(currentPos));
+            }
             return;
         }
         if (direction == Direction.Right) {
@@ -240,6 +248,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     @Override
     public void onCardAppeared(View view, int position) {
         currentPos = position;
+        Log.v("AAA", "upar waala card: " + teamCardDetails.get(position).getFullCode());
     }
 
     @Override
@@ -291,9 +300,30 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                             if (documentSnapshot.exists()) {
                                 addToMatchedTeams(teamCardDetails);
                             } else {
-                                addToMatchedTeams(teamCardDetails); //TODO: will be removed, here only for testing
                                 addResponseToUser("positive", teamCardDetails);
                                 addRequestToTeam(teamCardDetails);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void checkIfMatchForTeam(final TeamCardDetails teamCardDetails) {
+        database.collection("teams").document(currentSport)
+                .collection("teams").document(currentProfileCode)
+                .collection("teamsThatLikeMe")
+                .document(teamCardDetails.getFullCode())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()) {
+                                addToMatchedTeamsForTeams(teamCardDetails);
+                            } else {
+                                addResponseToUserForTeams("positive", teamCardDetails);
+                                addRequestToTeamForTeams(teamCardDetails);
                             }
                         }
                     }
@@ -306,6 +336,33 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         map.put("fullCode", teamCardDetails.getFullCode());
         map.put("sport", teamCardDetails.getSport());
         documentReference.collection("teamsResponse")
+                .document(teamCardDetails.getFullCode())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity.getApplicationContext(),
+                                "An error occurred, please try again later", Toast.LENGTH_LONG).show();
+                        playersStack.rewind();
+                    }
+                });
+
+    }
+
+    private void addResponseToUserForTeams(String response, TeamCardDetails teamCardDetails) {
+        Log.v("AAA", currentSport + " " + currentProfileCode);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("response", response);
+        map.put("fullCode", teamCardDetails.getFullCode());
+        database.collection("teams").document(currentSport)
+                .collection("teams").document(currentProfileCode)
+                .collection("teamsResponse")
                 .document(teamCardDetails.getFullCode())
                 .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -348,10 +405,62 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                 });
     }
 
+    private void addRequestToTeamForTeams(TeamCardDetails teamCardDetails) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("timestamp", System.currentTimeMillis());
+        database.collection("teams").document(teamCardDetails.getSport())
+                .collection("teams").document(teamCardDetails.getFullCode())
+                .collection("teamsThatLikeMe").document(currentProfileCode)
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity.getApplicationContext(),
+                                "An error occurred, please try again later", Toast.LENGTH_LONG).show();
+                        playersStack.rewind();
+                    }
+                });
+    }
+
     @Override
     public void addToFavorites(TeamCardDetails teamCardDetails) {
         if(!isPlayer){
-            //team
+            SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Bottom)
+                    .setDuration(Duration.Normal.duration)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .build();
+            cardStackLayoutManager.setSwipeAnimationSetting(swipeAnimationSetting);
+            playersStack.swipe();
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("timestamp", System.currentTimeMillis());
+            map.put("fullCode", teamCardDetails.getFullCode());
+            database.collection("teams").document(currentSport)
+                    .collection("teams").document(currentProfileCode)
+                    .collection("teamsSaved")
+                    .document(teamCardDetails.getFullCode())
+                    .set(map)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(activity.getApplicationContext(),
+                                    "An error occurred, please try again later", Toast.LENGTH_LONG).show();
+                            playersStack.rewind();
+                        }
+                    });
+            return;
         }
         SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder()
                 .setDirection(Direction.Bottom)
@@ -392,17 +501,61 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 //        map.put("uid", teamCardDetails.getFullCode());
 //        map.put("sport", teamCardDetails.getSport());
 //        map.put("newMessage", false);
-        MessageCard messageCard = new MessageCard(System.currentTimeMillis(), null, teamCardDetails.getName(),
+        final MessageCard messageCard = new MessageCard(System.currentTimeMillis(), null, teamCardDetails.getName(),
                 teamCardDetails.getPhotos().get("0"), teamCardDetails.getFullCode(),
                 teamCardDetails.getSport(), true);
         documentReference.collection("matches")
                 .add(messageCard)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        //TODO: show matched and to Team side also
+                    public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(activity.getApplicationContext(), "You have matched with " +
                                 teamCardDetails.getName(), Toast.LENGTH_SHORT).show();
+                        database.collection("teams").document(teamCardDetails.getSport())
+                                .collection("teams").document(teamCardDetails.getFullCode())
+                                .collection("matches").document(documentReference.getId())
+                                .set(messageCard)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                    }
+                                });
+                    }
+                });
+    }
+
+    private void addToMatchedTeamsForTeams(final TeamCardDetails teamCardDetails){
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("timestamp", System.currentTimeMillis());
+//        map.put("lastMessage", null);
+//        map.put("name", teamCardDetails.getName());
+//        map.put("photo", teamCardDetails.getPhotos().get("0"));
+//        map.put("uid", teamCardDetails.getFullCode());
+//        map.put("sport", teamCardDetails.getSport());
+//        map.put("newMessage", false);
+        final MessageCard messageCard = new MessageCard(System.currentTimeMillis(), null, teamCardDetails.getName(),
+                teamCardDetails.getPhotos().get("0"), teamCardDetails.getFullCode(),
+                teamCardDetails.getSport(), true);
+        database.collection("teams").document(currentSport)
+                .collection("teams").document(currentProfileCode)
+                .collection("matches")
+                .add(messageCard)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(activity.getApplicationContext(), "You have matched with " +
+                                teamCardDetails.getName(), Toast.LENGTH_SHORT).show();
+                        database.collection("teams").document(teamCardDetails.getSport())
+                                .collection("teams").document(teamCardDetails.getFullCode())
+                                .collection("matches").document(documentReference.getId())
+                                .set(messageCard)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                    }
+                                });
                     }
                 });
     }
@@ -414,7 +567,10 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     }
 
     @Override
-    public void updateIsPlayer(boolean isPlayer) {
+    public void updateIsPlayer(boolean isPlayer, String currentProfileCode, String currentSport) {
         this.isPlayer = isPlayer;
+        this.currentProfileCode = currentProfileCode;
+        this.currentSport = currentSport;
+        Log.v("AAA", "Current profile " + currentProfileCode);
     }
 }

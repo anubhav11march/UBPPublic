@@ -43,14 +43,18 @@ public class MessagesFragment extends Fragment {
     FirebaseAuth mAuth;
     EditText searchMessages;
     boolean isPlayer;
+    String currentProfileCode, currentSport;
 
     MessagesFragment(Activity activity, FirebaseFirestore database,
-                     DocumentReference documentReference, FirebaseAuth mAuth, boolean isPlayer){
+                     DocumentReference documentReference, FirebaseAuth mAuth, boolean isPlayer,
+                     String currentProfileCode, String currentSport){
         this.activity = activity;
         this.database = database;
         this.documentReference = documentReference;
         this.mAuth = mAuth;
         this.isPlayer = isPlayer;
+        this.currentProfileCode = currentProfileCode;
+        this.currentSport = currentSport;
     }
 
     @Override
