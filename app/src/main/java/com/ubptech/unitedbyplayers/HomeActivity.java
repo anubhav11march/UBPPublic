@@ -65,7 +65,8 @@ import java.util.Map;
  * Created by Kylodroid on 27-05-2020.
  */
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
-SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, ChangeFragmentListener{
+SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, ChangeFragmentListener,
+OpenRequestMatchFragment{
 
     FirebaseAuth mAuth;
     FirebaseFirestore database;
@@ -793,7 +794,7 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                 ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer, currentProfileCode, currentSport);
             }
         }
-
+//        homeButton.performClick(); on doing this, index waaala crash
     }
 
     @Override
@@ -916,6 +917,8 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                             if (task.isSuccessful()) {
                                 final DocumentSnapshot documentSnapshot = task.getResult();
                                 if (documentSnapshot.exists()) {
+                                    if(documentSnapshot.get("fullCode").toString().equals(currentProfileCode))
+                                        return;
                                     database.collection("teams").document(currentSport)
                                             .collection("teams").document(currentProfileCode)
                                             .collection("teamsResponse").document(documentSnapshot.get("fullCode").toString())
@@ -1066,7 +1069,8 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
     }
 
     private void messagesButtonClicked(){
-        fragment  = new MessagesFragment(HomeActivity.this, database, mRef, mAuth, isPlayer);
+        fragment  = new MessagesFragment(HomeActivity.this, database, mRef, mAuth, isPlayer,
+                currentProfileCode, currentSport);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_layout, fragment);
         ft.commit();
@@ -1091,5 +1095,11 @@ SportChangeListener, MessageFragmentInstanceListener, TitleChangeListener, Chang
                startActivity(new Intent(this, HomeActivity.class));
            }
         }
+    }
+
+    @Override
+    public void openRequestMatch() {
+        RequestMatchFragment requestMatchFragment = RequestMatchFragment.newInstance();
+        requestMatchFragment.show(getSupportFragmentManager(), "Requestmatch");
     }
 }

@@ -321,10 +321,9 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                             DocumentSnapshot documentSnapshot = task.getResult();
                             if (documentSnapshot.exists()) {
                                 addToMatchedTeamsForTeams(teamCardDetails);
-                            } else {
-                                addResponseToUserForTeams("positive", teamCardDetails);
-                                addRequestToTeamForTeams(teamCardDetails);
                             }
+                            addResponseToUserForTeams("positive", teamCardDetails);
+                            addRequestToTeamForTeams(teamCardDetails);
                         }
                     }
                 });
@@ -501,24 +500,40 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
 //        map.put("uid", teamCardDetails.getFullCode());
 //        map.put("sport", teamCardDetails.getSport());
 //        map.put("newMessage", false);
-        final MessageCard messageCard = new MessageCard(System.currentTimeMillis(), null, teamCardDetails.getName(),
+        MessageCard messageCard1 = new MessageCard(System.currentTimeMillis(), null, teamCardDetails.getName(),
                 teamCardDetails.getPhotos().get("0"), teamCardDetails.getFullCode(),
                 teamCardDetails.getSport(), true);
         documentReference.collection("matches")
-                .add(messageCard)
+                .add(messageCard1)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        final String messageId = documentReference.getId();
                         Toast.makeText(activity.getApplicationContext(), "You have matched with " +
                                 teamCardDetails.getName(), Toast.LENGTH_SHORT).show();
-                        database.collection("teams").document(teamCardDetails.getSport())
-                                .collection("teams").document(teamCardDetails.getFullCode())
-                                .collection("matches").document(documentReference.getId())
-                                .set(messageCard)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        database.collection("users").document(mAuth.getCurrentUser().getUid())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onSuccess(Void aVoid) {
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()) {
+                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                            HashMap<String, String> map = (HashMap<String, String>) documentSnapshot.get("pictures");
+                                            MessageCard messageCard2 = new MessageCard(System.currentTimeMillis(),
+                                                    null, mAuth.getCurrentUser().getDisplayName(),
+                                                    map.get("0"), mAuth.getCurrentUser().getUid(),
+                                                    null, true);
+                                            database.collection("teams").document(teamCardDetails.getSport())
+                                                    .collection("teams").document(teamCardDetails.getFullCode())
+                                                    .collection("matches").document(messageId)
+                                                    .set(messageCard2)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
 
+                                                        }
+                                                    });
+                                        }
                                     }
                                 });
                     }
@@ -544,16 +559,33 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        final String messageId = documentReference.getId();
                         Toast.makeText(activity.getApplicationContext(), "You have matched with " +
                                 teamCardDetails.getName(), Toast.LENGTH_SHORT).show();
-                        database.collection("teams").document(teamCardDetails.getSport())
-                                .collection("teams").document(teamCardDetails.getFullCode())
-                                .collection("matches").document(documentReference.getId())
-                                .set(messageCard)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        database.collection("teams").document(currentSport)
+                                .collection("teams").document(currentProfileCode)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onSuccess(Void aVoid) {
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()) {
+                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                            HashMap<String, String> map = (HashMap<String, String>) documentSnapshot.get("pictures");
+                                            MessageCard messageCard2 = new MessageCard(System.currentTimeMillis(),
+                                                    null, documentSnapshot.get("name").toString(),
+                                                    map.get("0"), currentProfileCode,
+                                                    currentSport, true);
+                                            database.collection("teams").document(teamCardDetails.getSport())
+                                                    .collection("teams").document(teamCardDetails.getFullCode())
+                                                    .collection("matches").document(messageId)
+                                                    .set(messageCard2)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
 
+                                                        }
+                                                    });
+                                        }
                                     }
                                 });
                     }

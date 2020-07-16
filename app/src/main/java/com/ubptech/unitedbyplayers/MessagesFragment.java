@@ -68,7 +68,13 @@ public class MessagesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
         initializeView(view);
-        inflateMessagesRecyclerView();
+        if(isPlayer)
+            inflateMessagesRecyclerView(documentReference.collection("matches")
+                    .orderBy("timestamp", Query.Direction.DESCENDING));
+        else inflateMessagesRecyclerView(database.collection("teams").document(currentSport)
+                .collection("teams").document(currentProfileCode)
+                .collection("matches")
+                    .orderBy("timestamp", Query.Direction.DESCENDING));
         return view;
     }
 
@@ -79,8 +85,7 @@ public class MessagesFragment extends Fragment {
         searchMessages.setHint("\uD83D\uDD0D Search Messages");
     }
 
-    private void inflateMessagesRecyclerView(){
-        Query query = documentReference.collection("matches").orderBy("timestamp", Query.Direction.DESCENDING);
+    private void inflateMessagesRecyclerView(Query query){
         FirestoreRecyclerOptions<MessageCard> options = new FirestoreRecyclerOptions.Builder<MessageCard>()
                 .setQuery(query, MessageCard.class)
                 .build();
@@ -100,10 +105,12 @@ public class MessagesFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         if(isPlayer)
-                        ((ChangeFragmentListener) activity).changeFragment(new ChatFragment(activity,
+                            ((ChangeFragmentListener) activity).changeFragment(new ChatFragment(activity,
                                 documentReference, mAuth, database, model, messageId));
                         else {
-                            //match request waala chat fragment
+                            ((ChangeFragmentListener) activity).changeFragment(new TeamChatFragment(activity,
+                                    documentReference, mAuth, database, model, messageId,
+                                    currentProfileCode, currentSport));
                         }
                     }
                 });
