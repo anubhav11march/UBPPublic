@@ -1,5 +1,7 @@
 package com.ubptech.unitedbyplayers;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,11 +9,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +46,7 @@ import java.util.Locale;
 public class TeamChatFragment extends Fragment {
 
     private RecyclerView chatRecyclerView;
-    private ImageView attachIcon, emojiIcon;
+    private ImageView attachIcon, emojiIcon, swiperIcon, swiperDownIcon;
     private EditText messageEdittext;
     private Activity activity;
     private DocumentReference documentReference;
@@ -49,6 +54,9 @@ public class TeamChatFragment extends Fragment {
     private FirebaseAuth mAuth;
     private MessageCard messageCard;
     private String messageId, currentUserUid, currentProfileCode, currentSport;
+    private RelativeLayout matchRequestView;
+    private FrameLayout backgroundMatchRequest;
+    private View swiperTextContainerView;
 
     TeamChatFragment(Activity activity, DocumentReference documentReference, FirebaseAuth mAuth,
                  FirebaseFirestore database, MessageCard messageCard, String messagesId,
@@ -67,7 +75,7 @@ public class TeamChatFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat_team, container, false);
         initializeUIElements(view);
         return view;
     }
@@ -79,9 +87,98 @@ public class TeamChatFragment extends Fragment {
         chatRecyclerView.setLayoutManager(linearLayoutManager);
         chatRecyclerView.setHasFixedSize(false);
 
+        swiperIcon = view.findViewById(R.id.swiper_icon);
         attachIcon = view.findViewById(R.id.attach_icon);
         emojiIcon = view.findViewById(R.id.emoji_icon);
         messageEdittext = view.findViewById(R.id.message_edittext);
+        matchRequestView = view.findViewById(R.id.request_match_view);
+        backgroundMatchRequest = view.findViewById(R.id.background_request);
+        swiperTextContainerView = view.findViewById(R.id.swiper_text_container_icon);
+        swiperDownIcon = view.findViewById(R.id.swiper_down_icon);
+
+        swiperDownIcon.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    matchRequestView.animate()
+                            .alpha(0.0f)
+                            .setDuration(300)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    matchRequestView.setVisibility(View.GONE);
+                                }
+                            });
+                    backgroundMatchRequest.animate()
+                            .alpha(0.0f)
+                            .setDuration(500)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    backgroundMatchRequest.setVisibility(View.GONE);
+                                }
+                            });
+                    backgroundMatchRequest.setVisibility(View.GONE);
+                    swiperDownIcon.setVisibility(View.GONE);
+                    return true;
+                }
+                return true;
+            }
+        });
+
+        swiperTextContainerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.v("AAA", motionEvent.getAction()+"");
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if(matchRequestView.getVisibility()!=View.VISIBLE) {
+                        matchRequestView.setVisibility(View.VISIBLE);
+                        matchRequestView.animate()
+                                .alpha(1.0f)
+                                .setDuration(500)
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        super.onAnimationEnd(animation);
+                                    }
+                                });
+                    }
+                    backgroundMatchRequest.setVisibility(View.VISIBLE);
+                    backgroundMatchRequest.setAlpha(0.5f);
+                    swiperDownIcon.setVisibility(View.VISIBLE);
+                    return true;
+                }
+                return true;
+            }
+        });
+
+        swiperIcon.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.v("AAA", motionEvent.getAction()+"swiper ka");
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if(matchRequestView.getVisibility()!=View.VISIBLE) {
+                        matchRequestView.setVisibility(View.VISIBLE);
+                        matchRequestView.animate()
+                                .alpha(1.0f)
+                                .setDuration(500)
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        super.onAnimationEnd(animation);
+                                    }
+                                });
+                    }
+                    backgroundMatchRequest.setVisibility(View.VISIBLE);
+                    backgroundMatchRequest.setAlpha(0.5f);
+                    swiperDownIcon.setVisibility(View.VISIBLE);
+                    return true;
+                }
+                return true;
+            }
+        });
 
         ((MessageFragmentInstanceListener) activity).changeMessageIcon(true);
         inflateChats();

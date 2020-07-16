@@ -9,50 +9,147 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chats_recycler_view"
-        android:layout_marginBottom="60dp"/>
+        android:layout_marginBottom="100dp"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/swiper_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/swiper"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/swiper_white_bg_30"
+            android:elevation="8dp"/>
+
+        <View
+            android:id="@+id/swiper_text_container_icon"
+            android:layout_width="230dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rectangular_circle_text_container_white"
+            android:elevation="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"
+            android:text="Formal Match Request"
+            android:textColor="@color/colorAccent"
+            android:elevation="11dp"
+            android:textSize="@dimen/thirteen_sp"/>
+
+
+        <RelativeLayout
+            android:elevation="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/input_chat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="@drawable/input_chat"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+            <ImageView
+                android:id="@+id/emoji_icon"
+                android:layout_centerVertical="true"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/emoji"
+                android:layout_marginStart="13dp"
+                android:layout_marginEnd="13dp"/>
+    
+            <EditText
+                android:id="@+id/message_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="50dp"
+                android:layout_toEndOf="@+id/emoji_icon"
+                android:layout_centerVertical="true"
+                android:hint="Type your message"
+                android:textColorHint="#CCCCCC"
+                android:textColor="@color/white"
+                android:background="@color/other_color"/>
+    
+            <ImageView
+                android:id="@+id/attach_icon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/attach"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+    
+    <ImageView
+        android:id="@+id/swiper_down_icon"
+        android:visibility="gone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/swiper_down"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7.5dp"
+        android:elevation="30dp"
+        android:background="@drawable/white_background_bottom_sheet"/>
 
     <RelativeLayout
-        android:layout_marginBottom="5dp"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/input_chat"
+        android:visibility="gone"
+        android:id="@+id/request_match_view"
+        android:elevation="25dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:background="@drawable/input_chat"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
-        <ImageView
-            android:id="@+id/emoji_icon"
-            android:layout_centerVertical="true"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/emoji"
-            android:layout_marginStart="13dp"
-            android:layout_marginEnd="13dp"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/white_background_bottom_sheet"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:alpha="0.0">
 
-        <EditText
-            android:id="@+id/message_edittext"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="50dp"
-            android:layout_toEndOf="@+id/emoji_icon"
-            android:layout_centerVertical="true"
-            android:hint="Type your message"
-            android:textColorHint="#CCCCCC"
-            android:textColor="@color/white"
-            android:background="@color/other_color"/>
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/attach_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:src="@drawable/attach"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            <TextView
+                android:id="@+id/tv_select_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/sports_rounded_blue_card"
+                android:layout_margin="10dp"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Send Request" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/background_request"
+        android:visibility="gone"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:alpha="0.5"/>
 
 </RelativeLayout>
