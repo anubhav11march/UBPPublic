@@ -3,24 +3,35 @@ package com.ubptech.unitedbyplayers;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,23 +42,28 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by Kylodroid on 06-07-2020.
  */
-public class TeamChatFragment extends Fragment {
+public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener {
 
     private RecyclerView chatRecyclerView;
     private ImageView attachIcon, emojiIcon, swiperIcon, swiperDownIcon;
-    private EditText messageEdittext;
+    private EditText messageEdittext, betText, venueText;
     private Activity activity;
     private DocumentReference documentReference;
     private FirebaseFirestore database;
@@ -57,10 +73,17 @@ public class TeamChatFragment extends Fragment {
     private RelativeLayout matchRequestView;
     private FrameLayout backgroundMatchRequest;
     private View swiperTextContainerView;
+    private Spinner sportChooser;
+    private ArrayAdapter<String> sportsAdapter;
+    private ArrayList<String> sports;
+    private TextView sportName, dateText, timeText;
+    private LinearLayout sportButton, dateButton, timeButton;
+    private TeamChatFragment teamChatFragment;
 
     TeamChatFragment(Activity activity, DocumentReference documentReference, FirebaseAuth mAuth,
                  FirebaseFirestore database, MessageCard messageCard, String messagesId,
                      String currentProfileCode, String currentSport){
+        teamChatFragment = this;
         this.activity = activity;
         this.documentReference = documentReference;
         this.mAuth = mAuth;
@@ -81,6 +104,7 @@ public class TeamChatFragment extends Fragment {
     }
 
     private void initializeUIElements(View view){
+
         chatRecyclerView = view.findViewById(R.id.chats_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setStackFromEnd(true);
@@ -95,6 +119,82 @@ public class TeamChatFragment extends Fragment {
         backgroundMatchRequest = view.findViewById(R.id.background_request);
         swiperTextContainerView = view.findViewById(R.id.swiper_text_container_icon);
         swiperDownIcon = view.findViewById(R.id.swiper_down_icon);
+        sportName = view.findViewById(R.id.sport_name);
+        sportButton = view.findViewById(R.id.sport_button);
+        dateButton = view.findViewById(R.id.date_button);
+        dateText = view.findViewById(R.id.date_text);
+        timeButton = view.findViewById(R.id.time_button);
+        timeText = view.findViewById(R.id.time_text);
+        venueText = view.findViewById(R.id.venue_text);
+        betText = view.findViewById(R.id.bet_text);
+
+        sportChooser = view.findViewById(R.id.sport_chooser);
+        sports = new ArrayList<>();
+        sports.add("Cricket");
+        sports.add("Football");
+        sports.add("Badminton");
+        sportsAdapter = new ArrayAdapter<String>(
+                activity, android.R.layout.simple_spinner_item, sports
+        ){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                return super.getView(position, convertView, parent);
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                return super.getDropDownView(position, convertView, parent);
+            }
+        };
+        sportsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sportChooser.setAdapter(sportsAdapter);
+        sportChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                sportName.setText(sports.get(i));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        sportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sportChooser.performClick();
+            }
+        });
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        activity,
+                        teamChatFragment,
+                        Calendar.getInstance().get(Calendar.YEAR),
+                        Calendar.getInstance().get(Calendar.MONTH),
+                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+
+                );
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePickerDialog.show();
+            }
+        });
+
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        activity,
+                        teamChatFragment,
+                        Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                        Calendar.getInstance().get(Calendar.MINUTE),
+                        false
+                );
+                timePickerDialog.show();
+            }
+        });
 
         swiperDownIcon.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -361,6 +461,41 @@ public class TeamChatFragment extends Fragment {
             }
         });
         chatRecyclerView.scrollToPosition(chatRecyclerView.getAdapter().getItemCount() - 1);
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        dateText.setText(i2+"/"+ (i1+1) +"/"+i);
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        String minute_precede = "", hour_precede = "", finalTIme = "", amOrPm = "";
+        int hourValue = 0;
+
+        Calendar datetime = Calendar.getInstance();
+        datetime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        datetime.set(Calendar.MINUTE, minute);
+
+        if (datetime.get(Calendar.AM_PM) == Calendar.AM) {
+            amOrPm = "AM";
+            if (hourOfDay == 0)
+                hourValue = 12;
+            else
+                hourValue = hourOfDay;
+        } else if (datetime.get(Calendar.AM_PM) == Calendar.PM) {
+            amOrPm = "PM";
+            if (hourOfDay == 12)
+                hourValue = 12;
+            else if (hourOfDay >= 13 && hourOfDay <= 23)
+                hourValue = hourOfDay - 12;
+        }
+        if (hourValue < 10)
+            hour_precede = "0";
+        if (minute < 10)
+            minute_precede = "0";
+        finalTIme = hour_precede + hourValue + ":" + minute_precede + minute + " " + amOrPm;
+                timeText.setText(finalTIme);
     }
 
     private class MessageViewHolder extends RecyclerView.ViewHolder{

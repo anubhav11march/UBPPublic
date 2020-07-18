@@ -23,6 +23,7 @@
     <string name="view_more"><u>View More</u></string>
     <string name="bullet">&#8226;</string>
     <string name="have_code"><u>Have a team code?</u></string>
+    <string name="inr">\u20B9</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
