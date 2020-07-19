@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -75,11 +76,11 @@ OpenRequestMatchFragment{
     FirebaseUser currentUser;
     NavigationView drawer;
     DrawerLayout drawerLayout;
-    LinearLayout drawerButton, nameSpinner, settingsButton, homeButton, favButton;
+    LinearLayout drawerButton, nameSpinner, settingsButton, homeButton, favButton, headerButton;
     ImageView profile1, profile2, profile3, dropdownIcon, messagesIcon;
     ArrayList<Profile> profiles = new ArrayList<>();
     ArrayList<String> profileNames = new ArrayList<>();
-    Spinner teamsSpinner;
+    Spinner teamsSpinner, playerTeamSpinner;
     ArrayAdapter teamsSpinnerAdapter;
     TextView profileName, logoutButton, pageTitle;
     ImageView gear, home, favs;
@@ -94,6 +95,8 @@ OpenRequestMatchFragment{
     RelativeLayout messagesButton;
     FrameLayout loadingView;
     boolean isPlayer;
+    private ArrayAdapter<String> playerTeamAdapter;
+    private ArrayList<String> playerTeamOptions;
 
 
     @Override
@@ -182,6 +185,48 @@ OpenRequestMatchFragment{
         pageTitle = findViewById(R.id.page_title);
         loadingView = findViewById(R.id.loading_view);
         messagesIcon = findViewById(R.id.messages_icon);
+        playerTeamSpinner = findViewById(R.id.player_team_spinner);
+        headerButton = findViewById(R.id.header_button);
+
+        playerTeamOptions = new ArrayList<String>();
+        playerTeamOptions.add("Challenge");
+        playerTeamOptions.add("Scout");
+        playerTeamAdapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, playerTeamOptions
+        ){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                return super.getView(position, convertView, parent);
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                return super.getDropDownView(position, convertView, parent);
+            }
+        };
+        playerTeamAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        playerTeamSpinner.setAdapter(playerTeamAdapter);
+        playerTeamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO: implement from here
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        headerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(playerTeamSpinner.getVisibility() == View.VISIBLE){
+                    playerTeamSpinner.performClick();
+                }
+            }
+        });
 
         messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,10 +258,12 @@ OpenRequestMatchFragment{
                 if(currentProfileCode.equals(currentUser.getUid())) {
                     pageTitle.setText("Join");
                     dropdownIcon.setVisibility(View.GONE);
+                    playerTeamSpinner.setVisibility(View.GONE);
                 }
                 else {
                     pageTitle.setText("Challenge");
                     dropdownIcon.setVisibility(View.VISIBLE);
+                    playerTeamSpinner.setVisibility(View.VISIBLE);
                 }
                 gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
                 home.setImageDrawable(getResources().getDrawable(R.drawable.home));
@@ -240,6 +287,7 @@ OpenRequestMatchFragment{
 
                 pageTitle.setText("Settings");
                 dropdownIcon.setVisibility(View.GONE);
+                playerTeamSpinner.setVisibility(View.GONE);
                 gear.setImageDrawable(getResources().getDrawable(R.drawable.gear));
                 home.setImageDrawable(getResources().getDrawable(R.drawable.home_not));
                 favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));
@@ -331,6 +379,7 @@ OpenRequestMatchFragment{
         currentProfileCode = currentUser.getUid();
 
         dropdownIcon.setVisibility(View.GONE);
+        playerTeamSpinner.setVisibility(View.GONE);
         pageTitle.setText("Join");
         homeButton.performClick();
 
@@ -386,7 +435,7 @@ OpenRequestMatchFragment{
                                             @Override
                                             public void onGeoQueryReady() {
                                                 Log.v("AAA", "DOne");
-                                                fetchTeamsForJoining();
+                                                homeButton.performClick();
                                             }
 
                                             @Override
@@ -440,7 +489,10 @@ OpenRequestMatchFragment{
 
     private void fetchTeamsForJoining(){
         //TODO: location ka check ki on hui ya nahi aur permission hai ya nahi
+        //TODO: 1 bug if switch back from team to player profile, duplicate cards
         teamCardDetails = new ArrayList<>();
+        if(currentSport == null)
+            currentSport = "cricket";
         for (int i=0; i<teamIds.size(); i++) {
             final int index = i;
             database.collection("teams").document(currentSport)
@@ -474,7 +526,7 @@ OpenRequestMatchFragment{
                 public void run() {
                     if(teamCardDetails.size()==0){
                         if (fragment instanceof DiscoverFragment)
-                            ((NoTeamAvailableInGivenRadiusListener) fragment).noTeamUpdate("No team around, try increasing the distance");
+                            ((NoTeamAvailableInGivenRadiusListener) fragment).noTeamUpdate("No team around, try increasing the distance or check your internet connection");
                     }
                 }
             }, 3000);
@@ -483,9 +535,15 @@ OpenRequestMatchFragment{
 
     private void continueAddingTeamForJoining(DocumentSnapshot documentSnapshot, int index){
         HashMap<String, String> pics = (HashMap<String, String>) documentSnapshot.get("pictures");
-        double distance = Math.sqrt(
-                Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
-                        Math.pow(Math.abs(Math.cos(teamIds.get(index).getLon()) - Math.cos(currLon)) * 111.32, 2));
+        double distance = 0;
+        try {
+            distance = Math.sqrt(
+                    Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
+                            Math.pow(Math.abs(Math.cos(teamIds.get(index).getLon()) - Math.cos(currLon)) * 111.32, 2));
+        }catch (Exception e){
+//            continueAddingTeamForJoining(documentSnapshot, index);
+            return;
+        }
         String distanceWith1Decimal = (distance + "").substring(0, (distance + "").indexOf(".")) +
                 (distance + "").substring((distance + "").indexOf("."), (distance + "").indexOf(".") + 2);
         String friendlyOrNot;
@@ -528,6 +586,7 @@ OpenRequestMatchFragment{
         currentProfileCode = currentUser.getUid();
 
         dropdownIcon.setVisibility(View.GONE);
+        playerTeamSpinner.setVisibility(View.GONE);
         pageTitle.setText("Join");
         homeButton.performClick();
 
@@ -794,7 +853,7 @@ OpenRequestMatchFragment{
                 ((IsPlayerOrNotListener) fragment).updateIsPlayer(isPlayer, currentProfileCode, currentSport);
             }
         }
-//        homeButton.performClick(); on doing this, index waaala crash
+        homeButton.performClick(); //on doing this, index waaala crash
     }
 
     @Override
@@ -813,6 +872,7 @@ OpenRequestMatchFragment{
 
         pageTitle.setText("Challenge");
         dropdownIcon.setVisibility(View.VISIBLE);
+        playerTeamSpinner.setVisibility(View.VISIBLE);
 //        homeButton.performClick();
 
         teamIds = new ArrayList<>();
@@ -957,9 +1017,14 @@ OpenRequestMatchFragment{
     private void continueAddingTeamForChallenging(DocumentSnapshot documentSnapshot, int index){
         Log.v("AAA", teamIds.toString() + " & " + index);
         HashMap<String, String> pics = (HashMap<String, String>) documentSnapshot.get("pictures");
-        double distance = Math.sqrt(
-                Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
-                        Math.pow(Math.abs(Math.cos(teamIds.get(index).getLon()) - Math.cos(currLon)) * 111.32, 2));
+        double distance = 0;
+        try {
+            distance = Math.sqrt(
+                    Math.pow(Math.abs(teamIds.get(index).getLat() - currLat) * 110.574, 2) +
+                            Math.pow(Math.abs(Math.cos(teamIds.get(index).getLon()) - Math.cos(currLon)) * 111.32, 2));
+        } catch (Exception e){
+            return;
+        }
         String distanceWith1Decimal = (distance + "").substring(0, (distance + "").indexOf(".")) +
                 (distance + "").substring((distance + "").indexOf("."), (distance + "").indexOf(".") + 2);
         String friendlyOrNot;
@@ -1077,6 +1142,7 @@ OpenRequestMatchFragment{
 
         pageTitle.setText("Messages");
         dropdownIcon.setVisibility(View.GONE);
+        playerTeamSpinner.setVisibility(View.GONE);
         gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
         home.setImageDrawable(getResources().getDrawable(R.drawable.home_not));
         favs.setImageDrawable(getResources().getDrawable(R.drawable.favs_not));

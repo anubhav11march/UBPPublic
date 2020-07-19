@@ -45,7 +45,8 @@ import java.util.List;
  */
 public class DiscoverFragment extends Fragment implements PlayersListReadyListener,
         CardStackListener, TeamsListReadyListener, NoTeamAvailableInGivenRadiusListener,
-        AddToFavoritesListener, TeamViewEnabledListener, IsPlayerOrNotListener {
+        AddToFavoritesListener, TeamViewEnabledListener, IsPlayerOrNotListener,
+        EmptyCardDetailsListener{
 
     TabLayout sportsTabs;
     TabItem cricket, football, badminton, tennis, basketball;
@@ -604,5 +605,10 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
         this.currentProfileCode = currentProfileCode;
         this.currentSport = currentSport;
         Log.v("AAA", "Current profile " + currentProfileCode);
+    }
+
+    @Override
+    public void newList() {
+
     }
 }

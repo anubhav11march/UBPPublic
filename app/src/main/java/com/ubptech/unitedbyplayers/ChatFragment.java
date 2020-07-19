@@ -1,6 +1,8 @@
 package com.ubptech.unitedbyplayers;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +33,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
@@ -39,11 +44,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Kylodroid on 06-07-2020.
  */
 public class ChatFragment extends Fragment {
 
+    private static final int GALLERY_REQUEST = 2;
     private RecyclerView chatRecyclerView;
     private ImageView attachIcon, emojiIcon;
     private EditText messageEdittext;
@@ -54,6 +62,8 @@ public class ChatFragment extends Fragment {
     private MessageCard messageCard;
     private String messageId, currentUserUid;
     private RelativeLayout rootView;
+    private Uri uri = null;
+    private StorageReference storageReference;
 
     ChatFragment(Activity activity, DocumentReference documentReference, FirebaseAuth mAuth,
                  FirebaseFirestore database, MessageCard messageCard, String messagesId){
@@ -82,6 +92,7 @@ public class ChatFragment extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(linearLayoutManager);
         chatRecyclerView.setHasFixedSize(false);
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         rootView = view.findViewById(R.id.root_view);
         attachIcon = view.findViewById(R.id.attach_icon);
@@ -117,6 +128,14 @@ public class ChatFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(messageEdittext.getText().toString().trim().length()==0){
                     attachIcon.setImageDrawable(getResources().getDrawable(R.drawable.attach));
+
+                    attachIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            selectImage();
+                            Utils.hideSoftKeyboard(activity);
+                        }
+                    });
                 }
                 else {
                     attachIcon.setImageDrawable(getResources().getDrawable(R.drawable.send_icon));
@@ -124,6 +143,9 @@ public class ChatFragment extends Fragment {
                     attachIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            if(messageEdittext.getText().toString().trim().length()==0){
+                                return;
+                            }
                             sendMessage(messageEdittext.getText().toString().trim());
                             messageEdittext.setText("");
                             Utils.hideSoftKeyboard(activity);
@@ -190,6 +212,40 @@ public class ChatFragment extends Fragment {
                 });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+            uri = data.getData();
+            final StorageReference filePath = storageReference.child(uri.getLastPathSegment());
+            (filePath).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            sendImageMessage(uri.toString());
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    private void sendImageMessage(String url){
+        Message message = new Message(mAuth.getCurrentUser().getUid(), messageCard.getUid(),
+                "image", url, System.currentTimeMillis(), null);
+        database.collection("messages").document(messageId)
+                .collection("messages")
+                .add(message)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        updateUserMessage("imageType", System.currentTimeMillis());
+                    }
+                });
+    }
+
     private void inflateChats(){
         Log.v("AAA", messageId);
         Query query = database.collection("messages").document(messageId)
@@ -205,7 +261,7 @@ public class ChatFragment extends Fragment {
                     holder.setMessageText(model.getMessageData().toString());
                 }
                 else if(model.getMessageType().equals("image")){
-
+                    holder.setMessageImage(model.getMessageData().toString());
                 }
                 if(model.getSenderUid().equals(currentUserUid)){
                     holder.setBackground(R.color.me_color);
@@ -238,6 +294,12 @@ public class ChatFragment extends Fragment {
         chatRecyclerView.scrollToPosition(chatRecyclerView.getAdapter().getItemCount() - 1);
     }
 
+    private void selectImage(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_REQUEST);
+    }
+
     private class MessageViewHolder extends RecyclerView.ViewHolder{
         private View mView;
         private LinearLayout chatBg, chatContainer;
@@ -261,6 +323,12 @@ public class ChatFragment extends Fragment {
                 otherPhoto.setVisibility(View.GONE);
             }
             else chatBg.setBackground(getResources().getDrawable(R.drawable.other_card));
+        }
+
+        void setMessageImage(String imageUrl){
+            chatMessage.setVisibility(View.GONE);
+            chatImage.setVisibility(View.VISIBLE);
+            Glide.with(activity).load(imageUrl).into(chatImage);
         }
 
         void setImage(String url){

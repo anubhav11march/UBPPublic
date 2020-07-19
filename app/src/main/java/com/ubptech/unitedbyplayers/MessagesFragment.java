@@ -95,8 +95,14 @@ public class MessagesFragment extends Fragment {
                 final String messageId =getSnapshots().getSnapshot(position).getId();
                 Log.v("AAA", model.toString());
                 holder.setImage(model.getPhoto());
-                if(model.getLastMessage()!=null)
-                    holder.setMessage(model.getLastMessage());
+                if(model.getLastMessage()!=null) {
+                    if(model.getLastMessage().equals("matchRequestType"))
+                        holder.setMessage(getString(R.string.flag) + " New Match Request");
+                    else if(model.getLastMessage().equals("imageType"))
+                        holder.setMessage(getString(R.string.camera) + " Photo");
+                    else
+                        holder.setMessage(model.getLastMessage());
+                }
                 holder.setNewMessage(model.isNewMessage());
                 holder.setName(model.getName());
                 holder.setTime(model.getTimestamp());
