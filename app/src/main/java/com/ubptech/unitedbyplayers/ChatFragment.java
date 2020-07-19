@@ -151,7 +151,7 @@ public class ChatFragment extends Fragment {
 
     private void sendMessage(final String messageText){
         Message message = new Message(mAuth.getCurrentUser().getUid(), messageCard.getUid(),
-                "text", messageText, System.currentTimeMillis());
+                "text", messageText, System.currentTimeMillis(), null);
         database.collection("messages").document(messageId)
                 .collection("messages")
                 .add(message)

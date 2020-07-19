@@ -24,6 +24,7 @@
     <string name="bullet">&#8226;</string>
     <string name="have_code"><u>Have a team code?</u></string>
     <string name="inr">\u20B9</string>
+    <string name="match_request_heading"><u><b>Formal Match Request</b></u></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

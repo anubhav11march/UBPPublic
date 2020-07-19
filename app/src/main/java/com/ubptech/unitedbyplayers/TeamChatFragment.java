@@ -6,8 +6,11 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -27,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
@@ -47,10 +51,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,12 +66,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Kylodroid on 06-07-2020.
  */
 public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
+    private static final int GALLERY_REQUEST = 2;
     private RecyclerView chatRecyclerView;
     private ImageView attachIcon, emojiIcon, swiperIcon, swiperDownIcon;
     private EditText messageEdittext, betText, venueText;
@@ -80,8 +91,11 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
     private ArrayAdapter<String> sportsAdapter;
     private ArrayList<String> sports;
     private TextView sportName, dateText, timeText;
-    private LinearLayout sportButton, dateButton, timeButton;
+    private LinearLayout sportButton, dateButton, timeButton, sendMatchRequestButton;
     private TeamChatFragment teamChatFragment;
+    private Uri uri = null;
+    private StorageReference storageReference;
+    private String matchTime, matchDate;
 
     TeamChatFragment(Activity activity, DocumentReference documentReference, FirebaseAuth mAuth,
                  FirebaseFirestore database, MessageCard messageCard, String messagesId,
@@ -114,6 +128,7 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
         linearLayoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(linearLayoutManager);
         chatRecyclerView.setHasFixedSize(false);
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         rootView = view.findViewById(R.id.root_view);
         swiperIcon = view.findViewById(R.id.swiper_icon);
@@ -133,12 +148,11 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
         timeText = view.findViewById(R.id.time_text);
         venueText = view.findViewById(R.id.venue_text);
         betText = view.findViewById(R.id.bet_text);
+        sendMatchRequestButton = view.findViewById(R.id.send_match_request_button);
 
         sportChooser = view.findViewById(R.id.sport_chooser);
         sports = new ArrayList<>();
-        sports.add("Cricket");
-        sports.add("Football");
-        sports.add("Badminton");
+        sports.add(currentSport);
         sportsAdapter = new ArrayAdapter<String>(
                 activity, android.R.layout.simple_spinner_item, sports
         ){
@@ -185,6 +199,26 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
                 );
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 datePickerDialog.show();
+            }
+        });
+
+        sendMatchRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!(matchTime!=null && matchDate!=null && !matchDate.equals("")
+                && !matchTime.equals("") && betText.getText().toString().trim().length()!=0
+                && venueText.getText().toString().trim().length()!=0)){
+                    Toast.makeText(activity, "Please enter all details", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                long epoch = 0;
+                try {
+                    epoch = new SimpleDateFormat("dd/MM/yyyyy, hh:mm a", Locale.US)
+                            .parse(matchDate + ", " + matchTime).getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                sendMatchRequestMessage();
             }
         });
 
@@ -314,6 +348,14 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(messageEdittext.getText().toString().trim().length()==0){
                     attachIcon.setImageDrawable(getResources().getDrawable(R.drawable.attach));
+
+                    attachIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            selectImage();
+                            Utils.hideSoftKeyboard(activity);
+                        }
+                    });
                 }
                 else {
                     attachIcon.setImageDrawable(getResources().getDrawable(R.drawable.send_icon));
@@ -321,6 +363,9 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
                     attachIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            if(messageEdittext.getText().toString().trim().length()==0){
+                                return;
+                            }
                             sendMessage(messageEdittext.getText().toString().trim());
                             messageEdittext.setText("");
                             Utils.hideSoftKeyboard(activity);
@@ -348,9 +393,69 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
                 });
     }
 
+    private void selectImage(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+            uri = data.getData();
+            final StorageReference filePath = storageReference.child(uri.getLastPathSegment());
+            (filePath).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            sendImageMessage(uri.toString());
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    private void sendMatchRequestMessage(){
+        String matchRequestMessage = "Sport: " + (char)(currentSport.charAt(0)-32) + currentSport.substring(1)
+                + "\nDate: " + matchDate + "\nTime: " + matchTime + "\nBet: " + getString(R.string.inr)
+                + Integer.parseInt(betText.getText().toString().trim())
+                + "\nVenue: " + venueText.getText().toString().trim();
+        Message message = new Message(currentProfileCode, messageCard.getUid(),
+                "matchRequest", matchRequestMessage, System.currentTimeMillis(), null);
+        database.collection("messages").document(messageId)
+                .collection("messages")
+                .add(message)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        updateMyTeamMessage("matchRequestType", System.currentTimeMillis());
+                        updateOtherTeamMessage("matchRequestType", System.currentTimeMillis());
+                    }
+                });
+    }
+
+    private void sendImageMessage(String url){
+        Message message = new Message(currentProfileCode, messageCard.getUid(),
+                "image", url, System.currentTimeMillis(), null);
+        database.collection("messages").document(messageId)
+                .collection("messages")
+                .add(message)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        updateMyTeamMessage("imageType", System.currentTimeMillis());
+                        updateOtherTeamMessage("imageType", System.currentTimeMillis());
+                    }
+                });
+    }
+
     private void sendMessage(final String messageText){
         Message message = new Message(currentProfileCode, messageCard.getUid(),
-                "text", messageText, System.currentTimeMillis());
+                "text", messageText, System.currentTimeMillis(), null);
         database.collection("messages").document(messageId)
                 .collection("messages")
                 .add(message)
@@ -434,7 +539,16 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
                     holder.setMessageText(model.getMessageData().toString());
                 }
                 else if(model.getMessageType().equals("image")){
-
+                    holder.setMessageImage(model.getMessageData().toString());
+                }
+                else if(model.getMessageType().equals("matchRequest")){
+                    holder.setMessageMatchRequest(model.getMessageData().toString());
+                    if(model.getSenderUid().equals(currentProfileCode)){
+                        holder.setMatchRequestResponse(model.getResponse(), true);
+                    }
+                    else {
+                        holder.setMatchRequestResponse(model.getResponse(), false);
+                    }
                 }
                 if(model.getSenderUid().equals(currentProfileCode)){
                     holder.setBackground(R.color.me_color);
@@ -480,6 +594,7 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
         dateText.setText(i2+"/"+ (i1+1) +"/"+i);
+        matchDate = i2+"/"+ (i1+1) +"/"+i;
     }
 
     @Override
@@ -509,12 +624,14 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
         if (minute < 10)
             minute_precede = "0";
         finalTIme = hour_precede + hourValue + ":" + minute_precede + minute + " " + amOrPm;
-                timeText.setText(finalTIme);
+        timeText.setText(finalTIme);
+        matchTime = finalTIme;
     }
 
     private class MessageViewHolder extends RecyclerView.ViewHolder{
         private View mView;
-        private LinearLayout chatBg, chatContainer;
+        private LinearLayout chatBg, chatContainer, acceptRejectButtons, acceptButton, rejectButton,
+        statusBar;
         private ImageView otherPhoto, chatImage;
         private TextView chatMessage, chatTime;
 
@@ -527,6 +644,10 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
             chatImage = itemView.findViewById(R.id.chat_image);
             chatMessage = itemView.findViewById(R.id.chat_message);
             chatTime = itemView.findViewById(R.id.chat_time);
+            acceptRejectButtons = itemView.findViewById(R.id.accept_reject_buttons);
+            acceptButton = itemView.findViewById(R.id.accept_button);
+            rejectButton = itemView.findViewById(R.id.reject_button);
+            statusBar = itemView.findViewById(R.id.status_bar);
         }
 
         void setBackground(int color){
@@ -543,7 +664,40 @@ public class TeamChatFragment extends Fragment implements DatePickerDialog.OnDat
         }
 
         void setMessageText(String message){
+            chatMessage.setVisibility(View.VISIBLE);
+            chatImage.setVisibility(View.GONE);
+            acceptRejectButtons.setVisibility(View.GONE);
+            statusBar.setVisibility(View.GONE);
             chatMessage.setText(message);
+        }
+
+        void setMessageImage(String imageUrl){
+            chatMessage.setVisibility(View.GONE);
+            chatImage.setVisibility(View.VISIBLE);
+            acceptRejectButtons.setVisibility(View.GONE);
+            statusBar.setVisibility(View.GONE);
+            Glide.with(activity).load(imageUrl).into(chatImage);
+        }
+
+        void setMatchRequestResponse(String response, boolean meOrNot){
+            if(response == null)
+                if(meOrNot) {
+                    statusBar.setVisibility(View.VISIBLE);
+                    acceptRejectButtons.setVisibility(View.GONE);
+                    chatMessage.setGravity(Gravity.START);
+                }
+                else {
+                    statusBar.setVisibility(View.GONE);
+                    acceptRejectButtons.setVisibility(View.VISIBLE);
+                }
+        }
+
+        void setMessageMatchRequest(String matchDetails){
+            chatMessage.setVisibility(View.VISIBLE);
+            chatImage.setVisibility(View.GONE);
+            chatMessage.setText(Html.fromHtml("<u><b>Formal Match Request</b></u>") + "\n" +
+                    matchDetails);
+
         }
 
         void setTime(long timestamp){

@@ -42,7 +42,92 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/chat_image"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:adjustViewBounds="true"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/accept_reject_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
+                    <LinearLayout
+                        android:id="@+id/accept_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/accept_button"
+                        android:padding="8dp"
+                        android:paddingEnd="15dp"
+                        android:paddingStart="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Accept"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/roboto_medium"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
+                    <LinearLayout
+                        android:id="@+id/reject_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/reject_button"
+                        android:padding="8dp"
+                        android:paddingEnd="15dp"
+                        android:paddingStart="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Reject"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/roboto_medium"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/status_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/pending_status"
+                        android:padding="8dp"
+                        android:paddingEnd="15dp"
+                        android:paddingStart="15dp"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Response Pending"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/roboto_medium"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
             <TextView
                 android:id="@+id/chat_time"
                 android:layout_width="wrap_content"
