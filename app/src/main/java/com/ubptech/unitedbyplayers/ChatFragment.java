@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,6 +53,7 @@ public class ChatFragment extends Fragment {
     private FirebaseAuth mAuth;
     private MessageCard messageCard;
     private String messageId, currentUserUid;
+    private RelativeLayout rootView;
 
     ChatFragment(Activity activity, DocumentReference documentReference, FirebaseAuth mAuth,
                  FirebaseFirestore database, MessageCard messageCard, String messagesId){
@@ -70,18 +75,37 @@ public class ChatFragment extends Fragment {
     }
 
     private void initializeUIElements(View view){
+        EmojiManager.install(new GoogleEmojiProvider());
+
         chatRecyclerView = view.findViewById(R.id.chats_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(linearLayoutManager);
         chatRecyclerView.setHasFixedSize(false);
 
+        rootView = view.findViewById(R.id.root_view);
         attachIcon = view.findViewById(R.id.attach_icon);
         emojiIcon = view.findViewById(R.id.emoji_icon);
         messageEdittext = view.findViewById(R.id.message_edittext);
+        final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(rootView).build(messageEdittext);
 
         ((MessageFragmentInstanceListener) activity).changeMessageIcon(true);
         inflateChats();
+
+        emojiIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emojiPopup.toggle();
+            }
+        });
+
+        messageEdittext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(emojiPopup.isShowing())
+                    emojiPopup.toggle();
+            }
+        });
 
         messageEdittext.addTextChangedListener(new TextWatcher() {
             @Override

@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/root_view">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -107,6 +108,7 @@
         android:background="@drawable/white_background_bottom_sheet"/>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/request_match_view"
         android:elevation="25dp"
         android:layout_width="match_parent"
@@ -118,7 +120,7 @@
         android:background="@drawable/white_background_bottom_sheet"
         android:orientation="vertical"
         android:clickable="true"
-        android:alpha="1.0">
+        android:alpha="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -408,8 +410,34 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/sports_rounded_blue_card"
+                    android:gravity="center"
+                    android:foreground="?attr/selectableItemBackground">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Send Request"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/twenty_sp"
+                        android:fontFamily="@font/roboto_medium"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
