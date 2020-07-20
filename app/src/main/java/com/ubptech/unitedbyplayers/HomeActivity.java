@@ -144,6 +144,21 @@ OpenRequestMatchFragment{
 //                            startActivity(intent);
                             isPlayer = true;
                             updateHomeUIForJoiningTeamNew(document);
+                            mRef.collection("teams")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                for (QueryDocumentSnapshot documents: task.getResult()){
+                                                    addTeamToList(documents.getData());
+                                                    if(count<2)
+                                                        setTeamPicture(count++, documents.getData());
+                                                }
+                                                count=0;
+                                            }
+                                        }
+                                    });
                         }
 
                     }
@@ -210,7 +225,25 @@ OpenRequestMatchFragment{
         playerTeamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //TODO: implement from here
+                Toast.makeText(HomeActivity.this, "Switching...", Toast.LENGTH_LONG).show();
+                if(i==1){
+                    loadingView.setVisibility(View.VISIBLE);
+                    pageTitle.setText("Scout");
+                    database.collection("teams").document(currentSport)
+                            .collection("teams").document(currentProfileCode)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        DocumentSnapshot documentSnapshot = task.getResult();
+                                        updateHomeUI(documentSnapshot);
+                                    }
+                                }
+                            });
+                } else if(i==0){
+                    homeButton.performClick();
+                }
             }
 
             @Override
@@ -271,6 +304,7 @@ OpenRequestMatchFragment{
                 if (isPlayer) {
                     fetchTeamsForJoining();
                 } else {
+                    playerTeamSpinner.setSelection(0);
                     fetchTeamsForChallenging();
                     Log.v("AAA", teamIds.toString() + " home button");
                 }
@@ -470,21 +504,6 @@ OpenRequestMatchFragment{
                 .into(profile1);
         profile1.setBackground(getResources().getDrawable(R.drawable.round_image_100));
         count = 0;
-        mRef.collection("teams")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot documents: task.getResult()){
-                                addTeamToList(documents.getData());
-                                if(count<2)
-                                    setTeamPicture(count++, documents.getData());
-                            }
-                            count=0;
-                        }
-                    }
-                });
     }
 
     private void fetchTeamsForJoining(){
@@ -580,21 +599,25 @@ OpenRequestMatchFragment{
     }
 
     private void updateHomeUI(final DocumentSnapshot document){
-        DatabaseReference locRef = FirebaseDatabase.getInstance().getReference("path/to/geofireteams");
+        loadingView.setVisibility(View.GONE);
+        fragment = new ScoutFragment(HomeActivity.this,
+                playerCardDetails, mRef, database, mAuth, isPlayer,
+                currentProfileCode, currentSport);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_layout, fragment);
+        ft.commit();
+
+        DatabaseReference locRef = FirebaseDatabase.getInstance().getReference("path/to/geofire");
         final GeoFire geoFire = new GeoFire(locRef);
-
-        currentProfileCode = currentUser.getUid();
-
-        dropdownIcon.setVisibility(View.GONE);
-        playerTeamSpinner.setVisibility(View.GONE);
-        pageTitle.setText("Join");
-        homeButton.performClick();
+        DatabaseReference teamLocRef = FirebaseDatabase.getInstance().getReference("path/to/geofireteams");
+        final GeoFire teamGeoFire = new GeoFire(teamLocRef);
 
         playerIds = new ArrayList<>();
 
         //location updation
         if(!checkLocationPermission())
             checkLocationPermission();
+        Utils.checkIfLocationOn(this, HomeActivity.this);
         FusedLocationProviderClient fusedLocationProviderClient =
                 LocationServices.getFusedLocationProviderClient(this);
         LocationRequest locationRequest =
@@ -605,7 +628,7 @@ OpenRequestMatchFragment{
                     public void onSuccess(final Location location) {
                         if(location!=null){
                             Log.v("AAA", location.getLatitude() + " " + location.getLongitude());
-                            geoFire.setLocation(currentProfileCode, new GeoLocation(location.getLatitude()
+                            teamGeoFire.setLocation(currentProfileCode, new GeoLocation(location.getLatitude()
                                     , location.getLongitude()), new GeoFire.CompletionListener() {
                                 @Override
                                 public void onComplete(String key, DatabaseError error) {
@@ -664,31 +687,31 @@ OpenRequestMatchFragment{
                     }
                 });
 
-        profiles.add(new Profile(currentUser.getDisplayName(), "", currentUser.getUid()));
-        profileNames.add(currentUser.getDisplayName());
-        teamsSpinner.setAdapter(teamsSpinnerAdapter);
-        HashMap<String, String> userPictures = (HashMap<String, String>) document.get("pictures");
-        Glide.with(this)
-                .load(userPictures.get("0"))
-                .circleCrop()
-                .into(profile1);
-        profile1.setBackground(getResources().getDrawable(R.drawable.round_image_100));
-        count = 0;
-        mRef.collection("teams")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot documents: task.getResult()){
-                                addTeamToList(documents.getData());
-                                if(count<2)
-                                    setTeamPicture(count++, documents.getData());
-                            }
-                            count=0;
-                        }
-                    }
-                });
+//        profiles.add(new Profile(currentUser.getDisplayName(), "", currentUser.getUid()));
+//        profileNames.add(currentUser.getDisplayName());
+//        teamsSpinner.setAdapter(teamsSpinnerAdapter);
+//        HashMap<String, String> userPictures = (HashMap<String, String>) document.get("pictures");
+//        Glide.with(this)
+//                .load(userPictures.get("0"))
+//                .circleCrop()
+//                .into(profile1);
+//        profile1.setBackground(getResources().getDrawable(R.drawable.round_image_100));
+//        count = 0;
+//        mRef.collection("teams")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if(task.isSuccessful()){
+//                            for (QueryDocumentSnapshot documents: task.getResult()){
+//                                addTeamToList(documents.getData());
+//                                if(count<2)
+//                                    setTeamPicture(count++, documents.getData());
+//                            }
+//                            count=0;
+//                        }
+//                    }
+//                });
     }
 
     private void addTeamToList(final Map<String, Object> doc){
@@ -789,7 +812,7 @@ OpenRequestMatchFragment{
 
                                     ));
                                 }
-                                if (fragment instanceof DiscoverFragment)
+                                if (fragment instanceof ScoutFragment)
                                     ((PlayersListReadyListener) fragment).updatePlayersList(playerCardDetails);
                             }
                         }

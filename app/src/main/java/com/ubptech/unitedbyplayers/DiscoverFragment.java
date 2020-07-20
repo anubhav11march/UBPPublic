@@ -249,7 +249,7 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     @Override
     public void onCardAppeared(View view, int position) {
         currentPos = position;
-        Log.v("AAA", "upar waala card: " + teamCardDetails.get(position).getFullCode());
+//        Log.v("AAA", "upar waala card: " + teamCardDetails.get(position).getFullCode());
     }
 
     @Override
@@ -261,7 +261,13 @@ public class DiscoverFragment extends Fragment implements PlayersListReadyListen
     public void updateTeamsList(ArrayList<TeamCardDetails> teamCardDetails) {
         this.teamCardDetails = teamCardDetails;
         loader.setVisibility(View.GONE);
-        instructionText.setText("Discover and join teams near you!");
+        if(isPlayer)
+            instructionText.setText("Discover and join teams near you!");
+        else {
+            instructionText.setText("Challenge Teams Near You!");
+            if(haveCode.getVisibility() == View.VISIBLE)
+                haveCode.setVisibility(View.GONE);
+        }
         playersStack.setVisibility(View.VISIBLE);
         cardStackLayoutManager = new CardStackLayoutManager(activity, this);
         cardStackLayoutManager.setStackFrom(StackFrom.Bottom);
