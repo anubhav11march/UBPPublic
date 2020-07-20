@@ -7,15 +7,24 @@ import java.util.HashMap;
  */
 class PlayerCardDetails {
     private HashMap<String, String> photos;
-    private String gender, totalMatches, wonMatches, lostMatches, distance, name;
+    private String gender, totalMatches, wonMatches, lostMatches, distance, name, uid;
 
     PlayerCardDetails(String gender, String totalMatches,
-                      String distance, HashMap<String, String> photos, String name){
+                      String distance, HashMap<String, String> photos, String name, String uid){
         this.distance = distance;
         this.totalMatches = totalMatches;
         this.gender = gender;
         this.photos = photos;
         this.name = name;
+        this.uid = uid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {

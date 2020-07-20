@@ -60,13 +60,14 @@ public class ChatFragment extends Fragment {
     private FirebaseFirestore database;
     private FirebaseAuth mAuth;
     private MessageCard messageCard;
-    private String messageId, currentUserUid;
+    private String messageId, currentUserUid, currentProfileCode,currentSport;
     private RelativeLayout rootView;
     private Uri uri = null;
     private StorageReference storageReference;
 
     ChatFragment(Activity activity, DocumentReference documentReference, FirebaseAuth mAuth,
-                 FirebaseFirestore database, MessageCard messageCard, String messagesId){
+                 FirebaseFirestore database, MessageCard messageCard, String messagesId,
+                 String currentProfileCode, String currentSport){
         this.activity = activity;
         this.documentReference = documentReference;
         this.mAuth = mAuth;
@@ -74,6 +75,9 @@ public class ChatFragment extends Fragment {
         this.messageCard = messageCard;
         this.messageId = messagesId;
         currentUserUid = mAuth.getCurrentUser().getUid();
+        this.currentProfileCode = currentProfileCode;
+        this.currentSport = currentSport;
+
     }
 
     @Nullable
@@ -161,18 +165,31 @@ public class ChatFragment extends Fragment {
         });
 
         ((TitleChangeListener) activity).updateTitle(messageCard.getName());
-        documentReference.collection("matches").document(messageId)
-                .update("newMessage", false)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
+        if(currentUserUid.equals(currentProfileCode))
+            documentReference.collection("matches").document(messageId)
+                    .update("newMessage", false)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
 
-                    }
-                });
+                        }
+                    });
+        else {
+            database.collection("teams").document(currentSport)
+                    .collection("teams").document(currentProfileCode)
+                    .collection("matches").document(messageId)
+                    .update("newMessage", false)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    });
+        }
     }
 
     private void sendMessage(final String messageText){
-        Message message = new Message(mAuth.getCurrentUser().getUid(), messageCard.getUid(),
+        Message message = new Message(currentProfileCode, messageCard.getUid(),
                 "text", messageText, System.currentTimeMillis(), null);
         database.collection("messages").document(messageId)
                 .collection("messages")
@@ -180,37 +197,62 @@ public class ChatFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        updateUserMessage(messageText, System.currentTimeMillis());
+                        updateMyMessage(messageText, System.currentTimeMillis());
+                        updateOtherMessage(messageText, System.currentTimeMillis());
                     }
                 });
     }
 
-    private void updateUserMessage(String message, long timestamp){
-        documentReference.collection("matches").document(messageId)
-                .update("lastMessage", message)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
+    private void updateMyMessage(String message, long timestamp){
+        if(!currentProfileCode.equals(currentUserUid))
+            database.collection("teams").document(currentSport)
+                    .collection("teams").document(currentProfileCode)
+                    .collection("matches").document(messageId)
+                    .update("lastMessage", message, "timestamp", timestamp)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
 
-                    }
-                });
-//        documentReference.collection("matches").document(messageId)
-//                .update("newMessage", true)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//
-//                    }
-//                });
-        documentReference.collection("matches").document(messageId)
-                .update("timestamp", timestamp)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.v("AAA", "Message sent");
-                    }
-                });
+                        }
+                    });
+        else
+            database.collection("users").document(currentUserUid)
+                    .collection("matches").document(messageId)
+                    .update("lastMessage", message, "timestamp", timestamp)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    });
     }
+
+    private void updateOtherMessage(String message, long timestamp){
+        if(currentProfileCode.equals(currentUserUid))
+            database.collection("teams").document(messageCard.getSport())
+                    .collection("teams").document(messageCard.getUid())
+                    .collection("matches").document(messageId)
+                    .update("lastMessage", message, "newMessage", true,
+                            "timestamp", timestamp)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    });
+        else
+            database.collection("users").document(currentUserUid)
+                    .collection("matches").document(messageId)
+                    .update("lastMessage", message, "newMessage", true,
+                            "timestamp", timestamp)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    });
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -233,7 +275,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void sendImageMessage(String url){
-        Message message = new Message(mAuth.getCurrentUser().getUid(), messageCard.getUid(),
+        Message message = new Message(currentProfileCode, messageCard.getUid(),
                 "image", url, System.currentTimeMillis(), null);
         database.collection("messages").document(messageId)
                 .collection("messages")
@@ -241,7 +283,8 @@ public class ChatFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        updateUserMessage("imageType", System.currentTimeMillis());
+                        updateMyMessage("imageType", System.currentTimeMillis());
+                        updateOtherMessage("imageType", System.currentTimeMillis());
                     }
                 });
     }
@@ -263,7 +306,7 @@ public class ChatFragment extends Fragment {
                 else if(model.getMessageType().equals("image")){
                     holder.setMessageImage(model.getMessageData().toString());
                 }
-                if(model.getSenderUid().equals(currentUserUid)){
+                if(model.getSenderUid().equals(currentProfileCode)){
                     holder.setBackground(R.color.me_color);
                     holder.setAlignments(true);
                 }

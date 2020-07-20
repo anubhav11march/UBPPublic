@@ -111,12 +111,17 @@ public class MessagesFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         if(isPlayer)
-                            ((ChangeFragmentListener) activity).changeFragment(new ChatFragment(activity,
-                                documentReference, mAuth, database, model, messageId));
+                                ((ChangeFragmentListener) activity).changeFragment(new ChatFragment(activity,
+                                    documentReference, mAuth, database, model, messageId, currentProfileCode,
+                                        currentSport));
                         else {
-                            ((ChangeFragmentListener) activity).changeFragment(new TeamChatFragment(activity,
-                                    documentReference, mAuth, database, model, messageId,
-                                    currentProfileCode, currentSport));
+                            if(model.getSport()!=null && !model.getSport().equals(""))
+                                ((ChangeFragmentListener) activity).changeFragment(new TeamChatFragment(activity,
+                                        documentReference, mAuth, database, model, messageId,
+                                        currentProfileCode, currentSport));
+                            else ((ChangeFragmentListener) activity).changeFragment(new ChatFragment(activity,
+                                    documentReference, mAuth, database, model, messageId, currentProfileCode,
+                                    currentSport));
                         }
                     }
                 });

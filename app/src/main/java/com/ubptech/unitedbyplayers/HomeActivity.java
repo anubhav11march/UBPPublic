@@ -797,7 +797,8 @@ OpenRequestMatchFragment{
                                             "No matches played till now",
                                             distanceWith1Decimal + " Kms Away",
                                             pics,
-                                            documentSnapshot.get("name").toString()
+                                            documentSnapshot.get("name").toString(),
+                                            documentSnapshot.get("uid").toString()
                                     ));
                                 }
                                 else {
@@ -808,8 +809,8 @@ OpenRequestMatchFragment{
                                             + documentSnapshot.get("lostMatches").toString() + " Lost",
                                             distanceWith1Decimal + " Kms Away",
                                             pics,
-                                            documentSnapshot.get("name").toString()
-
+                                            documentSnapshot.get("name").toString(),
+                                            documentSnapshot.get("uid").toString()
                                     ));
                                 }
                                 if (fragment instanceof ScoutFragment)
