@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="212dp"
+    android:layout_marginHorizontal="26dp"
+    android:layout_marginVertical="18dp"
+    android:background="@drawable/white_background_bottom_sheet_1"
+    android:elevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/card_bg_1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:paddingStart="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="2 Days ago"
+                android:textSize="13dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical"
+            android:paddingEnd="12dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/info_icon" />
+        </LinearLayout>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/round_image_100"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/default_profile"
+            android:tint="@color/black_grayish"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="86dp"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Team Name"
+            android:textColor="@color/colorAccent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:text="View Profile"
+            android:textColor="@color/colorAccent"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:layout_centerHorizontal="true">
+        <LinearLayout
+            android:layout_width="68dp"
+            android:layout_height="53dp"
+            android:gravity="left">
+            <ImageView
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:src="@drawable/reject_icon_not_shadow"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="68dp"
+            android:layout_height="53dp"
+            android:gravity="right">
+            <ImageView
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:src="@drawable/accept_icon_not_shadow"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="13dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/left_arrow"/>
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="13dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="105dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/right_arrow"/>
+
+
+
+
+</RelativeLayout>

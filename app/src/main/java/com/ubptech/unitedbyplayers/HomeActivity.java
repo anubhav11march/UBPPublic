@@ -331,11 +331,15 @@ OpenRequestMatchFragment{
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment = new AppSettingsFragment(HomeActivity.this, mRef);
+                fragment = new FavoritesFragment(HomeActivity.this, database,
+                         mRef, mAuth, isPlayer, currentProfileCode, currentSport);
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_layout, fragment);
                 ft.commit();
 
+                pageTitle.setText("Saved");
+                dropdownIcon.setVisibility(View.GONE);
+                playerTeamSpinner.setVisibility(View.GONE);
                 gear.setImageDrawable(getResources().getDrawable(R.drawable.gear_not));
                 home.setImageDrawable(getResources().getDrawable(R.drawable.home_not));
                 favs.setImageDrawable(getResources().getDrawable(R.drawable.favs));
